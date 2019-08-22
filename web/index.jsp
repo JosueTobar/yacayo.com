@@ -15,7 +15,5 @@
         <h1>Ya Cayo!</h1>
         <h2>Cambio</h2>
         <h3>Otro</h3>
-        <h4>Cambio último</h4>
-        <h5>Mi cambio final</h5>
     </body>
 </html>
