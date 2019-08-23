@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Empresa.findById", query = "SELECT e FROM Empresa e WHERE e.id = :id")
     , @NamedQuery(name = "Empresa.findByNombre", query = "SELECT e FROM Empresa e WHERE e.nombre = :nombre")
     , @NamedQuery(name = "Empresa.findByTelefono", query = "SELECT e FROM Empresa e WHERE e.telefono = :telefono")
-    , @NamedQuery(name = "Empresa.findByDepartamento", query = "SELECT e FROM Empresa e WHERE e.departamento = :departamento")})
+    })
 public class Empresa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,11 +50,6 @@ public class Empresa implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "TELEFONO")
     private String telefono;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "DEPARTAMENTO")
-    private String departamento;
     @JoinColumn(name = "Direccion_idDireccion", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Direccion direccionidDireccion;
@@ -73,7 +68,11 @@ public class Empresa implements Serializable {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
-        this.departamento = departamento;
+    }
+    
+    public Empresa(String nombre, String telefono, String departamento) {
+        this.nombre = nombre;
+        this.telefono = telefono;
     }
 
     public Integer getId() {
@@ -99,15 +98,7 @@ public class Empresa implements Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    public String getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
-    }
-
+    
     public Direccion getDireccionidDireccion() {
         return direccionidDireccion;
     }

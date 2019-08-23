@@ -17,32 +17,43 @@ import com.yacayo.entity.Direccion;
 import com.yacayo.entity.Empresa;
 import com.yacayo.entity.Usuario;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author josue.tobarfgkss
  */
-public class EmpresaJpaController implements Serializable {
-
-    public EmpresaJpaController(UserTransaction utx, EntityManagerFactory emf) {
+@Named
+@RequestScoped
+public class EmpresaDAO implements Serializable {
+    @Resource
+    private UserTransaction utx;
+    @PersistenceContext
+    private EntityManager em;
+    
+    public EmpresaDAO() { }
+    
+    /*public EmpresaDAO(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
-    }
+    }*/
 
     public void create(Empresa empresa) throws PreexistingEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        //EntityManager em = null;
         try {
             utx.begin();
-            em = getEntityManager();
+            //em = getEntityManager();
             Direccion direccionidDireccion = empresa.getDireccionidDireccion();
             if (direccionidDireccion != null) {
                 direccionidDireccion = em.getReference(direccionidDireccion.getClass(), direccionidDireccion.getId());
@@ -81,10 +92,10 @@ public class EmpresaJpaController implements Serializable {
     }
 
     public void edit(Empresa empresa) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        //EntityManager em = null;
         try {
             utx.begin();
-            em = getEntityManager();
+            //em = getEntityManager();
             Empresa persistentEmpresa = em.find(Empresa.class, empresa.getId());
             Direccion direccionidDireccionOld = persistentEmpresa.getDireccionidDireccion();
             Direccion direccionidDireccionNew = empresa.getDireccionidDireccion();
@@ -138,10 +149,10 @@ public class EmpresaJpaController implements Serializable {
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        //EntityManager em = null;
         try {
             utx.begin();
-            em = getEntityManager();
+            //em = getEntityManager();
             Empresa empresa;
             try {
                 empresa = em.getReference(Empresa.class, id);
@@ -184,7 +195,7 @@ public class EmpresaJpaController implements Serializable {
     }
 
     private List<Empresa> findEmpresaEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        //EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Empresa.class));
@@ -200,7 +211,7 @@ public class EmpresaJpaController implements Serializable {
     }
 
     public Empresa findEmpresa(Integer id) {
-        EntityManager em = getEntityManager();
+        //EntityManager em = getEntityManager();
         try {
             return em.find(Empresa.class, id);
         } finally {
@@ -209,7 +220,7 @@ public class EmpresaJpaController implements Serializable {
     }
 
     public int getEmpresaCount() {
-        EntityManager em = getEntityManager();
+        //EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Empresa> rt = cq.from(Empresa.class);

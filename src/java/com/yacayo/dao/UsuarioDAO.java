@@ -29,9 +29,9 @@ import javax.transaction.UserTransaction;
  *
  * @author josue.tobarfgkss
  */
-public class UsuarioJpaController implements Serializable {
+public class UsuarioDAO implements Serializable {
 
-    public UsuarioJpaController(UserTransaction utx, EntityManagerFactory emf) {
+    public UsuarioDAO(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
