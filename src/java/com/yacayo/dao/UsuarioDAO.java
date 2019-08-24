@@ -7,40 +7,51 @@ package com.yacayo.dao;
 
 import com.yacayo.dao.exceptions.IllegalOrphanException;
 import com.yacayo.dao.exceptions.NonexistentEntityException;
+import com.yacayo.dao.exceptions.PreexistingEntityException;
 import com.yacayo.dao.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.TipoUsuario;
-import com.yacayo.entity.Publicacione;
-import java.util.ArrayList;
-import java.util.List;
-import com.yacayo.entity.Persona;
+import com.yacayo.entity.Direccion;
 import com.yacayo.entity.Documento;
 import com.yacayo.entity.Empresa;
+import com.yacayo.entity.Persona;
+import com.yacayo.entity.Publicacione;
+import com.yacayo.entity.TipoUsuario;
 import com.yacayo.entity.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author josue.tobarfgkss
  */
+@Named
+@RequestScoped
 public class UsuarioDAO implements Serializable {
+ 
+    private UserTransaction utx;
+    private EntityManager em;
 
-    public UsuarioDAO(UserTransaction utx, EntityManagerFactory emf) {
+    public UsuarioDAO() { }
+    
+    /*public UsuarioDAO(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
-    }
+    }*/
 
     public void create(Usuario usuario) throws RollbackFailureException, Exception {
         if (usuario.getPublicacioneList() == null) {
@@ -58,7 +69,7 @@ public class UsuarioDAO implements Serializable {
         EntityManager em = null;
         try {
             utx.begin();
-            em = getEntityManager();
+           // em = getEntityManager();
             TipoUsuario tipoUsuario = usuario.getTipoUsuario();
             if (tipoUsuario != null) {
                 tipoUsuario = em.getReference(tipoUsuario.getClass(), tipoUsuario.getId());
@@ -148,7 +159,7 @@ public class UsuarioDAO implements Serializable {
         EntityManager em = null;
         try {
             utx.begin();
-            em = getEntityManager();
+            //em = getEntityManager();
             Usuario persistentUsuario = em.find(Usuario.class, usuario.getId());
             TipoUsuario tipoUsuarioOld = persistentUsuario.getTipoUsuario();
             TipoUsuario tipoUsuarioNew = usuario.getTipoUsuario();
@@ -307,7 +318,7 @@ public class UsuarioDAO implements Serializable {
         EntityManager em = null;
         try {
             utx.begin();
-            em = getEntityManager();
+            //em = getEntityManager();
             Usuario usuario;
             try {
                 usuario = em.getReference(Usuario.class, id);
@@ -377,7 +388,7 @@ public class UsuarioDAO implements Serializable {
     }
 
     private List<Usuario> findUsuarioEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+       // EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Usuario.class));
@@ -393,7 +404,7 @@ public class UsuarioDAO implements Serializable {
     }
 
     public Usuario findUsuario(Integer id) {
-        EntityManager em = getEntityManager();
+        //EntityManager em = getEntityManager();
         try {
             return em.find(Usuario.class, id);
         } finally {
@@ -402,7 +413,7 @@ public class UsuarioDAO implements Serializable {
     }
 
     public int getUsuarioCount() {
-        EntityManager em = getEntityManager();
+       //EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Usuario> rt = cq.from(Usuario.class);
