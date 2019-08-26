@@ -8,45 +8,41 @@ package com.yacayo.dao;
 import com.yacayo.dao.exceptions.IllegalOrphanException;
 import com.yacayo.dao.exceptions.NonexistentEntityException;
 import com.yacayo.dao.exceptions.PreexistingEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Departamento;
-import com.yacayo.entity.Pais;
+import com.yacayo.entidades.Departamento;
+import com.yacayo.entidades.Pais;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class PaisJpaController implements Serializable {
 
-    public PaisJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public PaisJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Pais pais) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(Pais pais) throws PreexistingEntityException, Exception {
         if (pais.getDepartamentoList() == null) {
             pais.setDepartamentoList(new ArrayList<Departamento>());
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Departamento> attachedDepartamentoList = new ArrayList<Departamento>();
             for (Departamento departamentoListDepartamentoToAttach : pais.getDepartamentoList()) {
                 departamentoListDepartamentoToAttach = em.getReference(departamentoListDepartamentoToAttach.getClass(), departamentoListDepartamentoToAttach.getId());
@@ -63,13 +59,8 @@ public class PaisJpaController implements Serializable {
                     oldPaisIdOfDepartamentoListDepartamento = em.merge(oldPaisIdOfDepartamentoListDepartamento);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             if (findPais(pais.getId()) != null) {
                 throw new PreexistingEntityException("Pais " + pais + " already exists.", ex);
             }
@@ -81,11 +72,11 @@ public class PaisJpaController implements Serializable {
         }
     }
 
-    public void edit(Pais pais) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Pais pais) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Pais persistentPais = em.find(Pais.class, pais.getId());
             List<Departamento> departamentoListOld = persistentPais.getDepartamentoList();
             List<Departamento> departamentoListNew = pais.getDepartamentoList();
@@ -120,13 +111,8 @@ public class PaisJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = pais.getId();
@@ -142,11 +128,11 @@ public class PaisJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Pais pais;
             try {
                 pais = em.getReference(Pais.class, id);
@@ -166,14 +152,7 @@ public class PaisJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(pais);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();

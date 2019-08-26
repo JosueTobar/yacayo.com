@@ -6,41 +6,37 @@
 package com.yacayo.dao;
 
 import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Publicacione;
-import com.yacayo.entity.Rubros;
+import com.yacayo.entidades.Publicacione;
+import com.yacayo.entidades.Rubros;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class RubrosJpaController implements Serializable {
 
-    public RubrosJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public RubrosJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Rubros rubros) throws RollbackFailureException, Exception {
+    public void create(Rubros rubros) {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Publicacione publicacioneId = rubros.getPublicacioneId();
             if (publicacioneId != null) {
                 publicacioneId = em.getReference(publicacioneId.getClass(), publicacioneId.getId());
@@ -51,14 +47,7 @@ public class RubrosJpaController implements Serializable {
                 publicacioneId.getRubrosList().add(rubros);
                 publicacioneId = em.merge(publicacioneId);
             }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -66,11 +55,11 @@ public class RubrosJpaController implements Serializable {
         }
     }
 
-    public void edit(Rubros rubros) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Rubros rubros) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Rubros persistentRubros = em.find(Rubros.class, rubros.getId());
             Publicacione publicacioneIdOld = persistentRubros.getPublicacioneId();
             Publicacione publicacioneIdNew = rubros.getPublicacioneId();
@@ -87,13 +76,8 @@ public class RubrosJpaController implements Serializable {
                 publicacioneIdNew.getRubrosList().add(rubros);
                 publicacioneIdNew = em.merge(publicacioneIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = rubros.getId();
@@ -109,11 +93,11 @@ public class RubrosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Rubros rubros;
             try {
                 rubros = em.getReference(Rubros.class, id);
@@ -127,14 +111,7 @@ public class RubrosJpaController implements Serializable {
                 publicacioneId = em.merge(publicacioneId);
             }
             em.remove(rubros);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();

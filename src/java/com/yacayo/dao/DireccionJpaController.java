@@ -8,40 +8,36 @@ package com.yacayo.dao;
 import com.yacayo.dao.exceptions.IllegalOrphanException;
 import com.yacayo.dao.exceptions.NonexistentEntityException;
 import com.yacayo.dao.exceptions.PreexistingEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Ciudad;
-import com.yacayo.entity.Direccion;
-import com.yacayo.entity.Persona;
+import com.yacayo.entidades.Ciudad;
+import com.yacayo.entidades.Direccion;
+import com.yacayo.entidades.Persona;
 import java.util.ArrayList;
 import java.util.List;
-import com.yacayo.entity.Empresa;
+import com.yacayo.entidades.Empresa;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class DireccionJpaController implements Serializable {
 
-    public DireccionJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public DireccionJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Direccion direccion) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(Direccion direccion) throws PreexistingEntityException, Exception {
         if (direccion.getPersonaList() == null) {
             direccion.setPersonaList(new ArrayList<Persona>());
         }
@@ -50,8 +46,8 @@ public class DireccionJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Ciudad municipioId = direccion.getMunicipioId();
             if (municipioId != null) {
                 municipioId = em.getReference(municipioId.getClass(), municipioId.getId());
@@ -84,21 +80,16 @@ public class DireccionJpaController implements Serializable {
                 }
             }
             for (Empresa empresaListEmpresa : direccion.getEmpresaList()) {
-                Direccion oldDireccionidDireccionOfEmpresaListEmpresa = empresaListEmpresa.getDireccionidDireccion();
-                empresaListEmpresa.setDireccionidDireccion(direccion);
+                Direccion oldIdDireccionOfEmpresaListEmpresa = empresaListEmpresa.getIdDireccion();
+                empresaListEmpresa.setIdDireccion(direccion);
                 empresaListEmpresa = em.merge(empresaListEmpresa);
-                if (oldDireccionidDireccionOfEmpresaListEmpresa != null) {
-                    oldDireccionidDireccionOfEmpresaListEmpresa.getEmpresaList().remove(empresaListEmpresa);
-                    oldDireccionidDireccionOfEmpresaListEmpresa = em.merge(oldDireccionidDireccionOfEmpresaListEmpresa);
+                if (oldIdDireccionOfEmpresaListEmpresa != null) {
+                    oldIdDireccionOfEmpresaListEmpresa.getEmpresaList().remove(empresaListEmpresa);
+                    oldIdDireccionOfEmpresaListEmpresa = em.merge(oldIdDireccionOfEmpresaListEmpresa);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             if (findDireccion(direccion.getId()) != null) {
                 throw new PreexistingEntityException("Direccion " + direccion + " already exists.", ex);
             }
@@ -110,11 +101,11 @@ public class DireccionJpaController implements Serializable {
         }
     }
 
-    public void edit(Direccion direccion) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Direccion direccion) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Direccion persistentDireccion = em.find(Direccion.class, direccion.getId());
             Ciudad municipioIdOld = persistentDireccion.getMunicipioId();
             Ciudad municipioIdNew = direccion.getMunicipioId();
@@ -136,7 +127,7 @@ public class DireccionJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Empresa " + empresaListOldEmpresa + " since its direccionidDireccion field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Empresa " + empresaListOldEmpresa + " since its idDireccion field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -182,22 +173,17 @@ public class DireccionJpaController implements Serializable {
             }
             for (Empresa empresaListNewEmpresa : empresaListNew) {
                 if (!empresaListOld.contains(empresaListNewEmpresa)) {
-                    Direccion oldDireccionidDireccionOfEmpresaListNewEmpresa = empresaListNewEmpresa.getDireccionidDireccion();
-                    empresaListNewEmpresa.setDireccionidDireccion(direccion);
+                    Direccion oldIdDireccionOfEmpresaListNewEmpresa = empresaListNewEmpresa.getIdDireccion();
+                    empresaListNewEmpresa.setIdDireccion(direccion);
                     empresaListNewEmpresa = em.merge(empresaListNewEmpresa);
-                    if (oldDireccionidDireccionOfEmpresaListNewEmpresa != null && !oldDireccionidDireccionOfEmpresaListNewEmpresa.equals(direccion)) {
-                        oldDireccionidDireccionOfEmpresaListNewEmpresa.getEmpresaList().remove(empresaListNewEmpresa);
-                        oldDireccionidDireccionOfEmpresaListNewEmpresa = em.merge(oldDireccionidDireccionOfEmpresaListNewEmpresa);
+                    if (oldIdDireccionOfEmpresaListNewEmpresa != null && !oldIdDireccionOfEmpresaListNewEmpresa.equals(direccion)) {
+                        oldIdDireccionOfEmpresaListNewEmpresa.getEmpresaList().remove(empresaListNewEmpresa);
+                        oldIdDireccionOfEmpresaListNewEmpresa = em.merge(oldIdDireccionOfEmpresaListNewEmpresa);
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = direccion.getId();
@@ -213,11 +199,11 @@ public class DireccionJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Direccion direccion;
             try {
                 direccion = em.getReference(Direccion.class, id);
@@ -238,7 +224,7 @@ public class DireccionJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Direccion (" + direccion + ") cannot be destroyed since the Empresa " + empresaListOrphanCheckEmpresa + " in its empresaList field has a non-nullable direccionidDireccion field.");
+                illegalOrphanMessages.add("This Direccion (" + direccion + ") cannot be destroyed since the Empresa " + empresaListOrphanCheckEmpresa + " in its empresaList field has a non-nullable idDireccion field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -249,14 +235,7 @@ public class DireccionJpaController implements Serializable {
                 municipioId = em.merge(municipioId);
             }
             em.remove(direccion);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();

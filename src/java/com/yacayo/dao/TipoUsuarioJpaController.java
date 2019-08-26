@@ -8,45 +8,41 @@ package com.yacayo.dao;
 import com.yacayo.dao.exceptions.IllegalOrphanException;
 import com.yacayo.dao.exceptions.NonexistentEntityException;
 import com.yacayo.dao.exceptions.PreexistingEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
-import com.yacayo.entity.TipoUsuario;
+import com.yacayo.entidades.TipoUsuario;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Usuario;
+import com.yacayo.entidades.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class TipoUsuarioJpaController implements Serializable {
 
-    public TipoUsuarioJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public TipoUsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(TipoUsuario tipoUsuario) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(TipoUsuario tipoUsuario) throws PreexistingEntityException, Exception {
         if (tipoUsuario.getUsuarioList() == null) {
             tipoUsuario.setUsuarioList(new ArrayList<Usuario>());
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Usuario> attachedUsuarioList = new ArrayList<Usuario>();
             for (Usuario usuarioListUsuarioToAttach : tipoUsuario.getUsuarioList()) {
                 usuarioListUsuarioToAttach = em.getReference(usuarioListUsuarioToAttach.getClass(), usuarioListUsuarioToAttach.getId());
@@ -63,13 +59,8 @@ public class TipoUsuarioJpaController implements Serializable {
                     oldTipoUsuarioOfUsuarioListUsuario = em.merge(oldTipoUsuarioOfUsuarioListUsuario);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             if (findTipoUsuario(tipoUsuario.getId()) != null) {
                 throw new PreexistingEntityException("TipoUsuario " + tipoUsuario + " already exists.", ex);
             }
@@ -81,11 +72,11 @@ public class TipoUsuarioJpaController implements Serializable {
         }
     }
 
-    public void edit(TipoUsuario tipoUsuario) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(TipoUsuario tipoUsuario) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             TipoUsuario persistentTipoUsuario = em.find(TipoUsuario.class, tipoUsuario.getId());
             List<Usuario> usuarioListOld = persistentTipoUsuario.getUsuarioList();
             List<Usuario> usuarioListNew = tipoUsuario.getUsuarioList();
@@ -120,13 +111,8 @@ public class TipoUsuarioJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = tipoUsuario.getId();
@@ -142,11 +128,11 @@ public class TipoUsuarioJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             TipoUsuario tipoUsuario;
             try {
                 tipoUsuario = em.getReference(TipoUsuario.class, id);
@@ -166,14 +152,7 @@ public class TipoUsuarioJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(tipoUsuario);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();

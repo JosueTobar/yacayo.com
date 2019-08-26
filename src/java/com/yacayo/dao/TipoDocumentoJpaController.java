@@ -7,45 +7,41 @@ package com.yacayo.dao;
 
 import com.yacayo.dao.exceptions.IllegalOrphanException;
 import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Documento;
-import com.yacayo.entity.TipoDocumento;
+import com.yacayo.entidades.Documento;
+import com.yacayo.entidades.TipoDocumento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class TipoDocumentoJpaController implements Serializable {
 
-    public TipoDocumentoJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public TipoDocumentoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(TipoDocumento tipoDocumento) throws RollbackFailureException, Exception {
+    public void create(TipoDocumento tipoDocumento) {
         if (tipoDocumento.getDocumentoList() == null) {
             tipoDocumento.setDocumentoList(new ArrayList<Documento>());
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Documento> attachedDocumentoList = new ArrayList<Documento>();
             for (Documento documentoListDocumentoToAttach : tipoDocumento.getDocumentoList()) {
                 documentoListDocumentoToAttach = em.getReference(documentoListDocumentoToAttach.getClass(), documentoListDocumentoToAttach.getId());
@@ -62,14 +58,7 @@ public class TipoDocumentoJpaController implements Serializable {
                     oldTipoDocumentoOfDocumentoListDocumento = em.merge(oldTipoDocumentoOfDocumentoListDocumento);
                 }
             }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -77,11 +66,11 @@ public class TipoDocumentoJpaController implements Serializable {
         }
     }
 
-    public void edit(TipoDocumento tipoDocumento) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(TipoDocumento tipoDocumento) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             TipoDocumento persistentTipoDocumento = em.find(TipoDocumento.class, tipoDocumento.getId());
             List<Documento> documentoListOld = persistentTipoDocumento.getDocumentoList();
             List<Documento> documentoListNew = tipoDocumento.getDocumentoList();
@@ -116,13 +105,8 @@ public class TipoDocumentoJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = tipoDocumento.getId();
@@ -138,11 +122,11 @@ public class TipoDocumentoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             TipoDocumento tipoDocumento;
             try {
                 tipoDocumento = em.getReference(TipoDocumento.class, id);
@@ -162,14 +146,7 @@ public class TipoDocumentoJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(tipoDocumento);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();

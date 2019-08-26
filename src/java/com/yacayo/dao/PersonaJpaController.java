@@ -6,42 +6,38 @@
 package com.yacayo.dao;
 
 import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Direccion;
-import com.yacayo.entity.Persona;
-import com.yacayo.entity.Usuario;
+import com.yacayo.entidades.Direccion;
+import com.yacayo.entidades.Persona;
+import com.yacayo.entidades.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class PersonaJpaController implements Serializable {
 
-    public PersonaJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public PersonaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Persona persona) throws RollbackFailureException, Exception {
+    public void create(Persona persona) {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Direccion direccionidDireccion = persona.getDireccionidDireccion();
             if (direccionidDireccion != null) {
                 direccionidDireccion = em.getReference(direccionidDireccion.getClass(), direccionidDireccion.getId());
@@ -61,14 +57,7 @@ public class PersonaJpaController implements Serializable {
                 usuarioId.getPersonaList().add(persona);
                 usuarioId = em.merge(usuarioId);
             }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -76,11 +65,11 @@ public class PersonaJpaController implements Serializable {
         }
     }
 
-    public void edit(Persona persona) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Persona persona) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Persona persistentPersona = em.find(Persona.class, persona.getId());
             Direccion direccionidDireccionOld = persistentPersona.getDireccionidDireccion();
             Direccion direccionidDireccionNew = persona.getDireccionidDireccion();
@@ -111,13 +100,8 @@ public class PersonaJpaController implements Serializable {
                 usuarioIdNew.getPersonaList().add(persona);
                 usuarioIdNew = em.merge(usuarioIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = persona.getId();
@@ -133,11 +117,11 @@ public class PersonaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Persona persona;
             try {
                 persona = em.getReference(Persona.class, id);
@@ -156,14 +140,7 @@ public class PersonaJpaController implements Serializable {
                 usuarioId = em.merge(usuarioId);
             }
             em.remove(persona);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();

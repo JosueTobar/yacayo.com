@@ -6,42 +6,38 @@
 package com.yacayo.dao;
 
 import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.RollbackFailureException;
-import com.yacayo.entity.Documento;
+import com.yacayo.entidades.Documento;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entity.Usuario;
-import com.yacayo.entity.TipoDocumento;
+import com.yacayo.entidades.Usuario;
+import com.yacayo.entidades.TipoDocumento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
 
 /**
  *
- * @author josue.tobarfgkss
+ * @author david.poncefgkss
  */
 public class DocumentoJpaController implements Serializable {
 
-    public DocumentoJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
+    public DocumentoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Documento documento) throws RollbackFailureException, Exception {
+    public void create(Documento documento) {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Usuario usuarioId = documento.getUsuarioId();
             if (usuarioId != null) {
                 usuarioId = em.getReference(usuarioId.getClass(), usuarioId.getId());
@@ -61,14 +57,7 @@ public class DocumentoJpaController implements Serializable {
                 tipoDocumento.getDocumentoList().add(documento);
                 tipoDocumento = em.merge(tipoDocumento);
             }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -76,11 +65,11 @@ public class DocumentoJpaController implements Serializable {
         }
     }
 
-    public void edit(Documento documento) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Documento documento) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Documento persistentDocumento = em.find(Documento.class, documento.getId());
             Usuario usuarioIdOld = persistentDocumento.getUsuarioId();
             Usuario usuarioIdNew = documento.getUsuarioId();
@@ -111,13 +100,8 @@ public class DocumentoJpaController implements Serializable {
                 tipoDocumentoNew.getDocumentoList().add(documento);
                 tipoDocumentoNew = em.merge(tipoDocumentoNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = documento.getId();
@@ -133,11 +117,11 @@ public class DocumentoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Documento documento;
             try {
                 documento = em.getReference(Documento.class, id);
@@ -156,14 +140,7 @@ public class DocumentoJpaController implements Serializable {
                 tipoDocumento = em.merge(tipoDocumento);
             }
             em.remove(documento);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
