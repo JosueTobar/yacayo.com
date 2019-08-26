@@ -390,5 +390,9 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
+
+    public void create(String email, String calve, String string, String a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
