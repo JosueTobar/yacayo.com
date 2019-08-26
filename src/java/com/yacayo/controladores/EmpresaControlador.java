@@ -3,7 +3,9 @@ package com.yacayo.controladores;
 
 import com.yacayo.dao.EmpresaJpaController;
 import com.yacayo.dao.UsuarioJpaController;
+import com.yacayo.entidades.Direccion;
 import com.yacayo.entidades.Empresa;
+import com.yacayo.entidades.TipoUsuario;
 import com.yacayo.entidades.Usuario;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -31,8 +33,23 @@ public class EmpresaControlador {
     }
     
     public String insertar(){
-        uDAO.create(usuario.getEmail(),usuario.getCalve(),"2","A");
+        usuario.setEstado("A");
+        usuario.setTipoUsuario(new TipoUsuario(2));
         
+        uDAO.create(usuario);
+        
+        usuario = uDAO.ultimo(usuario.getEmail(), usuario.getCalve(), usuario.getTipoUsuario().getId());
+        
+        
+        
+        empresa.setUsuarioId(usuario);
+        try {
+            empresa.setIdDireccion(new Direccion(1));
+            eDAO.create(empresa);
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+            
         return "login";
     }
 
