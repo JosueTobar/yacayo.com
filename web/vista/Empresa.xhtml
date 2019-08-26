@@ -9,7 +9,9 @@
         <h2>Registro de empresa</h2>
         
         <h:form>
-            
+            <h:outputLabel value="Correo"/><h:inputText/><br/>
+            <h:outputLabel value="Contraseña"/><h:inputSecret/><br/>
+            <h:commandButton action="#{empresa.insertar()}" value="Crear" />
         </h:form>
     </h:body>
 </html>
