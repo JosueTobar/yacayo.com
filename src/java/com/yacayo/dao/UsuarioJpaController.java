@@ -395,4 +395,13 @@ public class UsuarioJpaController implements Serializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+       public Usuario ultimo(String email, String calve, Integer tipoUsuario) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Usuario)em.createNamedQuery("Usuario.ultimoid",Usuario.class).setParameter("email", email).setParameter("calve", calve).setParameter("tipoUsuario", tipoUsuario).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+    
 }
