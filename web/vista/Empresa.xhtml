@@ -9,8 +9,11 @@
         <h2>Registro de empresa</h2>
         
         <h:form>
-            <h:outputLabel value="Correo"/><h:inputText/><br/>
-            <h:outputLabel value="Contraseña"/><h:inputSecret/><br/>
+            <h:outputLabel value="Correo"/><h:inputText value="#{empresa.usuario.email}"/><br/>
+            <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresa.usuario.calve}"/><br/>
+            <h:outputLabel value="Nombre de empresa"/><h:inputText value="#{empresa.empresa.nombre}"/><br/>
+            <h:outputLabel value="Telefono"/><h:inputText value="#{empresa.empresa.telefono}"/><br/>
+            <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresa.empresa.detDireccion}"/><br/>
             <h:commandButton action="#{empresa.insertar()}" value="Crear" />
         </h:form>
     </h:body>
