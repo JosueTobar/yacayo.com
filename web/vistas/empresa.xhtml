@@ -18,6 +18,7 @@
             <h:outputLabel value="Encargado"/><h:inputText value="#{empresa1.empresa.encargado}"/><br/>
            <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresa1.direccion.descripcion}"/><br/>
            <h:selectOneMenu value="#{empresa1.ciudad.id}">
+               <f:selectItem itemLabel="Ciudad"/>
                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
             </h:selectOneMenu>
             <h:commandButton action="#{empresa1.insertar()}" value="Crear" />
