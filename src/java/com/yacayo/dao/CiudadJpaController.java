@@ -216,6 +216,7 @@ public class CiudadJpaController implements Serializable {
         }
     }
 
+
     public int getCiudadCount() {
         EntityManager em = getEntityManager();
         try {
@@ -228,5 +229,5 @@ public class CiudadJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

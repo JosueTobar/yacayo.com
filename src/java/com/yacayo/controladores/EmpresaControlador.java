@@ -5,7 +5,7 @@
  */
 package com.yacayo.controladores;
 
-import com.yacayo.dao.CiudadJpaController;
+import com.yacayo.dao.DireccionJpaController;
 import com.yacayo.dao.EmpresaJpaController;
 import com.yacayo.dao.UsuarioJpaController;
 import com.yacayo.entidades.Ciudad;
@@ -27,41 +27,44 @@ public class EmpresaControlador {
 
     private Empresa empresa;
     private Usuario usuario;
+    private Direccion direccion;
     private Ciudad ciudad;
-    
+
     private EmpresaJpaController eDAO;
     private UsuarioJpaController uDAO;
-    private CiudadJpaController cDAO;
-    
+    private DireccionJpaController dDAO;
+
     public EmpresaControlador() {
         eDAO = new EmpresaJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
         uDAO = new UsuarioJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
-        cDAO = new CiudadJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
-        
+        dDAO = new DireccionJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
+
         empresa = new Empresa();
         usuario = new Usuario();
+        direccion = new Direccion();
         ciudad = new Ciudad();
     }
-    
-    public String insertar(){
+
+    public String insertar() {
         usuario.setEstado("A");
         usuario.setIdTipo(new TipoUsuario(2));
-        
+
+        direccion.setIdCiudad(ciudad);
         uDAO.create(usuario);
-        cDAO.create(ciudad);
-        
+        dDAO.create(direccion);
+
         usuario = uDAO.ultimo(usuario.getEmail(), usuario.getClave(), usuario.getIdTipo().getId());
-        
-        
-        
+        direccion = dDAO.ultima(direccion.getDescripcion(), direccion.getIdCiudad().getId());
+
         empresa.setIdUsuario(usuario);
+        empresa.setIdDireccion(direccion);
+
         try {
-            empresa.setIdDireccion(new Direccion(1));
             eDAO.create(empresa);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
-            
+
         return "login";
     }
 
@@ -97,6 +100,22 @@ public class EmpresaControlador {
         this.uDAO = uDAO;
     }
 
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+
+    public DireccionJpaController getdDAO() {
+        return dDAO;
+    }
+
+    public void setdDAO(DireccionJpaController dDAO) {
+        this.dDAO = dDAO;
+    }
+
     public Ciudad getCiudad() {
         return ciudad;
     }
@@ -105,12 +124,4 @@ public class EmpresaControlador {
         this.ciudad = ciudad;
     }
 
-    public CiudadJpaController getcDAO() {
-        return cDAO;
-    }
-
-    public void setcDAO(CiudadJpaController cDAO) {
-        this.cDAO = cDAO;
-    }
-    
 }

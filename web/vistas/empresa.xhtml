@@ -1,20 +1,26 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
         <title>Registro</title>
     </h:head>
     <h:body>
         <h2>Registro de empresa</h2>
-        
+
         <h:form>
-            <h:outputLabel value="Correo"/><h:inputText value="#{empresa.usuario.email}"/><br/>
-            <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresa.usuario.calve}"/><br/>
-            <h:outputLabel value="Nombre de empresa"/><h:inputText value="#{empresa.empresa.nombre}"/><br/>
-            <h:outputLabel value="Telefono"/><h:inputText value="#{empresa.empresa.telefono}"/><br/>
-            <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresa.empresa.detDireccion}"/><br/>
-            <h:commandButton action="#{empresa.insertar()}" value="Crear" />
+            <h:outputLabel value="Correo"/><h:inputText value="#{empresa1.usuario.email}"/><br/>
+            <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresa1.usuario.clave}"/><br/>
+            <h:outputLabel value="Nombre de empresa"/><h:inputText value="#{empresa1.empresa.nombre}"/><br/>
+            <h:outputLabel value="Telefono"/><h:inputText value="#{empresa1.empresa.telefono}"/><br/>
+            <h:outputLabel value="Encargado"/><h:inputText value="#{empresa1.empresa.encargado}"/><br/>
+           <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresa1.direccion.descripcion}"/><br/>
+           <h:selectOneMenu value="#{empresa1.ciudad.id}">
+               <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+            </h:selectOneMenu>
+            <h:commandButton action="#{empresa1.insertar()}" value="Crear" />
         </h:form>
     </h:body>
 </html>

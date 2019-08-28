@@ -381,7 +381,7 @@ public class UsuarioJpaController implements Serializable {
     public Usuario ultimo(String email, String calve, Integer tipoUsuario) {
         EntityManager em = getEntityManager();
         try {
-            return (Usuario) em.createNamedQuery("Usuario.ultimoid", Usuario.class).setParameter("email", email).setParameter("calve", calve).setParameter("tipoUsuario", tipoUsuario).getSingleResult();
+            return (Usuario) em.createNamedQuery("Usuario.ultimoid", Usuario.class).setParameter("email", email).setParameter("clave", calve).setParameter("idTipo", tipoUsuario).getSingleResult();
         } finally {
             em.close();
         }
