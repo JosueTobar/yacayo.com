@@ -5,15 +5,15 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.yacayo.entidades.Usuario;
 import com.yacayo.entidades.Direccion;
 import com.yacayo.entidades.Persona;
-import com.yacayo.entidades.Usuario;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -38,24 +38,24 @@ public class PersonaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Direccion direccionidDireccion = persona.getDireccionidDireccion();
-            if (direccionidDireccion != null) {
-                direccionidDireccion = em.getReference(direccionidDireccion.getClass(), direccionidDireccion.getId());
-                persona.setDireccionidDireccion(direccionidDireccion);
+            Usuario idUsuario = persona.getIdUsuario();
+            if (idUsuario != null) {
+                idUsuario = em.getReference(idUsuario.getClass(), idUsuario.getId());
+                persona.setIdUsuario(idUsuario);
             }
-            Usuario usuarioId = persona.getUsuarioId();
-            if (usuarioId != null) {
-                usuarioId = em.getReference(usuarioId.getClass(), usuarioId.getId());
-                persona.setUsuarioId(usuarioId);
+            Direccion idDireccion = persona.getIdDireccion();
+            if (idDireccion != null) {
+                idDireccion = em.getReference(idDireccion.getClass(), idDireccion.getId());
+                persona.setIdDireccion(idDireccion);
             }
             em.persist(persona);
-            if (direccionidDireccion != null) {
-                direccionidDireccion.getPersonaList().add(persona);
-                direccionidDireccion = em.merge(direccionidDireccion);
+            if (idUsuario != null) {
+                idUsuario.getPersonaList().add(persona);
+                idUsuario = em.merge(idUsuario);
             }
-            if (usuarioId != null) {
-                usuarioId.getPersonaList().add(persona);
-                usuarioId = em.merge(usuarioId);
+            if (idDireccion != null) {
+                idDireccion.getPersonaList().add(persona);
+                idDireccion = em.merge(idDireccion);
             }
             em.getTransaction().commit();
         } finally {
@@ -71,34 +71,34 @@ public class PersonaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Persona persistentPersona = em.find(Persona.class, persona.getId());
-            Direccion direccionidDireccionOld = persistentPersona.getDireccionidDireccion();
-            Direccion direccionidDireccionNew = persona.getDireccionidDireccion();
-            Usuario usuarioIdOld = persistentPersona.getUsuarioId();
-            Usuario usuarioIdNew = persona.getUsuarioId();
-            if (direccionidDireccionNew != null) {
-                direccionidDireccionNew = em.getReference(direccionidDireccionNew.getClass(), direccionidDireccionNew.getId());
-                persona.setDireccionidDireccion(direccionidDireccionNew);
+            Usuario idUsuarioOld = persistentPersona.getIdUsuario();
+            Usuario idUsuarioNew = persona.getIdUsuario();
+            Direccion idDireccionOld = persistentPersona.getIdDireccion();
+            Direccion idDireccionNew = persona.getIdDireccion();
+            if (idUsuarioNew != null) {
+                idUsuarioNew = em.getReference(idUsuarioNew.getClass(), idUsuarioNew.getId());
+                persona.setIdUsuario(idUsuarioNew);
             }
-            if (usuarioIdNew != null) {
-                usuarioIdNew = em.getReference(usuarioIdNew.getClass(), usuarioIdNew.getId());
-                persona.setUsuarioId(usuarioIdNew);
+            if (idDireccionNew != null) {
+                idDireccionNew = em.getReference(idDireccionNew.getClass(), idDireccionNew.getId());
+                persona.setIdDireccion(idDireccionNew);
             }
             persona = em.merge(persona);
-            if (direccionidDireccionOld != null && !direccionidDireccionOld.equals(direccionidDireccionNew)) {
-                direccionidDireccionOld.getPersonaList().remove(persona);
-                direccionidDireccionOld = em.merge(direccionidDireccionOld);
+            if (idUsuarioOld != null && !idUsuarioOld.equals(idUsuarioNew)) {
+                idUsuarioOld.getPersonaList().remove(persona);
+                idUsuarioOld = em.merge(idUsuarioOld);
             }
-            if (direccionidDireccionNew != null && !direccionidDireccionNew.equals(direccionidDireccionOld)) {
-                direccionidDireccionNew.getPersonaList().add(persona);
-                direccionidDireccionNew = em.merge(direccionidDireccionNew);
+            if (idUsuarioNew != null && !idUsuarioNew.equals(idUsuarioOld)) {
+                idUsuarioNew.getPersonaList().add(persona);
+                idUsuarioNew = em.merge(idUsuarioNew);
             }
-            if (usuarioIdOld != null && !usuarioIdOld.equals(usuarioIdNew)) {
-                usuarioIdOld.getPersonaList().remove(persona);
-                usuarioIdOld = em.merge(usuarioIdOld);
+            if (idDireccionOld != null && !idDireccionOld.equals(idDireccionNew)) {
+                idDireccionOld.getPersonaList().remove(persona);
+                idDireccionOld = em.merge(idDireccionOld);
             }
-            if (usuarioIdNew != null && !usuarioIdNew.equals(usuarioIdOld)) {
-                usuarioIdNew.getPersonaList().add(persona);
-                usuarioIdNew = em.merge(usuarioIdNew);
+            if (idDireccionNew != null && !idDireccionNew.equals(idDireccionOld)) {
+                idDireccionNew.getPersonaList().add(persona);
+                idDireccionNew = em.merge(idDireccionNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -129,15 +129,15 @@ public class PersonaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The persona with id " + id + " no longer exists.", enfe);
             }
-            Direccion direccionidDireccion = persona.getDireccionidDireccion();
-            if (direccionidDireccion != null) {
-                direccionidDireccion.getPersonaList().remove(persona);
-                direccionidDireccion = em.merge(direccionidDireccion);
+            Usuario idUsuario = persona.getIdUsuario();
+            if (idUsuario != null) {
+                idUsuario.getPersonaList().remove(persona);
+                idUsuario = em.merge(idUsuario);
             }
-            Usuario usuarioId = persona.getUsuarioId();
-            if (usuarioId != null) {
-                usuarioId.getPersonaList().remove(persona);
-                usuarioId = em.merge(usuarioId);
+            Direccion idDireccion = persona.getIdDireccion();
+            if (idDireccion != null) {
+                idDireccion.getPersonaList().remove(persona);
+                idDireccion = em.merge(idDireccion);
             }
             em.remove(persona);
             em.getTransaction().commit();

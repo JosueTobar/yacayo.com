@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,13 +36,14 @@ public class Pais implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "Nombre")
+    @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paisId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPais")
     private List<Departamento> departamentoList;
 
     public Pais() {
@@ -102,7 +105,7 @@ public class Pais implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Pais[ id=" + id + " ]";
+        return "com.yacayo.Pais[ id=" + id + " ]";
     }
     
 }

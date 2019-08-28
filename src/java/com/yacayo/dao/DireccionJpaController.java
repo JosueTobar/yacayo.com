@@ -5,9 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -19,6 +16,8 @@ import com.yacayo.entidades.Persona;
 import java.util.ArrayList;
 import java.util.List;
 import com.yacayo.entidades.Empresa;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -37,7 +36,7 @@ public class DireccionJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Direccion direccion) throws PreexistingEntityException, Exception {
+    public void create(Direccion direccion) {
         if (direccion.getPersonaList() == null) {
             direccion.setPersonaList(new ArrayList<Persona>());
         }
@@ -48,10 +47,10 @@ public class DireccionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Ciudad municipioId = direccion.getMunicipioId();
-            if (municipioId != null) {
-                municipioId = em.getReference(municipioId.getClass(), municipioId.getId());
-                direccion.setMunicipioId(municipioId);
+            Ciudad idCiudad = direccion.getIdCiudad();
+            if (idCiudad != null) {
+                idCiudad = em.getReference(idCiudad.getClass(), idCiudad.getId());
+                direccion.setIdCiudad(idCiudad);
             }
             List<Persona> attachedPersonaList = new ArrayList<Persona>();
             for (Persona personaListPersonaToAttach : direccion.getPersonaList()) {
@@ -66,17 +65,17 @@ public class DireccionJpaController implements Serializable {
             }
             direccion.setEmpresaList(attachedEmpresaList);
             em.persist(direccion);
-            if (municipioId != null) {
-                municipioId.getDireccionList().add(direccion);
-                municipioId = em.merge(municipioId);
+            if (idCiudad != null) {
+                idCiudad.getDireccionList().add(direccion);
+                idCiudad = em.merge(idCiudad);
             }
             for (Persona personaListPersona : direccion.getPersonaList()) {
-                Direccion oldDireccionidDireccionOfPersonaListPersona = personaListPersona.getDireccionidDireccion();
-                personaListPersona.setDireccionidDireccion(direccion);
+                Direccion oldIdDireccionOfPersonaListPersona = personaListPersona.getIdDireccion();
+                personaListPersona.setIdDireccion(direccion);
                 personaListPersona = em.merge(personaListPersona);
-                if (oldDireccionidDireccionOfPersonaListPersona != null) {
-                    oldDireccionidDireccionOfPersonaListPersona.getPersonaList().remove(personaListPersona);
-                    oldDireccionidDireccionOfPersonaListPersona = em.merge(oldDireccionidDireccionOfPersonaListPersona);
+                if (oldIdDireccionOfPersonaListPersona != null) {
+                    oldIdDireccionOfPersonaListPersona.getPersonaList().remove(personaListPersona);
+                    oldIdDireccionOfPersonaListPersona = em.merge(oldIdDireccionOfPersonaListPersona);
                 }
             }
             for (Empresa empresaListEmpresa : direccion.getEmpresaList()) {
@@ -89,11 +88,6 @@ public class DireccionJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findDireccion(direccion.getId()) != null) {
-                throw new PreexistingEntityException("Direccion " + direccion + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -107,8 +101,8 @@ public class DireccionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Direccion persistentDireccion = em.find(Direccion.class, direccion.getId());
-            Ciudad municipioIdOld = persistentDireccion.getMunicipioId();
-            Ciudad municipioIdNew = direccion.getMunicipioId();
+            Ciudad idCiudadOld = persistentDireccion.getIdCiudad();
+            Ciudad idCiudadNew = direccion.getIdCiudad();
             List<Persona> personaListOld = persistentDireccion.getPersonaList();
             List<Persona> personaListNew = direccion.getPersonaList();
             List<Empresa> empresaListOld = persistentDireccion.getEmpresaList();
@@ -119,7 +113,7 @@ public class DireccionJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Persona " + personaListOldPersona + " since its direccionidDireccion field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Persona " + personaListOldPersona + " since its idDireccion field is not nullable.");
                 }
             }
             for (Empresa empresaListOldEmpresa : empresaListOld) {
@@ -133,9 +127,9 @@ public class DireccionJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (municipioIdNew != null) {
-                municipioIdNew = em.getReference(municipioIdNew.getClass(), municipioIdNew.getId());
-                direccion.setMunicipioId(municipioIdNew);
+            if (idCiudadNew != null) {
+                idCiudadNew = em.getReference(idCiudadNew.getClass(), idCiudadNew.getId());
+                direccion.setIdCiudad(idCiudadNew);
             }
             List<Persona> attachedPersonaListNew = new ArrayList<Persona>();
             for (Persona personaListNewPersonaToAttach : personaListNew) {
@@ -152,22 +146,22 @@ public class DireccionJpaController implements Serializable {
             empresaListNew = attachedEmpresaListNew;
             direccion.setEmpresaList(empresaListNew);
             direccion = em.merge(direccion);
-            if (municipioIdOld != null && !municipioIdOld.equals(municipioIdNew)) {
-                municipioIdOld.getDireccionList().remove(direccion);
-                municipioIdOld = em.merge(municipioIdOld);
+            if (idCiudadOld != null && !idCiudadOld.equals(idCiudadNew)) {
+                idCiudadOld.getDireccionList().remove(direccion);
+                idCiudadOld = em.merge(idCiudadOld);
             }
-            if (municipioIdNew != null && !municipioIdNew.equals(municipioIdOld)) {
-                municipioIdNew.getDireccionList().add(direccion);
-                municipioIdNew = em.merge(municipioIdNew);
+            if (idCiudadNew != null && !idCiudadNew.equals(idCiudadOld)) {
+                idCiudadNew.getDireccionList().add(direccion);
+                idCiudadNew = em.merge(idCiudadNew);
             }
             for (Persona personaListNewPersona : personaListNew) {
                 if (!personaListOld.contains(personaListNewPersona)) {
-                    Direccion oldDireccionidDireccionOfPersonaListNewPersona = personaListNewPersona.getDireccionidDireccion();
-                    personaListNewPersona.setDireccionidDireccion(direccion);
+                    Direccion oldIdDireccionOfPersonaListNewPersona = personaListNewPersona.getIdDireccion();
+                    personaListNewPersona.setIdDireccion(direccion);
                     personaListNewPersona = em.merge(personaListNewPersona);
-                    if (oldDireccionidDireccionOfPersonaListNewPersona != null && !oldDireccionidDireccionOfPersonaListNewPersona.equals(direccion)) {
-                        oldDireccionidDireccionOfPersonaListNewPersona.getPersonaList().remove(personaListNewPersona);
-                        oldDireccionidDireccionOfPersonaListNewPersona = em.merge(oldDireccionidDireccionOfPersonaListNewPersona);
+                    if (oldIdDireccionOfPersonaListNewPersona != null && !oldIdDireccionOfPersonaListNewPersona.equals(direccion)) {
+                        oldIdDireccionOfPersonaListNewPersona.getPersonaList().remove(personaListNewPersona);
+                        oldIdDireccionOfPersonaListNewPersona = em.merge(oldIdDireccionOfPersonaListNewPersona);
                     }
                 }
             }
@@ -217,7 +211,7 @@ public class DireccionJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Direccion (" + direccion + ") cannot be destroyed since the Persona " + personaListOrphanCheckPersona + " in its personaList field has a non-nullable direccionidDireccion field.");
+                illegalOrphanMessages.add("This Direccion (" + direccion + ") cannot be destroyed since the Persona " + personaListOrphanCheckPersona + " in its personaList field has a non-nullable idDireccion field.");
             }
             List<Empresa> empresaListOrphanCheck = direccion.getEmpresaList();
             for (Empresa empresaListOrphanCheckEmpresa : empresaListOrphanCheck) {
@@ -229,10 +223,10 @@ public class DireccionJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Ciudad municipioId = direccion.getMunicipioId();
-            if (municipioId != null) {
-                municipioId.getDireccionList().remove(direccion);
-                municipioId = em.merge(municipioId);
+            Ciudad idCiudad = direccion.getIdCiudad();
+            if (idCiudad != null) {
+                idCiudad.getDireccionList().remove(direccion);
+                idCiudad = em.merge(idCiudad);
             }
             em.remove(direccion);
             em.getTransaction().commit();

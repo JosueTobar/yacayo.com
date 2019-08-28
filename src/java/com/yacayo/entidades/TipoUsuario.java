@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,16 +37,17 @@ public class TipoUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "DESCRIPCION")
+    @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
-    @Column(name = "ESTADO")
+    @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipo")
     private List<Usuario> usuarioList;
 
     public TipoUsuario() {
@@ -115,7 +118,7 @@ public class TipoUsuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.TipoUsuario[ id=" + id + " ]";
+        return "com.yacayo.TipoUsuario[ id=" + id + " ]";
     }
     
 }

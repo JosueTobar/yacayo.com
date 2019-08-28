@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,30 +33,23 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Direccion.findAll", query = "SELECT d FROM Direccion d"),
     @NamedQuery(name = "Direccion.findById", query = "SELECT d FROM Direccion d WHERE d.id = :id"),
-    @NamedQuery(name = "Direccion.findByCalle", query = "SELECT d FROM Direccion d WHERE d.calle = :calle"),
-    @NamedQuery(name = "Direccion.findByColonia", query = "SELECT d FROM Direccion d WHERE d.colonia = :colonia"),
-    @NamedQuery(name = "Direccion.findByNumero", query = "SELECT d FROM Direccion d WHERE d.numero = :numero")})
+    @NamedQuery(name = "Direccion.findByDescripcion", query = "SELECT d FROM Direccion d WHERE d.descripcion = :descripcion")})
 public class Direccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "CALLE")
-    private String calle;
-    @Basic(optional = false)
-    @Column(name = "COLONIA")
-    private String colonia;
-    @Basic(optional = false)
-    @Column(name = "NUMERO")
-    private String numero;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "direccionidDireccion")
+    @Column(name = "descripcion")
+    private String descripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDireccion")
     private List<Persona> personaList;
-    @JoinColumn(name = "MUNICIPIO_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "idCiudad", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Ciudad municipioId;
+    private Ciudad idCiudad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDireccion")
     private List<Empresa> empresaList;
 
@@ -65,11 +60,9 @@ public class Direccion implements Serializable {
         this.id = id;
     }
 
-    public Direccion(Integer id, String calle, String colonia, String numero) {
+    public Direccion(Integer id, String descripcion) {
         this.id = id;
-        this.calle = calle;
-        this.colonia = colonia;
-        this.numero = numero;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -80,28 +73,12 @@ public class Direccion implements Serializable {
         this.id = id;
     }
 
-    public String getCalle() {
-        return calle;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setCalle(String calle) {
-        this.calle = calle;
-    }
-
-    public String getColonia() {
-        return colonia;
-    }
-
-    public void setColonia(String colonia) {
-        this.colonia = colonia;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @XmlTransient
@@ -113,12 +90,12 @@ public class Direccion implements Serializable {
         this.personaList = personaList;
     }
 
-    public Ciudad getMunicipioId() {
-        return municipioId;
+    public Ciudad getIdCiudad() {
+        return idCiudad;
     }
 
-    public void setMunicipioId(Ciudad municipioId) {
-        this.municipioId = municipioId;
+    public void setIdCiudad(Ciudad idCiudad) {
+        this.idCiudad = idCiudad;
     }
 
     @XmlTransient
@@ -152,7 +129,7 @@ public class Direccion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Direccion[ id=" + id + " ]";
+        return "com.yacayo.Direccion[ id=" + id + " ]";
     }
     
 }

@@ -40,15 +40,15 @@ public class Ciudad implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "NOMBRE")
+    @Column(name = "nombre")
     private String nombre;
-    @JoinColumn(name = "DEPARTAMENTO_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "idDepa", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Departamento departamentoId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipioId")
+    private Departamento idDepa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudad")
     private List<Direccion> direccionList;
 
     public Ciudad() {
@@ -79,12 +79,12 @@ public class Ciudad implements Serializable {
         this.nombre = nombre;
     }
 
-    public Departamento getDepartamentoId() {
-        return departamentoId;
+    public Departamento getIdDepa() {
+        return idDepa;
     }
 
-    public void setDepartamentoId(Departamento departamentoId) {
-        this.departamentoId = departamentoId;
+    public void setIdDepa(Departamento idDepa) {
+        this.idDepa = idDepa;
     }
 
     @XmlTransient
@@ -118,7 +118,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Ciudad[ id=" + id + " ]";
+        return "com.yacayo.Ciudad[ id=" + id + " ]";
     }
     
 }

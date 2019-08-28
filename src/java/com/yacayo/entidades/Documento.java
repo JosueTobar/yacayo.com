@@ -37,20 +37,20 @@ public class Documento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "RUTA")
+    @Column(name = "ruta")
     private String ruta;
     @Basic(optional = false)
-    @Column(name = "ESTADO")
+    @Column(name = "estado")
     private String estado;
-    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "idUsuario", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Usuario usuarioId;
-    @JoinColumn(name = "TIPO_DOCUMENTO", referencedColumnName = "ID")
+    private Usuario idUsuario;
+    @JoinColumn(name = "idDocumento", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private TipoDocumento tipoDocumento;
+    private TipoDocumento idDocumento;
 
     public Documento() {
     }
@@ -89,20 +89,20 @@ public class Documento implements Serializable {
         this.estado = estado;
     }
 
-    public Usuario getUsuarioId() {
-        return usuarioId;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
+    public TipoDocumento getIdDocumento() {
+        return idDocumento;
     }
 
-    public void setTipoDocumento(TipoDocumento tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setIdDocumento(TipoDocumento idDocumento) {
+        this.idDocumento = idDocumento;
     }
 
     @Override
@@ -127,7 +127,7 @@ public class Documento implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Documento[ id=" + id + " ]";
+        return "com.yacayo.Documento[ id=" + id + " ]";
     }
     
 }

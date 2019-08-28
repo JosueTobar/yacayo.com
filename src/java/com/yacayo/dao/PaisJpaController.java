@@ -5,9 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -15,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Departamento;
 import com.yacayo.entidades.Pais;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -35,7 +34,7 @@ public class PaisJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Pais pais) throws PreexistingEntityException, Exception {
+    public void create(Pais pais) {
         if (pais.getDepartamentoList() == null) {
             pais.setDepartamentoList(new ArrayList<Departamento>());
         }
@@ -51,20 +50,15 @@ public class PaisJpaController implements Serializable {
             pais.setDepartamentoList(attachedDepartamentoList);
             em.persist(pais);
             for (Departamento departamentoListDepartamento : pais.getDepartamentoList()) {
-                Pais oldPaisIdOfDepartamentoListDepartamento = departamentoListDepartamento.getPaisId();
-                departamentoListDepartamento.setPaisId(pais);
+                Pais oldIdPaisOfDepartamentoListDepartamento = departamentoListDepartamento.getIdPais();
+                departamentoListDepartamento.setIdPais(pais);
                 departamentoListDepartamento = em.merge(departamentoListDepartamento);
-                if (oldPaisIdOfDepartamentoListDepartamento != null) {
-                    oldPaisIdOfDepartamentoListDepartamento.getDepartamentoList().remove(departamentoListDepartamento);
-                    oldPaisIdOfDepartamentoListDepartamento = em.merge(oldPaisIdOfDepartamentoListDepartamento);
+                if (oldIdPaisOfDepartamentoListDepartamento != null) {
+                    oldIdPaisOfDepartamentoListDepartamento.getDepartamentoList().remove(departamentoListDepartamento);
+                    oldIdPaisOfDepartamentoListDepartamento = em.merge(oldIdPaisOfDepartamentoListDepartamento);
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findPais(pais.getId()) != null) {
-                throw new PreexistingEntityException("Pais " + pais + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -86,7 +80,7 @@ public class PaisJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Departamento " + departamentoListOldDepartamento + " since its paisId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Departamento " + departamentoListOldDepartamento + " since its idPais field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -102,12 +96,12 @@ public class PaisJpaController implements Serializable {
             pais = em.merge(pais);
             for (Departamento departamentoListNewDepartamento : departamentoListNew) {
                 if (!departamentoListOld.contains(departamentoListNewDepartamento)) {
-                    Pais oldPaisIdOfDepartamentoListNewDepartamento = departamentoListNewDepartamento.getPaisId();
-                    departamentoListNewDepartamento.setPaisId(pais);
+                    Pais oldIdPaisOfDepartamentoListNewDepartamento = departamentoListNewDepartamento.getIdPais();
+                    departamentoListNewDepartamento.setIdPais(pais);
                     departamentoListNewDepartamento = em.merge(departamentoListNewDepartamento);
-                    if (oldPaisIdOfDepartamentoListNewDepartamento != null && !oldPaisIdOfDepartamentoListNewDepartamento.equals(pais)) {
-                        oldPaisIdOfDepartamentoListNewDepartamento.getDepartamentoList().remove(departamentoListNewDepartamento);
-                        oldPaisIdOfDepartamentoListNewDepartamento = em.merge(oldPaisIdOfDepartamentoListNewDepartamento);
+                    if (oldIdPaisOfDepartamentoListNewDepartamento != null && !oldIdPaisOfDepartamentoListNewDepartamento.equals(pais)) {
+                        oldIdPaisOfDepartamentoListNewDepartamento.getDepartamentoList().remove(departamentoListNewDepartamento);
+                        oldIdPaisOfDepartamentoListNewDepartamento = em.merge(oldIdPaisOfDepartamentoListNewDepartamento);
                     }
                 }
             }
@@ -146,7 +140,7 @@ public class PaisJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Pais (" + pais + ") cannot be destroyed since the Departamento " + departamentoListOrphanCheckDepartamento + " in its departamentoList field has a non-nullable paisId field.");
+                illegalOrphanMessages.add("This Pais (" + pais + ") cannot be destroyed since the Departamento " + departamentoListOrphanCheckDepartamento + " in its departamentoList field has a non-nullable idPais field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

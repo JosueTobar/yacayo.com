@@ -5,8 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -15,6 +13,8 @@ import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Pais;
 import com.yacayo.entidades.Ciudad;
 import com.yacayo.entidades.Departamento;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -43,10 +43,10 @@ public class DepartamentoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Pais paisId = departamento.getPaisId();
-            if (paisId != null) {
-                paisId = em.getReference(paisId.getClass(), paisId.getId());
-                departamento.setPaisId(paisId);
+            Pais idPais = departamento.getIdPais();
+            if (idPais != null) {
+                idPais = em.getReference(idPais.getClass(), idPais.getId());
+                departamento.setIdPais(idPais);
             }
             List<Ciudad> attachedCiudadList = new ArrayList<Ciudad>();
             for (Ciudad ciudadListCiudadToAttach : departamento.getCiudadList()) {
@@ -55,17 +55,17 @@ public class DepartamentoJpaController implements Serializable {
             }
             departamento.setCiudadList(attachedCiudadList);
             em.persist(departamento);
-            if (paisId != null) {
-                paisId.getDepartamentoList().add(departamento);
-                paisId = em.merge(paisId);
+            if (idPais != null) {
+                idPais.getDepartamentoList().add(departamento);
+                idPais = em.merge(idPais);
             }
             for (Ciudad ciudadListCiudad : departamento.getCiudadList()) {
-                Departamento oldDepartamentoIdOfCiudadListCiudad = ciudadListCiudad.getDepartamentoId();
-                ciudadListCiudad.setDepartamentoId(departamento);
+                Departamento oldIdDepaOfCiudadListCiudad = ciudadListCiudad.getIdDepa();
+                ciudadListCiudad.setIdDepa(departamento);
                 ciudadListCiudad = em.merge(ciudadListCiudad);
-                if (oldDepartamentoIdOfCiudadListCiudad != null) {
-                    oldDepartamentoIdOfCiudadListCiudad.getCiudadList().remove(ciudadListCiudad);
-                    oldDepartamentoIdOfCiudadListCiudad = em.merge(oldDepartamentoIdOfCiudadListCiudad);
+                if (oldIdDepaOfCiudadListCiudad != null) {
+                    oldIdDepaOfCiudadListCiudad.getCiudadList().remove(ciudadListCiudad);
+                    oldIdDepaOfCiudadListCiudad = em.merge(oldIdDepaOfCiudadListCiudad);
                 }
             }
             em.getTransaction().commit();
@@ -82,8 +82,8 @@ public class DepartamentoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Departamento persistentDepartamento = em.find(Departamento.class, departamento.getId());
-            Pais paisIdOld = persistentDepartamento.getPaisId();
-            Pais paisIdNew = departamento.getPaisId();
+            Pais idPaisOld = persistentDepartamento.getIdPais();
+            Pais idPaisNew = departamento.getIdPais();
             List<Ciudad> ciudadListOld = persistentDepartamento.getCiudadList();
             List<Ciudad> ciudadListNew = departamento.getCiudadList();
             List<String> illegalOrphanMessages = null;
@@ -92,15 +92,15 @@ public class DepartamentoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Ciudad " + ciudadListOldCiudad + " since its departamentoId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Ciudad " + ciudadListOldCiudad + " since its idDepa field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (paisIdNew != null) {
-                paisIdNew = em.getReference(paisIdNew.getClass(), paisIdNew.getId());
-                departamento.setPaisId(paisIdNew);
+            if (idPaisNew != null) {
+                idPaisNew = em.getReference(idPaisNew.getClass(), idPaisNew.getId());
+                departamento.setIdPais(idPaisNew);
             }
             List<Ciudad> attachedCiudadListNew = new ArrayList<Ciudad>();
             for (Ciudad ciudadListNewCiudadToAttach : ciudadListNew) {
@@ -110,22 +110,22 @@ public class DepartamentoJpaController implements Serializable {
             ciudadListNew = attachedCiudadListNew;
             departamento.setCiudadList(ciudadListNew);
             departamento = em.merge(departamento);
-            if (paisIdOld != null && !paisIdOld.equals(paisIdNew)) {
-                paisIdOld.getDepartamentoList().remove(departamento);
-                paisIdOld = em.merge(paisIdOld);
+            if (idPaisOld != null && !idPaisOld.equals(idPaisNew)) {
+                idPaisOld.getDepartamentoList().remove(departamento);
+                idPaisOld = em.merge(idPaisOld);
             }
-            if (paisIdNew != null && !paisIdNew.equals(paisIdOld)) {
-                paisIdNew.getDepartamentoList().add(departamento);
-                paisIdNew = em.merge(paisIdNew);
+            if (idPaisNew != null && !idPaisNew.equals(idPaisOld)) {
+                idPaisNew.getDepartamentoList().add(departamento);
+                idPaisNew = em.merge(idPaisNew);
             }
             for (Ciudad ciudadListNewCiudad : ciudadListNew) {
                 if (!ciudadListOld.contains(ciudadListNewCiudad)) {
-                    Departamento oldDepartamentoIdOfCiudadListNewCiudad = ciudadListNewCiudad.getDepartamentoId();
-                    ciudadListNewCiudad.setDepartamentoId(departamento);
+                    Departamento oldIdDepaOfCiudadListNewCiudad = ciudadListNewCiudad.getIdDepa();
+                    ciudadListNewCiudad.setIdDepa(departamento);
                     ciudadListNewCiudad = em.merge(ciudadListNewCiudad);
-                    if (oldDepartamentoIdOfCiudadListNewCiudad != null && !oldDepartamentoIdOfCiudadListNewCiudad.equals(departamento)) {
-                        oldDepartamentoIdOfCiudadListNewCiudad.getCiudadList().remove(ciudadListNewCiudad);
-                        oldDepartamentoIdOfCiudadListNewCiudad = em.merge(oldDepartamentoIdOfCiudadListNewCiudad);
+                    if (oldIdDepaOfCiudadListNewCiudad != null && !oldIdDepaOfCiudadListNewCiudad.equals(departamento)) {
+                        oldIdDepaOfCiudadListNewCiudad.getCiudadList().remove(ciudadListNewCiudad);
+                        oldIdDepaOfCiudadListNewCiudad = em.merge(oldIdDepaOfCiudadListNewCiudad);
                     }
                 }
             }
@@ -164,15 +164,15 @@ public class DepartamentoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Departamento (" + departamento + ") cannot be destroyed since the Ciudad " + ciudadListOrphanCheckCiudad + " in its ciudadList field has a non-nullable departamentoId field.");
+                illegalOrphanMessages.add("This Departamento (" + departamento + ") cannot be destroyed since the Ciudad " + ciudadListOrphanCheckCiudad + " in its ciudadList field has a non-nullable idDepa field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Pais paisId = departamento.getPaisId();
-            if (paisId != null) {
-                paisId.getDepartamentoList().remove(departamento);
-                paisId = em.merge(paisId);
+            Pais idPais = departamento.getIdPais();
+            if (idPais != null) {
+                idPais.getDepartamentoList().remove(departamento);
+                idPais = em.merge(idPais);
             }
             em.remove(departamento);
             em.getTransaction().commit();

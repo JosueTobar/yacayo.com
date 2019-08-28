@@ -5,21 +5,21 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.TipoUsuario;
-import com.yacayo.entidades.Publicacione;
+import com.yacayo.entidades.Publicaciones;
 import java.util.ArrayList;
 import java.util.List;
 import com.yacayo.entidades.Persona;
 import com.yacayo.entidades.Documento;
 import com.yacayo.entidades.Empresa;
 import com.yacayo.entidades.Usuario;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -39,8 +39,8 @@ public class UsuarioJpaController implements Serializable {
     }
 
     public void create(Usuario usuario) {
-        if (usuario.getPublicacioneList() == null) {
-            usuario.setPublicacioneList(new ArrayList<Publicacione>());
+        if (usuario.getPublicacionesList() == null) {
+            usuario.setPublicacionesList(new ArrayList<Publicaciones>());
         }
         if (usuario.getPersonaList() == null) {
             usuario.setPersonaList(new ArrayList<Persona>());
@@ -55,17 +55,17 @@ public class UsuarioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TipoUsuario tipoUsuario = usuario.getTipoUsuario();
-            if (tipoUsuario != null) {
-                tipoUsuario = em.getReference(tipoUsuario.getClass(), tipoUsuario.getId());
-                usuario.setTipoUsuario(tipoUsuario);
+            TipoUsuario idTipo = usuario.getIdTipo();
+            if (idTipo != null) {
+                idTipo = em.getReference(idTipo.getClass(), idTipo.getId());
+                usuario.setIdTipo(idTipo);
             }
-            List<Publicacione> attachedPublicacioneList = new ArrayList<Publicacione>();
-            for (Publicacione publicacioneListPublicacioneToAttach : usuario.getPublicacioneList()) {
-                publicacioneListPublicacioneToAttach = em.getReference(publicacioneListPublicacioneToAttach.getClass(), publicacioneListPublicacioneToAttach.getId());
-                attachedPublicacioneList.add(publicacioneListPublicacioneToAttach);
+            List<Publicaciones> attachedPublicacionesList = new ArrayList<Publicaciones>();
+            for (Publicaciones publicacionesListPublicacionesToAttach : usuario.getPublicacionesList()) {
+                publicacionesListPublicacionesToAttach = em.getReference(publicacionesListPublicacionesToAttach.getClass(), publicacionesListPublicacionesToAttach.getId());
+                attachedPublicacionesList.add(publicacionesListPublicacionesToAttach);
             }
-            usuario.setPublicacioneList(attachedPublicacioneList);
+            usuario.setPublicacionesList(attachedPublicacionesList);
             List<Persona> attachedPersonaList = new ArrayList<Persona>();
             for (Persona personaListPersonaToAttach : usuario.getPersonaList()) {
                 personaListPersonaToAttach = em.getReference(personaListPersonaToAttach.getClass(), personaListPersonaToAttach.getId());
@@ -85,44 +85,44 @@ public class UsuarioJpaController implements Serializable {
             }
             usuario.setEmpresaList(attachedEmpresaList);
             em.persist(usuario);
-            if (tipoUsuario != null) {
-                tipoUsuario.getUsuarioList().add(usuario);
-                tipoUsuario = em.merge(tipoUsuario);
+            if (idTipo != null) {
+                idTipo.getUsuarioList().add(usuario);
+                idTipo = em.merge(idTipo);
             }
-            for (Publicacione publicacioneListPublicacione : usuario.getPublicacioneList()) {
-                Usuario oldUsuarioIdOfPublicacioneListPublicacione = publicacioneListPublicacione.getUsuarioId();
-                publicacioneListPublicacione.setUsuarioId(usuario);
-                publicacioneListPublicacione = em.merge(publicacioneListPublicacione);
-                if (oldUsuarioIdOfPublicacioneListPublicacione != null) {
-                    oldUsuarioIdOfPublicacioneListPublicacione.getPublicacioneList().remove(publicacioneListPublicacione);
-                    oldUsuarioIdOfPublicacioneListPublicacione = em.merge(oldUsuarioIdOfPublicacioneListPublicacione);
+            for (Publicaciones publicacionesListPublicaciones : usuario.getPublicacionesList()) {
+                Usuario oldIdUsuarioOfPublicacionesListPublicaciones = publicacionesListPublicaciones.getIdUsuario();
+                publicacionesListPublicaciones.setIdUsuario(usuario);
+                publicacionesListPublicaciones = em.merge(publicacionesListPublicaciones);
+                if (oldIdUsuarioOfPublicacionesListPublicaciones != null) {
+                    oldIdUsuarioOfPublicacionesListPublicaciones.getPublicacionesList().remove(publicacionesListPublicaciones);
+                    oldIdUsuarioOfPublicacionesListPublicaciones = em.merge(oldIdUsuarioOfPublicacionesListPublicaciones);
                 }
             }
             for (Persona personaListPersona : usuario.getPersonaList()) {
-                Usuario oldUsuarioIdOfPersonaListPersona = personaListPersona.getUsuarioId();
-                personaListPersona.setUsuarioId(usuario);
+                Usuario oldIdUsuarioOfPersonaListPersona = personaListPersona.getIdUsuario();
+                personaListPersona.setIdUsuario(usuario);
                 personaListPersona = em.merge(personaListPersona);
-                if (oldUsuarioIdOfPersonaListPersona != null) {
-                    oldUsuarioIdOfPersonaListPersona.getPersonaList().remove(personaListPersona);
-                    oldUsuarioIdOfPersonaListPersona = em.merge(oldUsuarioIdOfPersonaListPersona);
+                if (oldIdUsuarioOfPersonaListPersona != null) {
+                    oldIdUsuarioOfPersonaListPersona.getPersonaList().remove(personaListPersona);
+                    oldIdUsuarioOfPersonaListPersona = em.merge(oldIdUsuarioOfPersonaListPersona);
                 }
             }
             for (Documento documentoListDocumento : usuario.getDocumentoList()) {
-                Usuario oldUsuarioIdOfDocumentoListDocumento = documentoListDocumento.getUsuarioId();
-                documentoListDocumento.setUsuarioId(usuario);
+                Usuario oldIdUsuarioOfDocumentoListDocumento = documentoListDocumento.getIdUsuario();
+                documentoListDocumento.setIdUsuario(usuario);
                 documentoListDocumento = em.merge(documentoListDocumento);
-                if (oldUsuarioIdOfDocumentoListDocumento != null) {
-                    oldUsuarioIdOfDocumentoListDocumento.getDocumentoList().remove(documentoListDocumento);
-                    oldUsuarioIdOfDocumentoListDocumento = em.merge(oldUsuarioIdOfDocumentoListDocumento);
+                if (oldIdUsuarioOfDocumentoListDocumento != null) {
+                    oldIdUsuarioOfDocumentoListDocumento.getDocumentoList().remove(documentoListDocumento);
+                    oldIdUsuarioOfDocumentoListDocumento = em.merge(oldIdUsuarioOfDocumentoListDocumento);
                 }
             }
             for (Empresa empresaListEmpresa : usuario.getEmpresaList()) {
-                Usuario oldUsuarioIdOfEmpresaListEmpresa = empresaListEmpresa.getUsuarioId();
-                empresaListEmpresa.setUsuarioId(usuario);
+                Usuario oldIdUsuarioOfEmpresaListEmpresa = empresaListEmpresa.getIdUsuario();
+                empresaListEmpresa.setIdUsuario(usuario);
                 empresaListEmpresa = em.merge(empresaListEmpresa);
-                if (oldUsuarioIdOfEmpresaListEmpresa != null) {
-                    oldUsuarioIdOfEmpresaListEmpresa.getEmpresaList().remove(empresaListEmpresa);
-                    oldUsuarioIdOfEmpresaListEmpresa = em.merge(oldUsuarioIdOfEmpresaListEmpresa);
+                if (oldIdUsuarioOfEmpresaListEmpresa != null) {
+                    oldIdUsuarioOfEmpresaListEmpresa.getEmpresaList().remove(empresaListEmpresa);
+                    oldIdUsuarioOfEmpresaListEmpresa = em.merge(oldIdUsuarioOfEmpresaListEmpresa);
                 }
             }
             em.getTransaction().commit();
@@ -139,10 +139,10 @@ public class UsuarioJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Usuario persistentUsuario = em.find(Usuario.class, usuario.getId());
-            TipoUsuario tipoUsuarioOld = persistentUsuario.getTipoUsuario();
-            TipoUsuario tipoUsuarioNew = usuario.getTipoUsuario();
-            List<Publicacione> publicacioneListOld = persistentUsuario.getPublicacioneList();
-            List<Publicacione> publicacioneListNew = usuario.getPublicacioneList();
+            TipoUsuario idTipoOld = persistentUsuario.getIdTipo();
+            TipoUsuario idTipoNew = usuario.getIdTipo();
+            List<Publicaciones> publicacionesListOld = persistentUsuario.getPublicacionesList();
+            List<Publicaciones> publicacionesListNew = usuario.getPublicacionesList();
             List<Persona> personaListOld = persistentUsuario.getPersonaList();
             List<Persona> personaListNew = usuario.getPersonaList();
             List<Documento> documentoListOld = persistentUsuario.getDocumentoList();
@@ -150,12 +150,12 @@ public class UsuarioJpaController implements Serializable {
             List<Empresa> empresaListOld = persistentUsuario.getEmpresaList();
             List<Empresa> empresaListNew = usuario.getEmpresaList();
             List<String> illegalOrphanMessages = null;
-            for (Publicacione publicacioneListOldPublicacione : publicacioneListOld) {
-                if (!publicacioneListNew.contains(publicacioneListOldPublicacione)) {
+            for (Publicaciones publicacionesListOldPublicaciones : publicacionesListOld) {
+                if (!publicacionesListNew.contains(publicacionesListOldPublicaciones)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Publicacione " + publicacioneListOldPublicacione + " since its usuarioId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Publicaciones " + publicacionesListOldPublicaciones + " since its idUsuario field is not nullable.");
                 }
             }
             for (Persona personaListOldPersona : personaListOld) {
@@ -163,7 +163,7 @@ public class UsuarioJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Persona " + personaListOldPersona + " since its usuarioId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Persona " + personaListOldPersona + " since its idUsuario field is not nullable.");
                 }
             }
             for (Documento documentoListOldDocumento : documentoListOld) {
@@ -171,7 +171,7 @@ public class UsuarioJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Documento " + documentoListOldDocumento + " since its usuarioId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Documento " + documentoListOldDocumento + " since its idUsuario field is not nullable.");
                 }
             }
             for (Empresa empresaListOldEmpresa : empresaListOld) {
@@ -179,23 +179,23 @@ public class UsuarioJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Empresa " + empresaListOldEmpresa + " since its usuarioId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Empresa " + empresaListOldEmpresa + " since its idUsuario field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (tipoUsuarioNew != null) {
-                tipoUsuarioNew = em.getReference(tipoUsuarioNew.getClass(), tipoUsuarioNew.getId());
-                usuario.setTipoUsuario(tipoUsuarioNew);
+            if (idTipoNew != null) {
+                idTipoNew = em.getReference(idTipoNew.getClass(), idTipoNew.getId());
+                usuario.setIdTipo(idTipoNew);
             }
-            List<Publicacione> attachedPublicacioneListNew = new ArrayList<Publicacione>();
-            for (Publicacione publicacioneListNewPublicacioneToAttach : publicacioneListNew) {
-                publicacioneListNewPublicacioneToAttach = em.getReference(publicacioneListNewPublicacioneToAttach.getClass(), publicacioneListNewPublicacioneToAttach.getId());
-                attachedPublicacioneListNew.add(publicacioneListNewPublicacioneToAttach);
+            List<Publicaciones> attachedPublicacionesListNew = new ArrayList<Publicaciones>();
+            for (Publicaciones publicacionesListNewPublicacionesToAttach : publicacionesListNew) {
+                publicacionesListNewPublicacionesToAttach = em.getReference(publicacionesListNewPublicacionesToAttach.getClass(), publicacionesListNewPublicacionesToAttach.getId());
+                attachedPublicacionesListNew.add(publicacionesListNewPublicacionesToAttach);
             }
-            publicacioneListNew = attachedPublicacioneListNew;
-            usuario.setPublicacioneList(publicacioneListNew);
+            publicacionesListNew = attachedPublicacionesListNew;
+            usuario.setPublicacionesList(publicacionesListNew);
             List<Persona> attachedPersonaListNew = new ArrayList<Persona>();
             for (Persona personaListNewPersonaToAttach : personaListNew) {
                 personaListNewPersonaToAttach = em.getReference(personaListNewPersonaToAttach.getClass(), personaListNewPersonaToAttach.getId());
@@ -218,55 +218,55 @@ public class UsuarioJpaController implements Serializable {
             empresaListNew = attachedEmpresaListNew;
             usuario.setEmpresaList(empresaListNew);
             usuario = em.merge(usuario);
-            if (tipoUsuarioOld != null && !tipoUsuarioOld.equals(tipoUsuarioNew)) {
-                tipoUsuarioOld.getUsuarioList().remove(usuario);
-                tipoUsuarioOld = em.merge(tipoUsuarioOld);
+            if (idTipoOld != null && !idTipoOld.equals(idTipoNew)) {
+                idTipoOld.getUsuarioList().remove(usuario);
+                idTipoOld = em.merge(idTipoOld);
             }
-            if (tipoUsuarioNew != null && !tipoUsuarioNew.equals(tipoUsuarioOld)) {
-                tipoUsuarioNew.getUsuarioList().add(usuario);
-                tipoUsuarioNew = em.merge(tipoUsuarioNew);
+            if (idTipoNew != null && !idTipoNew.equals(idTipoOld)) {
+                idTipoNew.getUsuarioList().add(usuario);
+                idTipoNew = em.merge(idTipoNew);
             }
-            for (Publicacione publicacioneListNewPublicacione : publicacioneListNew) {
-                if (!publicacioneListOld.contains(publicacioneListNewPublicacione)) {
-                    Usuario oldUsuarioIdOfPublicacioneListNewPublicacione = publicacioneListNewPublicacione.getUsuarioId();
-                    publicacioneListNewPublicacione.setUsuarioId(usuario);
-                    publicacioneListNewPublicacione = em.merge(publicacioneListNewPublicacione);
-                    if (oldUsuarioIdOfPublicacioneListNewPublicacione != null && !oldUsuarioIdOfPublicacioneListNewPublicacione.equals(usuario)) {
-                        oldUsuarioIdOfPublicacioneListNewPublicacione.getPublicacioneList().remove(publicacioneListNewPublicacione);
-                        oldUsuarioIdOfPublicacioneListNewPublicacione = em.merge(oldUsuarioIdOfPublicacioneListNewPublicacione);
+            for (Publicaciones publicacionesListNewPublicaciones : publicacionesListNew) {
+                if (!publicacionesListOld.contains(publicacionesListNewPublicaciones)) {
+                    Usuario oldIdUsuarioOfPublicacionesListNewPublicaciones = publicacionesListNewPublicaciones.getIdUsuario();
+                    publicacionesListNewPublicaciones.setIdUsuario(usuario);
+                    publicacionesListNewPublicaciones = em.merge(publicacionesListNewPublicaciones);
+                    if (oldIdUsuarioOfPublicacionesListNewPublicaciones != null && !oldIdUsuarioOfPublicacionesListNewPublicaciones.equals(usuario)) {
+                        oldIdUsuarioOfPublicacionesListNewPublicaciones.getPublicacionesList().remove(publicacionesListNewPublicaciones);
+                        oldIdUsuarioOfPublicacionesListNewPublicaciones = em.merge(oldIdUsuarioOfPublicacionesListNewPublicaciones);
                     }
                 }
             }
             for (Persona personaListNewPersona : personaListNew) {
                 if (!personaListOld.contains(personaListNewPersona)) {
-                    Usuario oldUsuarioIdOfPersonaListNewPersona = personaListNewPersona.getUsuarioId();
-                    personaListNewPersona.setUsuarioId(usuario);
+                    Usuario oldIdUsuarioOfPersonaListNewPersona = personaListNewPersona.getIdUsuario();
+                    personaListNewPersona.setIdUsuario(usuario);
                     personaListNewPersona = em.merge(personaListNewPersona);
-                    if (oldUsuarioIdOfPersonaListNewPersona != null && !oldUsuarioIdOfPersonaListNewPersona.equals(usuario)) {
-                        oldUsuarioIdOfPersonaListNewPersona.getPersonaList().remove(personaListNewPersona);
-                        oldUsuarioIdOfPersonaListNewPersona = em.merge(oldUsuarioIdOfPersonaListNewPersona);
+                    if (oldIdUsuarioOfPersonaListNewPersona != null && !oldIdUsuarioOfPersonaListNewPersona.equals(usuario)) {
+                        oldIdUsuarioOfPersonaListNewPersona.getPersonaList().remove(personaListNewPersona);
+                        oldIdUsuarioOfPersonaListNewPersona = em.merge(oldIdUsuarioOfPersonaListNewPersona);
                     }
                 }
             }
             for (Documento documentoListNewDocumento : documentoListNew) {
                 if (!documentoListOld.contains(documentoListNewDocumento)) {
-                    Usuario oldUsuarioIdOfDocumentoListNewDocumento = documentoListNewDocumento.getUsuarioId();
-                    documentoListNewDocumento.setUsuarioId(usuario);
+                    Usuario oldIdUsuarioOfDocumentoListNewDocumento = documentoListNewDocumento.getIdUsuario();
+                    documentoListNewDocumento.setIdUsuario(usuario);
                     documentoListNewDocumento = em.merge(documentoListNewDocumento);
-                    if (oldUsuarioIdOfDocumentoListNewDocumento != null && !oldUsuarioIdOfDocumentoListNewDocumento.equals(usuario)) {
-                        oldUsuarioIdOfDocumentoListNewDocumento.getDocumentoList().remove(documentoListNewDocumento);
-                        oldUsuarioIdOfDocumentoListNewDocumento = em.merge(oldUsuarioIdOfDocumentoListNewDocumento);
+                    if (oldIdUsuarioOfDocumentoListNewDocumento != null && !oldIdUsuarioOfDocumentoListNewDocumento.equals(usuario)) {
+                        oldIdUsuarioOfDocumentoListNewDocumento.getDocumentoList().remove(documentoListNewDocumento);
+                        oldIdUsuarioOfDocumentoListNewDocumento = em.merge(oldIdUsuarioOfDocumentoListNewDocumento);
                     }
                 }
             }
             for (Empresa empresaListNewEmpresa : empresaListNew) {
                 if (!empresaListOld.contains(empresaListNewEmpresa)) {
-                    Usuario oldUsuarioIdOfEmpresaListNewEmpresa = empresaListNewEmpresa.getUsuarioId();
-                    empresaListNewEmpresa.setUsuarioId(usuario);
+                    Usuario oldIdUsuarioOfEmpresaListNewEmpresa = empresaListNewEmpresa.getIdUsuario();
+                    empresaListNewEmpresa.setIdUsuario(usuario);
                     empresaListNewEmpresa = em.merge(empresaListNewEmpresa);
-                    if (oldUsuarioIdOfEmpresaListNewEmpresa != null && !oldUsuarioIdOfEmpresaListNewEmpresa.equals(usuario)) {
-                        oldUsuarioIdOfEmpresaListNewEmpresa.getEmpresaList().remove(empresaListNewEmpresa);
-                        oldUsuarioIdOfEmpresaListNewEmpresa = em.merge(oldUsuarioIdOfEmpresaListNewEmpresa);
+                    if (oldIdUsuarioOfEmpresaListNewEmpresa != null && !oldIdUsuarioOfEmpresaListNewEmpresa.equals(usuario)) {
+                        oldIdUsuarioOfEmpresaListNewEmpresa.getEmpresaList().remove(empresaListNewEmpresa);
+                        oldIdUsuarioOfEmpresaListNewEmpresa = em.merge(oldIdUsuarioOfEmpresaListNewEmpresa);
                     }
                 }
             }
@@ -300,41 +300,41 @@ public class UsuarioJpaController implements Serializable {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Publicacione> publicacioneListOrphanCheck = usuario.getPublicacioneList();
-            for (Publicacione publicacioneListOrphanCheckPublicacione : publicacioneListOrphanCheck) {
+            List<Publicaciones> publicacionesListOrphanCheck = usuario.getPublicacionesList();
+            for (Publicaciones publicacionesListOrphanCheckPublicaciones : publicacionesListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Publicacione " + publicacioneListOrphanCheckPublicacione + " in its publicacioneList field has a non-nullable usuarioId field.");
+                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Publicaciones " + publicacionesListOrphanCheckPublicaciones + " in its publicacionesList field has a non-nullable idUsuario field.");
             }
             List<Persona> personaListOrphanCheck = usuario.getPersonaList();
             for (Persona personaListOrphanCheckPersona : personaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Persona " + personaListOrphanCheckPersona + " in its personaList field has a non-nullable usuarioId field.");
+                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Persona " + personaListOrphanCheckPersona + " in its personaList field has a non-nullable idUsuario field.");
             }
             List<Documento> documentoListOrphanCheck = usuario.getDocumentoList();
             for (Documento documentoListOrphanCheckDocumento : documentoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documento " + documentoListOrphanCheckDocumento + " in its documentoList field has a non-nullable usuarioId field.");
+                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documento " + documentoListOrphanCheckDocumento + " in its documentoList field has a non-nullable idUsuario field.");
             }
             List<Empresa> empresaListOrphanCheck = usuario.getEmpresaList();
             for (Empresa empresaListOrphanCheckEmpresa : empresaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Empresa " + empresaListOrphanCheckEmpresa + " in its empresaList field has a non-nullable usuarioId field.");
+                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Empresa " + empresaListOrphanCheckEmpresa + " in its empresaList field has a non-nullable idUsuario field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            TipoUsuario tipoUsuario = usuario.getTipoUsuario();
-            if (tipoUsuario != null) {
-                tipoUsuario.getUsuarioList().remove(usuario);
-                tipoUsuario = em.merge(tipoUsuario);
+            TipoUsuario idTipo = usuario.getIdTipo();
+            if (idTipo != null) {
+                idTipo.getUsuarioList().remove(usuario);
+                idTipo = em.merge(idTipo);
             }
             em.remove(usuario);
             em.getTransaction().commit();
@@ -377,11 +377,11 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
-     public Usuario ultimo(String email, String calve, Integer tipoUsuario) {
+
+    public Usuario ultimo(String email, String calve, Integer tipoUsuario) {
         EntityManager em = getEntityManager();
         try {
-            return (Usuario)em.createNamedQuery("Usuario.ultimoid",Usuario.class).setParameter("email", email).setParameter("calve", calve).setParameter("tipoUsuario", tipoUsuario).getSingleResult();
+            return (Usuario) em.createNamedQuery("Usuario.ultimoid", Usuario.class).setParameter("email", email).setParameter("calve", calve).setParameter("tipoUsuario", tipoUsuario).getSingleResult();
         } finally {
             em.close();
         }
@@ -400,10 +400,4 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public void create(String email, String calve, String string, String a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-
-    
 }

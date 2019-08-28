@@ -5,8 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Documento;
 import com.yacayo.entidades.TipoDocumento;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -50,12 +50,12 @@ public class TipoDocumentoJpaController implements Serializable {
             tipoDocumento.setDocumentoList(attachedDocumentoList);
             em.persist(tipoDocumento);
             for (Documento documentoListDocumento : tipoDocumento.getDocumentoList()) {
-                TipoDocumento oldTipoDocumentoOfDocumentoListDocumento = documentoListDocumento.getTipoDocumento();
-                documentoListDocumento.setTipoDocumento(tipoDocumento);
+                TipoDocumento oldIdDocumentoOfDocumentoListDocumento = documentoListDocumento.getIdDocumento();
+                documentoListDocumento.setIdDocumento(tipoDocumento);
                 documentoListDocumento = em.merge(documentoListDocumento);
-                if (oldTipoDocumentoOfDocumentoListDocumento != null) {
-                    oldTipoDocumentoOfDocumentoListDocumento.getDocumentoList().remove(documentoListDocumento);
-                    oldTipoDocumentoOfDocumentoListDocumento = em.merge(oldTipoDocumentoOfDocumentoListDocumento);
+                if (oldIdDocumentoOfDocumentoListDocumento != null) {
+                    oldIdDocumentoOfDocumentoListDocumento.getDocumentoList().remove(documentoListDocumento);
+                    oldIdDocumentoOfDocumentoListDocumento = em.merge(oldIdDocumentoOfDocumentoListDocumento);
                 }
             }
             em.getTransaction().commit();
@@ -80,7 +80,7 @@ public class TipoDocumentoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Documento " + documentoListOldDocumento + " since its tipoDocumento field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Documento " + documentoListOldDocumento + " since its idDocumento field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -96,12 +96,12 @@ public class TipoDocumentoJpaController implements Serializable {
             tipoDocumento = em.merge(tipoDocumento);
             for (Documento documentoListNewDocumento : documentoListNew) {
                 if (!documentoListOld.contains(documentoListNewDocumento)) {
-                    TipoDocumento oldTipoDocumentoOfDocumentoListNewDocumento = documentoListNewDocumento.getTipoDocumento();
-                    documentoListNewDocumento.setTipoDocumento(tipoDocumento);
+                    TipoDocumento oldIdDocumentoOfDocumentoListNewDocumento = documentoListNewDocumento.getIdDocumento();
+                    documentoListNewDocumento.setIdDocumento(tipoDocumento);
                     documentoListNewDocumento = em.merge(documentoListNewDocumento);
-                    if (oldTipoDocumentoOfDocumentoListNewDocumento != null && !oldTipoDocumentoOfDocumentoListNewDocumento.equals(tipoDocumento)) {
-                        oldTipoDocumentoOfDocumentoListNewDocumento.getDocumentoList().remove(documentoListNewDocumento);
-                        oldTipoDocumentoOfDocumentoListNewDocumento = em.merge(oldTipoDocumentoOfDocumentoListNewDocumento);
+                    if (oldIdDocumentoOfDocumentoListNewDocumento != null && !oldIdDocumentoOfDocumentoListNewDocumento.equals(tipoDocumento)) {
+                        oldIdDocumentoOfDocumentoListNewDocumento.getDocumentoList().remove(documentoListNewDocumento);
+                        oldIdDocumentoOfDocumentoListNewDocumento = em.merge(oldIdDocumentoOfDocumentoListNewDocumento);
                     }
                 }
             }
@@ -140,7 +140,7 @@ public class TipoDocumentoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TipoDocumento (" + tipoDocumento + ") cannot be destroyed since the Documento " + documentoListOrphanCheckDocumento + " in its documentoList field has a non-nullable tipoDocumento field.");
+                illegalOrphanMessages.add("This TipoDocumento (" + tipoDocumento + ") cannot be destroyed since the Documento " + documentoListOrphanCheckDocumento + " in its documentoList field has a non-nullable idDocumento field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.yacayo.controladores;
 
 import com.yacayo.dao.EmpresaJpaController;
@@ -15,7 +19,7 @@ import javax.persistence.Persistence;
  *
  * @author david.poncefgkss
  */
-@ManagedBean(name = "empresa")
+@ManagedBean(name = "empresa1")
 @RequestScoped
 public class EmpresaControlador {
 
@@ -34,15 +38,15 @@ public class EmpresaControlador {
     
     public String insertar(){
         usuario.setEstado("A");
-        usuario.setTipoUsuario(new TipoUsuario(2));
+        usuario.setIdTipo(new TipoUsuario(2));
         
         uDAO.create(usuario);
         
-        usuario = uDAO.ultimo(usuario.getEmail(), usuario.getCalve(), usuario.getTipoUsuario().getId());
+        usuario = uDAO.ultimo(usuario.getEmail(), usuario.getClave(), usuario.getIdTipo().getId());
         
         
         
-        empresa.setUsuarioId(usuario);
+        empresa.setIdUsuario(usuario);
         try {
             empresa.setIdDireccion(new Direccion(1));
             eDAO.create(empresa);
@@ -84,7 +88,4 @@ public class EmpresaControlador {
     public void setuDAO(UsuarioJpaController uDAO) {
         this.uDAO = uDAO;
     }
-    
-    
 }
-    

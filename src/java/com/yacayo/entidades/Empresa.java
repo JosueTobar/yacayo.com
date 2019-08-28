@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,29 +31,29 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Empresa.findById", query = "SELECT e FROM Empresa e WHERE e.id = :id"),
     @NamedQuery(name = "Empresa.findByNombre", query = "SELECT e FROM Empresa e WHERE e.nombre = :nombre"),
     @NamedQuery(name = "Empresa.findByTelefono", query = "SELECT e FROM Empresa e WHERE e.telefono = :telefono"),
-    @NamedQuery(name = "Empresa.findByDetDireccion", query = "SELECT e FROM Empresa e WHERE e.detDireccion = :detDireccion")})
+    @NamedQuery(name = "Empresa.findByEncargado", query = "SELECT e FROM Empresa e WHERE e.encargado = :encargado")})
 public class Empresa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "NOMBRE")
+    @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "TELEFONO")
+    @Column(name = "telefono")
     private String telefono;
-    @Basic(optional = false)
-    @Column(name = "DET_DIRECCION")
-    private String detDireccion;
-    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID")
+    @Column(name = "Encargado")
+    private String encargado;
+    @JoinColumn(name = "idUsuario", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Usuario idUsuario;
+    @JoinColumn(name = "idDireccion", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Direccion idDireccion;
-    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private Usuario usuarioId;
 
     public Empresa() {
     }
@@ -60,11 +62,10 @@ public class Empresa implements Serializable {
         this.id = id;
     }
 
-    public Empresa(Integer id, String nombre, String telefono, String detDireccion) {
+    public Empresa(Integer id, String nombre, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
-        this.detDireccion = detDireccion;
     }
 
     public Integer getId() {
@@ -91,12 +92,20 @@ public class Empresa implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getDetDireccion() {
-        return detDireccion;
+    public String getEncargado() {
+        return encargado;
     }
 
-    public void setDetDireccion(String detDireccion) {
-        this.detDireccion = detDireccion;
+    public void setEncargado(String encargado) {
+        this.encargado = encargado;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Direccion getIdDireccion() {
@@ -105,14 +114,6 @@ public class Empresa implements Serializable {
 
     public void setIdDireccion(Direccion idDireccion) {
         this.idDireccion = idDireccion;
-    }
-
-    public Usuario getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
     }
 
     @Override
@@ -137,7 +138,7 @@ public class Empresa implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Empresa[ id=" + id + " ]";
+        return "com.yacayo.Empresa[ id=" + id + " ]";
     }
     
 }

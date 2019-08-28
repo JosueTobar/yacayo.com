@@ -5,14 +5,16 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.yacayo.entidades.Publicacione;
+import com.yacayo.entidades.Publicaciones;
 import com.yacayo.entidades.Rubros;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,19 +35,28 @@ public class RubrosJpaController implements Serializable {
     }
 
     public void create(Rubros rubros) {
+        if (rubros.getPublicacionesList() == null) {
+            rubros.setPublicacionesList(new ArrayList<Publicaciones>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Publicacione publicacioneId = rubros.getPublicacioneId();
-            if (publicacioneId != null) {
-                publicacioneId = em.getReference(publicacioneId.getClass(), publicacioneId.getId());
-                rubros.setPublicacioneId(publicacioneId);
+            List<Publicaciones> attachedPublicacionesList = new ArrayList<Publicaciones>();
+            for (Publicaciones publicacionesListPublicacionesToAttach : rubros.getPublicacionesList()) {
+                publicacionesListPublicacionesToAttach = em.getReference(publicacionesListPublicacionesToAttach.getClass(), publicacionesListPublicacionesToAttach.getId());
+                attachedPublicacionesList.add(publicacionesListPublicacionesToAttach);
             }
+            rubros.setPublicacionesList(attachedPublicacionesList);
             em.persist(rubros);
-            if (publicacioneId != null) {
-                publicacioneId.getRubrosList().add(rubros);
-                publicacioneId = em.merge(publicacioneId);
+            for (Publicaciones publicacionesListPublicaciones : rubros.getPublicacionesList()) {
+                Rubros oldIdRubroOfPublicacionesListPublicaciones = publicacionesListPublicaciones.getIdRubro();
+                publicacionesListPublicaciones.setIdRubro(rubros);
+                publicacionesListPublicaciones = em.merge(publicacionesListPublicaciones);
+                if (oldIdRubroOfPublicacionesListPublicaciones != null) {
+                    oldIdRubroOfPublicacionesListPublicaciones.getPublicacionesList().remove(publicacionesListPublicaciones);
+                    oldIdRubroOfPublicacionesListPublicaciones = em.merge(oldIdRubroOfPublicacionesListPublicaciones);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -55,26 +66,44 @@ public class RubrosJpaController implements Serializable {
         }
     }
 
-    public void edit(Rubros rubros) throws NonexistentEntityException, Exception {
+    public void edit(Rubros rubros) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Rubros persistentRubros = em.find(Rubros.class, rubros.getId());
-            Publicacione publicacioneIdOld = persistentRubros.getPublicacioneId();
-            Publicacione publicacioneIdNew = rubros.getPublicacioneId();
-            if (publicacioneIdNew != null) {
-                publicacioneIdNew = em.getReference(publicacioneIdNew.getClass(), publicacioneIdNew.getId());
-                rubros.setPublicacioneId(publicacioneIdNew);
+            List<Publicaciones> publicacionesListOld = persistentRubros.getPublicacionesList();
+            List<Publicaciones> publicacionesListNew = rubros.getPublicacionesList();
+            List<String> illegalOrphanMessages = null;
+            for (Publicaciones publicacionesListOldPublicaciones : publicacionesListOld) {
+                if (!publicacionesListNew.contains(publicacionesListOldPublicaciones)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Publicaciones " + publicacionesListOldPublicaciones + " since its idRubro field is not nullable.");
+                }
             }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<Publicaciones> attachedPublicacionesListNew = new ArrayList<Publicaciones>();
+            for (Publicaciones publicacionesListNewPublicacionesToAttach : publicacionesListNew) {
+                publicacionesListNewPublicacionesToAttach = em.getReference(publicacionesListNewPublicacionesToAttach.getClass(), publicacionesListNewPublicacionesToAttach.getId());
+                attachedPublicacionesListNew.add(publicacionesListNewPublicacionesToAttach);
+            }
+            publicacionesListNew = attachedPublicacionesListNew;
+            rubros.setPublicacionesList(publicacionesListNew);
             rubros = em.merge(rubros);
-            if (publicacioneIdOld != null && !publicacioneIdOld.equals(publicacioneIdNew)) {
-                publicacioneIdOld.getRubrosList().remove(rubros);
-                publicacioneIdOld = em.merge(publicacioneIdOld);
-            }
-            if (publicacioneIdNew != null && !publicacioneIdNew.equals(publicacioneIdOld)) {
-                publicacioneIdNew.getRubrosList().add(rubros);
-                publicacioneIdNew = em.merge(publicacioneIdNew);
+            for (Publicaciones publicacionesListNewPublicaciones : publicacionesListNew) {
+                if (!publicacionesListOld.contains(publicacionesListNewPublicaciones)) {
+                    Rubros oldIdRubroOfPublicacionesListNewPublicaciones = publicacionesListNewPublicaciones.getIdRubro();
+                    publicacionesListNewPublicaciones.setIdRubro(rubros);
+                    publicacionesListNewPublicaciones = em.merge(publicacionesListNewPublicaciones);
+                    if (oldIdRubroOfPublicacionesListNewPublicaciones != null && !oldIdRubroOfPublicacionesListNewPublicaciones.equals(rubros)) {
+                        oldIdRubroOfPublicacionesListNewPublicaciones.getPublicacionesList().remove(publicacionesListNewPublicaciones);
+                        oldIdRubroOfPublicacionesListNewPublicaciones = em.merge(oldIdRubroOfPublicacionesListNewPublicaciones);
+                    }
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -93,7 +122,7 @@ public class RubrosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -105,10 +134,16 @@ public class RubrosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The rubros with id " + id + " no longer exists.", enfe);
             }
-            Publicacione publicacioneId = rubros.getPublicacioneId();
-            if (publicacioneId != null) {
-                publicacioneId.getRubrosList().remove(rubros);
-                publicacioneId = em.merge(publicacioneId);
+            List<String> illegalOrphanMessages = null;
+            List<Publicaciones> publicacionesListOrphanCheck = rubros.getPublicacionesList();
+            for (Publicaciones publicacionesListOrphanCheckPublicaciones : publicacionesListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Rubros (" + rubros + ") cannot be destroyed since the Publicaciones " + publicacionesListOrphanCheckPublicaciones + " in its publicacionesList field has a non-nullable idRubro field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(rubros);
             em.getTransaction().commit();

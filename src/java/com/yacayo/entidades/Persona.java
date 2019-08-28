@@ -33,46 +33,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p"),
     @NamedQuery(name = "Persona.findById", query = "SELECT p FROM Persona p WHERE p.id = :id"),
-    @NamedQuery(name = "Persona.findByNombres", query = "SELECT p FROM Persona p WHERE p.nombres = :nombres"),
-    @NamedQuery(name = "Persona.findByApellidos", query = "SELECT p FROM Persona p WHERE p.apellidos = :apellidos"),
-    @NamedQuery(name = "Persona.findByTelefono1", query = "SELECT p FROM Persona p WHERE p.telefono1 = :telefono1"),
+    @NamedQuery(name = "Persona.findByNombre", query = "SELECT p FROM Persona p WHERE p.nombre = :nombre"),
+    @NamedQuery(name = "Persona.findByApellido", query = "SELECT p FROM Persona p WHERE p.apellido = :apellido"),
+    @NamedQuery(name = "Persona.findByTelefono", query = "SELECT p FROM Persona p WHERE p.telefono = :telefono"),
     @NamedQuery(name = "Persona.findByTelefono2", query = "SELECT p FROM Persona p WHERE p.telefono2 = :telefono2"),
-    @NamedQuery(name = "Persona.findByFchNacimiento", query = "SELECT p FROM Persona p WHERE p.fchNacimiento = :fchNacimiento"),
-    @NamedQuery(name = "Persona.findByPretencion", query = "SELECT p FROM Persona p WHERE p.pretencion = :pretencion")})
+    @NamedQuery(name = "Persona.findByFechaNa", query = "SELECT p FROM Persona p WHERE p.fechaNa = :fechaNa"),
+    @NamedQuery(name = "Persona.findByPretension", query = "SELECT p FROM Persona p WHERE p.pretension = :pretension")})
 public class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "NOMBRES")
-    private String nombres;
+    @Column(name = "nombre")
+    private String nombre;
     @Basic(optional = false)
-    @Column(name = "APELLIDOS")
-    private String apellidos;
+    @Column(name = "apellido")
+    private String apellido;
     @Basic(optional = false)
-    @Column(name = "TELEFONO1")
-    private String telefono1;
+    @Column(name = "telefono")
+    private String telefono;
     @Basic(optional = false)
-    @Column(name = "TELEFONO2")
+    @Column(name = "telefono2")
     private String telefono2;
     @Basic(optional = false)
-    @Column(name = "FCH_NACIMIENTO")
+    @Column(name = "fechaNa")
     @Temporal(TemporalType.DATE)
-    private Date fchNacimiento;
+    private Date fechaNa;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @Column(name = "PRETENCION")
-    private BigDecimal pretencion;
-    @JoinColumn(name = "Direccion_idDireccion", referencedColumnName = "ID")
+    @Column(name = "pretension")
+    private BigDecimal pretension;
+    @JoinColumn(name = "idUsuario", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Direccion direccionidDireccion;
-    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
+    private Usuario idUsuario;
+    @JoinColumn(name = "idDireccion", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Usuario usuarioId;
+    private Direccion idDireccion;
 
     public Persona() {
     }
@@ -81,14 +81,14 @@ public class Persona implements Serializable {
         this.id = id;
     }
 
-    public Persona(Integer id, String nombres, String apellidos, String telefono1, String telefono2, Date fchNacimiento, BigDecimal pretencion) {
+    public Persona(Integer id, String nombre, String apellido, String telefono, String telefono2, Date fechaNa, BigDecimal pretension) {
         this.id = id;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.telefono1 = telefono1;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
         this.telefono2 = telefono2;
-        this.fchNacimiento = fchNacimiento;
-        this.pretencion = pretencion;
+        this.fechaNa = fechaNa;
+        this.pretension = pretension;
     }
 
     public Integer getId() {
@@ -99,28 +99,28 @@ public class Persona implements Serializable {
         this.id = id;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
-    public String getTelefono1() {
-        return telefono1;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setTelefono1(String telefono1) {
-        this.telefono1 = telefono1;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getTelefono2() {
@@ -131,36 +131,36 @@ public class Persona implements Serializable {
         this.telefono2 = telefono2;
     }
 
-    public Date getFchNacimiento() {
-        return fchNacimiento;
+    public Date getFechaNa() {
+        return fechaNa;
     }
 
-    public void setFchNacimiento(Date fchNacimiento) {
-        this.fchNacimiento = fchNacimiento;
+    public void setFechaNa(Date fechaNa) {
+        this.fechaNa = fechaNa;
     }
 
-    public BigDecimal getPretencion() {
-        return pretencion;
+    public BigDecimal getPretension() {
+        return pretension;
     }
 
-    public void setPretencion(BigDecimal pretencion) {
-        this.pretencion = pretencion;
+    public void setPretension(BigDecimal pretension) {
+        this.pretension = pretension;
     }
 
-    public Direccion getDireccionidDireccion() {
-        return direccionidDireccion;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setDireccionidDireccion(Direccion direccionidDireccion) {
-        this.direccionidDireccion = direccionidDireccion;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public Usuario getUsuarioId() {
-        return usuarioId;
+    public Direccion getIdDireccion() {
+        return idDireccion;
     }
 
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setIdDireccion(Direccion idDireccion) {
+        this.idDireccion = idDireccion;
     }
 
     @Override
@@ -185,7 +185,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Persona[ id=" + id + " ]";
+        return "com.yacayo.Persona[ id=" + id + " ]";
     }
     
 }

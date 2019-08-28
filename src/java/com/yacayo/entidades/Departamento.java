@@ -40,16 +40,16 @@ public class Departamento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "NOMBRE")
+    @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamentoId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepa")
     private List<Ciudad> ciudadList;
-    @JoinColumn(name = "PAIS_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "idPais", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Pais paisId;
+    private Pais idPais;
 
     public Departamento() {
     }
@@ -88,12 +88,12 @@ public class Departamento implements Serializable {
         this.ciudadList = ciudadList;
     }
 
-    public Pais getPaisId() {
-        return paisId;
+    public Pais getIdPais() {
+        return idPais;
     }
 
-    public void setPaisId(Pais paisId) {
-        this.paisId = paisId;
+    public void setIdPais(Pais idPais) {
+        this.idPais = idPais;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Departamento implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.Departamento[ id=" + id + " ]";
+        return "com.yacayo.Departamento[ id=" + id + " ]";
     }
     
 }

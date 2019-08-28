@@ -5,9 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
-import com.yacayo.dao.exceptions.PreexistingEntityException;
 import com.yacayo.entidades.TipoUsuario;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -15,6 +12,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Usuario;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -35,7 +34,7 @@ public class TipoUsuarioJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(TipoUsuario tipoUsuario) throws PreexistingEntityException, Exception {
+    public void create(TipoUsuario tipoUsuario) {
         if (tipoUsuario.getUsuarioList() == null) {
             tipoUsuario.setUsuarioList(new ArrayList<Usuario>());
         }
@@ -51,20 +50,15 @@ public class TipoUsuarioJpaController implements Serializable {
             tipoUsuario.setUsuarioList(attachedUsuarioList);
             em.persist(tipoUsuario);
             for (Usuario usuarioListUsuario : tipoUsuario.getUsuarioList()) {
-                TipoUsuario oldTipoUsuarioOfUsuarioListUsuario = usuarioListUsuario.getTipoUsuario();
-                usuarioListUsuario.setTipoUsuario(tipoUsuario);
+                TipoUsuario oldIdTipoOfUsuarioListUsuario = usuarioListUsuario.getIdTipo();
+                usuarioListUsuario.setIdTipo(tipoUsuario);
                 usuarioListUsuario = em.merge(usuarioListUsuario);
-                if (oldTipoUsuarioOfUsuarioListUsuario != null) {
-                    oldTipoUsuarioOfUsuarioListUsuario.getUsuarioList().remove(usuarioListUsuario);
-                    oldTipoUsuarioOfUsuarioListUsuario = em.merge(oldTipoUsuarioOfUsuarioListUsuario);
+                if (oldIdTipoOfUsuarioListUsuario != null) {
+                    oldIdTipoOfUsuarioListUsuario.getUsuarioList().remove(usuarioListUsuario);
+                    oldIdTipoOfUsuarioListUsuario = em.merge(oldIdTipoOfUsuarioListUsuario);
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findTipoUsuario(tipoUsuario.getId()) != null) {
-                throw new PreexistingEntityException("TipoUsuario " + tipoUsuario + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -86,7 +80,7 @@ public class TipoUsuarioJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Usuario " + usuarioListOldUsuario + " since its tipoUsuario field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Usuario " + usuarioListOldUsuario + " since its idTipo field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -102,12 +96,12 @@ public class TipoUsuarioJpaController implements Serializable {
             tipoUsuario = em.merge(tipoUsuario);
             for (Usuario usuarioListNewUsuario : usuarioListNew) {
                 if (!usuarioListOld.contains(usuarioListNewUsuario)) {
-                    TipoUsuario oldTipoUsuarioOfUsuarioListNewUsuario = usuarioListNewUsuario.getTipoUsuario();
-                    usuarioListNewUsuario.setTipoUsuario(tipoUsuario);
+                    TipoUsuario oldIdTipoOfUsuarioListNewUsuario = usuarioListNewUsuario.getIdTipo();
+                    usuarioListNewUsuario.setIdTipo(tipoUsuario);
                     usuarioListNewUsuario = em.merge(usuarioListNewUsuario);
-                    if (oldTipoUsuarioOfUsuarioListNewUsuario != null && !oldTipoUsuarioOfUsuarioListNewUsuario.equals(tipoUsuario)) {
-                        oldTipoUsuarioOfUsuarioListNewUsuario.getUsuarioList().remove(usuarioListNewUsuario);
-                        oldTipoUsuarioOfUsuarioListNewUsuario = em.merge(oldTipoUsuarioOfUsuarioListNewUsuario);
+                    if (oldIdTipoOfUsuarioListNewUsuario != null && !oldIdTipoOfUsuarioListNewUsuario.equals(tipoUsuario)) {
+                        oldIdTipoOfUsuarioListNewUsuario.getUsuarioList().remove(usuarioListNewUsuario);
+                        oldIdTipoOfUsuarioListNewUsuario = em.merge(oldIdTipoOfUsuarioListNewUsuario);
                     }
                 }
             }
@@ -146,7 +140,7 @@ public class TipoUsuarioJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TipoUsuario (" + tipoUsuario + ") cannot be destroyed since the Usuario " + usuarioListOrphanCheckUsuario + " in its usuarioList field has a non-nullable tipoUsuario field.");
+                illegalOrphanMessages.add("This TipoUsuario (" + tipoUsuario + ") cannot be destroyed since the Usuario " + usuarioListOrphanCheckUsuario + " in its usuarioList field has a non-nullable idTipo field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

@@ -5,14 +5,14 @@
  */
 package com.yacayo.dao;
 
+import com.yacayo.entidades.Publicaciones;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Usuario;
-import com.yacayo.entidades.Direccion;
-import com.yacayo.entidades.Empresa;
+import com.yacayo.entidades.Rubros;
 import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -22,9 +22,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author david.poncefgkss
  */
-public class EmpresaJpaController implements Serializable {
+public class PublicacionesJpaController implements Serializable {
 
-    public EmpresaJpaController(EntityManagerFactory emf) {
+    public PublicacionesJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -33,29 +33,29 @@ public class EmpresaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Empresa empresa) {
+    public void create(Publicaciones publicaciones) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario idUsuario = empresa.getIdUsuario();
+            Usuario idUsuario = publicaciones.getIdUsuario();
             if (idUsuario != null) {
                 idUsuario = em.getReference(idUsuario.getClass(), idUsuario.getId());
-                empresa.setIdUsuario(idUsuario);
+                publicaciones.setIdUsuario(idUsuario);
             }
-            Direccion idDireccion = empresa.getIdDireccion();
-            if (idDireccion != null) {
-                idDireccion = em.getReference(idDireccion.getClass(), idDireccion.getId());
-                empresa.setIdDireccion(idDireccion);
+            Rubros idRubro = publicaciones.getIdRubro();
+            if (idRubro != null) {
+                idRubro = em.getReference(idRubro.getClass(), idRubro.getId());
+                publicaciones.setIdRubro(idRubro);
             }
-            em.persist(empresa);
+            em.persist(publicaciones);
             if (idUsuario != null) {
-                idUsuario.getEmpresaList().add(empresa);
+                idUsuario.getPublicacionesList().add(publicaciones);
                 idUsuario = em.merge(idUsuario);
             }
-            if (idDireccion != null) {
-                idDireccion.getEmpresaList().add(empresa);
-                idDireccion = em.merge(idDireccion);
+            if (idRubro != null) {
+                idRubro.getPublicacionesList().add(publicaciones);
+                idRubro = em.merge(idRubro);
             }
             em.getTransaction().commit();
         } finally {
@@ -65,48 +65,48 @@ public class EmpresaJpaController implements Serializable {
         }
     }
 
-    public void edit(Empresa empresa) throws NonexistentEntityException, Exception {
+    public void edit(Publicaciones publicaciones) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Empresa persistentEmpresa = em.find(Empresa.class, empresa.getId());
-            Usuario idUsuarioOld = persistentEmpresa.getIdUsuario();
-            Usuario idUsuarioNew = empresa.getIdUsuario();
-            Direccion idDireccionOld = persistentEmpresa.getIdDireccion();
-            Direccion idDireccionNew = empresa.getIdDireccion();
+            Publicaciones persistentPublicaciones = em.find(Publicaciones.class, publicaciones.getId());
+            Usuario idUsuarioOld = persistentPublicaciones.getIdUsuario();
+            Usuario idUsuarioNew = publicaciones.getIdUsuario();
+            Rubros idRubroOld = persistentPublicaciones.getIdRubro();
+            Rubros idRubroNew = publicaciones.getIdRubro();
             if (idUsuarioNew != null) {
                 idUsuarioNew = em.getReference(idUsuarioNew.getClass(), idUsuarioNew.getId());
-                empresa.setIdUsuario(idUsuarioNew);
+                publicaciones.setIdUsuario(idUsuarioNew);
             }
-            if (idDireccionNew != null) {
-                idDireccionNew = em.getReference(idDireccionNew.getClass(), idDireccionNew.getId());
-                empresa.setIdDireccion(idDireccionNew);
+            if (idRubroNew != null) {
+                idRubroNew = em.getReference(idRubroNew.getClass(), idRubroNew.getId());
+                publicaciones.setIdRubro(idRubroNew);
             }
-            empresa = em.merge(empresa);
+            publicaciones = em.merge(publicaciones);
             if (idUsuarioOld != null && !idUsuarioOld.equals(idUsuarioNew)) {
-                idUsuarioOld.getEmpresaList().remove(empresa);
+                idUsuarioOld.getPublicacionesList().remove(publicaciones);
                 idUsuarioOld = em.merge(idUsuarioOld);
             }
             if (idUsuarioNew != null && !idUsuarioNew.equals(idUsuarioOld)) {
-                idUsuarioNew.getEmpresaList().add(empresa);
+                idUsuarioNew.getPublicacionesList().add(publicaciones);
                 idUsuarioNew = em.merge(idUsuarioNew);
             }
-            if (idDireccionOld != null && !idDireccionOld.equals(idDireccionNew)) {
-                idDireccionOld.getEmpresaList().remove(empresa);
-                idDireccionOld = em.merge(idDireccionOld);
+            if (idRubroOld != null && !idRubroOld.equals(idRubroNew)) {
+                idRubroOld.getPublicacionesList().remove(publicaciones);
+                idRubroOld = em.merge(idRubroOld);
             }
-            if (idDireccionNew != null && !idDireccionNew.equals(idDireccionOld)) {
-                idDireccionNew.getEmpresaList().add(empresa);
-                idDireccionNew = em.merge(idDireccionNew);
+            if (idRubroNew != null && !idRubroNew.equals(idRubroOld)) {
+                idRubroNew.getPublicacionesList().add(publicaciones);
+                idRubroNew = em.merge(idRubroNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = empresa.getId();
-                if (findEmpresa(id) == null) {
-                    throw new NonexistentEntityException("The empresa with id " + id + " no longer exists.");
+                Integer id = publicaciones.getId();
+                if (findPublicaciones(id) == null) {
+                    throw new NonexistentEntityException("The publicaciones with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -122,24 +122,24 @@ public class EmpresaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Empresa empresa;
+            Publicaciones publicaciones;
             try {
-                empresa = em.getReference(Empresa.class, id);
-                empresa.getId();
+                publicaciones = em.getReference(Publicaciones.class, id);
+                publicaciones.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The empresa with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The publicaciones with id " + id + " no longer exists.", enfe);
             }
-            Usuario idUsuario = empresa.getIdUsuario();
+            Usuario idUsuario = publicaciones.getIdUsuario();
             if (idUsuario != null) {
-                idUsuario.getEmpresaList().remove(empresa);
+                idUsuario.getPublicacionesList().remove(publicaciones);
                 idUsuario = em.merge(idUsuario);
             }
-            Direccion idDireccion = empresa.getIdDireccion();
-            if (idDireccion != null) {
-                idDireccion.getEmpresaList().remove(empresa);
-                idDireccion = em.merge(idDireccion);
+            Rubros idRubro = publicaciones.getIdRubro();
+            if (idRubro != null) {
+                idRubro.getPublicacionesList().remove(publicaciones);
+                idRubro = em.merge(idRubro);
             }
-            em.remove(empresa);
+            em.remove(publicaciones);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -148,19 +148,19 @@ public class EmpresaJpaController implements Serializable {
         }
     }
 
-    public List<Empresa> findEmpresaEntities() {
-        return findEmpresaEntities(true, -1, -1);
+    public List<Publicaciones> findPublicacionesEntities() {
+        return findPublicacionesEntities(true, -1, -1);
     }
 
-    public List<Empresa> findEmpresaEntities(int maxResults, int firstResult) {
-        return findEmpresaEntities(false, maxResults, firstResult);
+    public List<Publicaciones> findPublicacionesEntities(int maxResults, int firstResult) {
+        return findPublicacionesEntities(false, maxResults, firstResult);
     }
 
-    private List<Empresa> findEmpresaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Publicaciones> findPublicacionesEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Empresa.class));
+            cq.select(cq.from(Publicaciones.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -172,20 +172,20 @@ public class EmpresaJpaController implements Serializable {
         }
     }
 
-    public Empresa findEmpresa(Integer id) {
+    public Publicaciones findPublicaciones(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Empresa.class, id);
+            return em.find(Publicaciones.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getEmpresaCount() {
+    public int getPublicacionesCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Empresa> rt = cq.from(Empresa.class);
+            Root<Publicaciones> rt = cq.from(Publicaciones.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

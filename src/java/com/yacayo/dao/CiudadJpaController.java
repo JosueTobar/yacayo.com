@@ -5,8 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.IllegalOrphanException;
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import com.yacayo.entidades.Ciudad;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -15,6 +13,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Departamento;
 import com.yacayo.entidades.Direccion;
+import com.yacayo.dao.exceptions.IllegalOrphanException;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -43,10 +43,10 @@ public class CiudadJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Departamento departamentoId = ciudad.getDepartamentoId();
-            if (departamentoId != null) {
-                departamentoId = em.getReference(departamentoId.getClass(), departamentoId.getId());
-                ciudad.setDepartamentoId(departamentoId);
+            Departamento idDepa = ciudad.getIdDepa();
+            if (idDepa != null) {
+                idDepa = em.getReference(idDepa.getClass(), idDepa.getId());
+                ciudad.setIdDepa(idDepa);
             }
             List<Direccion> attachedDireccionList = new ArrayList<Direccion>();
             for (Direccion direccionListDireccionToAttach : ciudad.getDireccionList()) {
@@ -55,17 +55,17 @@ public class CiudadJpaController implements Serializable {
             }
             ciudad.setDireccionList(attachedDireccionList);
             em.persist(ciudad);
-            if (departamentoId != null) {
-                departamentoId.getCiudadList().add(ciudad);
-                departamentoId = em.merge(departamentoId);
+            if (idDepa != null) {
+                idDepa.getCiudadList().add(ciudad);
+                idDepa = em.merge(idDepa);
             }
             for (Direccion direccionListDireccion : ciudad.getDireccionList()) {
-                Ciudad oldMunicipioIdOfDireccionListDireccion = direccionListDireccion.getMunicipioId();
-                direccionListDireccion.setMunicipioId(ciudad);
+                Ciudad oldIdCiudadOfDireccionListDireccion = direccionListDireccion.getIdCiudad();
+                direccionListDireccion.setIdCiudad(ciudad);
                 direccionListDireccion = em.merge(direccionListDireccion);
-                if (oldMunicipioIdOfDireccionListDireccion != null) {
-                    oldMunicipioIdOfDireccionListDireccion.getDireccionList().remove(direccionListDireccion);
-                    oldMunicipioIdOfDireccionListDireccion = em.merge(oldMunicipioIdOfDireccionListDireccion);
+                if (oldIdCiudadOfDireccionListDireccion != null) {
+                    oldIdCiudadOfDireccionListDireccion.getDireccionList().remove(direccionListDireccion);
+                    oldIdCiudadOfDireccionListDireccion = em.merge(oldIdCiudadOfDireccionListDireccion);
                 }
             }
             em.getTransaction().commit();
@@ -82,8 +82,8 @@ public class CiudadJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Ciudad persistentCiudad = em.find(Ciudad.class, ciudad.getId());
-            Departamento departamentoIdOld = persistentCiudad.getDepartamentoId();
-            Departamento departamentoIdNew = ciudad.getDepartamentoId();
+            Departamento idDepaOld = persistentCiudad.getIdDepa();
+            Departamento idDepaNew = ciudad.getIdDepa();
             List<Direccion> direccionListOld = persistentCiudad.getDireccionList();
             List<Direccion> direccionListNew = ciudad.getDireccionList();
             List<String> illegalOrphanMessages = null;
@@ -92,15 +92,15 @@ public class CiudadJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Direccion " + direccionListOldDireccion + " since its municipioId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Direccion " + direccionListOldDireccion + " since its idCiudad field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (departamentoIdNew != null) {
-                departamentoIdNew = em.getReference(departamentoIdNew.getClass(), departamentoIdNew.getId());
-                ciudad.setDepartamentoId(departamentoIdNew);
+            if (idDepaNew != null) {
+                idDepaNew = em.getReference(idDepaNew.getClass(), idDepaNew.getId());
+                ciudad.setIdDepa(idDepaNew);
             }
             List<Direccion> attachedDireccionListNew = new ArrayList<Direccion>();
             for (Direccion direccionListNewDireccionToAttach : direccionListNew) {
@@ -110,22 +110,22 @@ public class CiudadJpaController implements Serializable {
             direccionListNew = attachedDireccionListNew;
             ciudad.setDireccionList(direccionListNew);
             ciudad = em.merge(ciudad);
-            if (departamentoIdOld != null && !departamentoIdOld.equals(departamentoIdNew)) {
-                departamentoIdOld.getCiudadList().remove(ciudad);
-                departamentoIdOld = em.merge(departamentoIdOld);
+            if (idDepaOld != null && !idDepaOld.equals(idDepaNew)) {
+                idDepaOld.getCiudadList().remove(ciudad);
+                idDepaOld = em.merge(idDepaOld);
             }
-            if (departamentoIdNew != null && !departamentoIdNew.equals(departamentoIdOld)) {
-                departamentoIdNew.getCiudadList().add(ciudad);
-                departamentoIdNew = em.merge(departamentoIdNew);
+            if (idDepaNew != null && !idDepaNew.equals(idDepaOld)) {
+                idDepaNew.getCiudadList().add(ciudad);
+                idDepaNew = em.merge(idDepaNew);
             }
             for (Direccion direccionListNewDireccion : direccionListNew) {
                 if (!direccionListOld.contains(direccionListNewDireccion)) {
-                    Ciudad oldMunicipioIdOfDireccionListNewDireccion = direccionListNewDireccion.getMunicipioId();
-                    direccionListNewDireccion.setMunicipioId(ciudad);
+                    Ciudad oldIdCiudadOfDireccionListNewDireccion = direccionListNewDireccion.getIdCiudad();
+                    direccionListNewDireccion.setIdCiudad(ciudad);
                     direccionListNewDireccion = em.merge(direccionListNewDireccion);
-                    if (oldMunicipioIdOfDireccionListNewDireccion != null && !oldMunicipioIdOfDireccionListNewDireccion.equals(ciudad)) {
-                        oldMunicipioIdOfDireccionListNewDireccion.getDireccionList().remove(direccionListNewDireccion);
-                        oldMunicipioIdOfDireccionListNewDireccion = em.merge(oldMunicipioIdOfDireccionListNewDireccion);
+                    if (oldIdCiudadOfDireccionListNewDireccion != null && !oldIdCiudadOfDireccionListNewDireccion.equals(ciudad)) {
+                        oldIdCiudadOfDireccionListNewDireccion.getDireccionList().remove(direccionListNewDireccion);
+                        oldIdCiudadOfDireccionListNewDireccion = em.merge(oldIdCiudadOfDireccionListNewDireccion);
                     }
                 }
             }
@@ -164,15 +164,15 @@ public class CiudadJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Ciudad (" + ciudad + ") cannot be destroyed since the Direccion " + direccionListOrphanCheckDireccion + " in its direccionList field has a non-nullable municipioId field.");
+                illegalOrphanMessages.add("This Ciudad (" + ciudad + ") cannot be destroyed since the Direccion " + direccionListOrphanCheckDireccion + " in its direccionList field has a non-nullable idCiudad field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Departamento departamentoId = ciudad.getDepartamentoId();
-            if (departamentoId != null) {
-                departamentoId.getCiudadList().remove(ciudad);
-                departamentoId = em.merge(departamentoId);
+            Departamento idDepa = ciudad.getIdDepa();
+            if (idDepa != null) {
+                idDepa.getCiudadList().remove(ciudad);
+                idDepa = em.merge(idDepa);
             }
             em.remove(ciudad);
             em.getTransaction().commit();

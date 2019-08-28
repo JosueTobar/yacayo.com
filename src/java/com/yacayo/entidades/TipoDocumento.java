@@ -39,15 +39,13 @@ public class TipoDocumento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "DESCRIPCION")
+    @Column(name = "descripcion")
     private String descripcion;
-    @Basic(optional = false)
-    @Column(name = "ESTADO")
+    @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoDocumento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDocumento")
     private List<Documento> documentoList;
 
     public TipoDocumento() {
@@ -55,12 +53,6 @@ public class TipoDocumento implements Serializable {
 
     public TipoDocumento(Integer id) {
         this.id = id;
-    }
-
-    public TipoDocumento(Integer id, String descripcion, String estado) {
-        this.id = id;
-        this.descripcion = descripcion;
-        this.estado = estado;
     }
 
     public Integer getId() {
@@ -118,7 +110,7 @@ public class TipoDocumento implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yacayo.entidades.TipoDocumento[ id=" + id + " ]";
+        return "com.yacayo.TipoDocumento[ id=" + id + " ]";
     }
     
 }

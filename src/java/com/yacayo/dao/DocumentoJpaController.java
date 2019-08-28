@@ -5,7 +5,6 @@
  */
 package com.yacayo.dao;
 
-import com.yacayo.dao.exceptions.NonexistentEntityException;
 import com.yacayo.entidades.Documento;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -14,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.yacayo.entidades.Usuario;
 import com.yacayo.entidades.TipoDocumento;
+import com.yacayo.dao.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -38,24 +38,24 @@ public class DocumentoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario usuarioId = documento.getUsuarioId();
-            if (usuarioId != null) {
-                usuarioId = em.getReference(usuarioId.getClass(), usuarioId.getId());
-                documento.setUsuarioId(usuarioId);
+            Usuario idUsuario = documento.getIdUsuario();
+            if (idUsuario != null) {
+                idUsuario = em.getReference(idUsuario.getClass(), idUsuario.getId());
+                documento.setIdUsuario(idUsuario);
             }
-            TipoDocumento tipoDocumento = documento.getTipoDocumento();
-            if (tipoDocumento != null) {
-                tipoDocumento = em.getReference(tipoDocumento.getClass(), tipoDocumento.getId());
-                documento.setTipoDocumento(tipoDocumento);
+            TipoDocumento idDocumento = documento.getIdDocumento();
+            if (idDocumento != null) {
+                idDocumento = em.getReference(idDocumento.getClass(), idDocumento.getId());
+                documento.setIdDocumento(idDocumento);
             }
             em.persist(documento);
-            if (usuarioId != null) {
-                usuarioId.getDocumentoList().add(documento);
-                usuarioId = em.merge(usuarioId);
+            if (idUsuario != null) {
+                idUsuario.getDocumentoList().add(documento);
+                idUsuario = em.merge(idUsuario);
             }
-            if (tipoDocumento != null) {
-                tipoDocumento.getDocumentoList().add(documento);
-                tipoDocumento = em.merge(tipoDocumento);
+            if (idDocumento != null) {
+                idDocumento.getDocumentoList().add(documento);
+                idDocumento = em.merge(idDocumento);
             }
             em.getTransaction().commit();
         } finally {
@@ -71,34 +71,34 @@ public class DocumentoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Documento persistentDocumento = em.find(Documento.class, documento.getId());
-            Usuario usuarioIdOld = persistentDocumento.getUsuarioId();
-            Usuario usuarioIdNew = documento.getUsuarioId();
-            TipoDocumento tipoDocumentoOld = persistentDocumento.getTipoDocumento();
-            TipoDocumento tipoDocumentoNew = documento.getTipoDocumento();
-            if (usuarioIdNew != null) {
-                usuarioIdNew = em.getReference(usuarioIdNew.getClass(), usuarioIdNew.getId());
-                documento.setUsuarioId(usuarioIdNew);
+            Usuario idUsuarioOld = persistentDocumento.getIdUsuario();
+            Usuario idUsuarioNew = documento.getIdUsuario();
+            TipoDocumento idDocumentoOld = persistentDocumento.getIdDocumento();
+            TipoDocumento idDocumentoNew = documento.getIdDocumento();
+            if (idUsuarioNew != null) {
+                idUsuarioNew = em.getReference(idUsuarioNew.getClass(), idUsuarioNew.getId());
+                documento.setIdUsuario(idUsuarioNew);
             }
-            if (tipoDocumentoNew != null) {
-                tipoDocumentoNew = em.getReference(tipoDocumentoNew.getClass(), tipoDocumentoNew.getId());
-                documento.setTipoDocumento(tipoDocumentoNew);
+            if (idDocumentoNew != null) {
+                idDocumentoNew = em.getReference(idDocumentoNew.getClass(), idDocumentoNew.getId());
+                documento.setIdDocumento(idDocumentoNew);
             }
             documento = em.merge(documento);
-            if (usuarioIdOld != null && !usuarioIdOld.equals(usuarioIdNew)) {
-                usuarioIdOld.getDocumentoList().remove(documento);
-                usuarioIdOld = em.merge(usuarioIdOld);
+            if (idUsuarioOld != null && !idUsuarioOld.equals(idUsuarioNew)) {
+                idUsuarioOld.getDocumentoList().remove(documento);
+                idUsuarioOld = em.merge(idUsuarioOld);
             }
-            if (usuarioIdNew != null && !usuarioIdNew.equals(usuarioIdOld)) {
-                usuarioIdNew.getDocumentoList().add(documento);
-                usuarioIdNew = em.merge(usuarioIdNew);
+            if (idUsuarioNew != null && !idUsuarioNew.equals(idUsuarioOld)) {
+                idUsuarioNew.getDocumentoList().add(documento);
+                idUsuarioNew = em.merge(idUsuarioNew);
             }
-            if (tipoDocumentoOld != null && !tipoDocumentoOld.equals(tipoDocumentoNew)) {
-                tipoDocumentoOld.getDocumentoList().remove(documento);
-                tipoDocumentoOld = em.merge(tipoDocumentoOld);
+            if (idDocumentoOld != null && !idDocumentoOld.equals(idDocumentoNew)) {
+                idDocumentoOld.getDocumentoList().remove(documento);
+                idDocumentoOld = em.merge(idDocumentoOld);
             }
-            if (tipoDocumentoNew != null && !tipoDocumentoNew.equals(tipoDocumentoOld)) {
-                tipoDocumentoNew.getDocumentoList().add(documento);
-                tipoDocumentoNew = em.merge(tipoDocumentoNew);
+            if (idDocumentoNew != null && !idDocumentoNew.equals(idDocumentoOld)) {
+                idDocumentoNew.getDocumentoList().add(documento);
+                idDocumentoNew = em.merge(idDocumentoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -129,15 +129,15 @@ public class DocumentoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The documento with id " + id + " no longer exists.", enfe);
             }
-            Usuario usuarioId = documento.getUsuarioId();
-            if (usuarioId != null) {
-                usuarioId.getDocumentoList().remove(documento);
-                usuarioId = em.merge(usuarioId);
+            Usuario idUsuario = documento.getIdUsuario();
+            if (idUsuario != null) {
+                idUsuario.getDocumentoList().remove(documento);
+                idUsuario = em.merge(idUsuario);
             }
-            TipoDocumento tipoDocumento = documento.getTipoDocumento();
-            if (tipoDocumento != null) {
-                tipoDocumento.getDocumentoList().remove(documento);
-                tipoDocumento = em.merge(tipoDocumento);
+            TipoDocumento idDocumento = documento.getIdDocumento();
+            if (idDocumento != null) {
+                idDocumento.getDocumentoList().remove(documento);
+                idDocumento = em.merge(idDocumento);
             }
             em.remove(documento);
             em.getTransaction().commit();
