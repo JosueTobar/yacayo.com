@@ -5,8 +5,10 @@
  */
 package com.yacayo.controladores;
 
+import com.yacayo.dao.CiudadJpaController;
 import com.yacayo.dao.EmpresaJpaController;
 import com.yacayo.dao.UsuarioJpaController;
+import com.yacayo.entidades.Ciudad;
 import com.yacayo.entidades.Direccion;
 import com.yacayo.entidades.Empresa;
 import com.yacayo.entidades.TipoUsuario;
@@ -25,15 +27,20 @@ public class EmpresaControlador {
 
     private Empresa empresa;
     private Usuario usuario;
+    private Ciudad ciudad;
     
     private EmpresaJpaController eDAO;
     private UsuarioJpaController uDAO;
+    private CiudadJpaController cDAO;
     
     public EmpresaControlador() {
         eDAO = new EmpresaJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
         uDAO = new UsuarioJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
+        cDAO = new CiudadJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
+        
         empresa = new Empresa();
         usuario = new Usuario();
+        ciudad = new Ciudad();
     }
     
     public String insertar(){
@@ -41,6 +48,7 @@ public class EmpresaControlador {
         usuario.setIdTipo(new TipoUsuario(2));
         
         uDAO.create(usuario);
+        cDAO.create(ciudad);
         
         usuario = uDAO.ultimo(usuario.getEmail(), usuario.getClave(), usuario.getIdTipo().getId());
         
@@ -88,4 +96,21 @@ public class EmpresaControlador {
     public void setuDAO(UsuarioJpaController uDAO) {
         this.uDAO = uDAO;
     }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public CiudadJpaController getcDAO() {
+        return cDAO;
+    }
+
+    public void setcDAO(CiudadJpaController cDAO) {
+        this.cDAO = cDAO;
+    }
+    
 }
