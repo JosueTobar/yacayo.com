@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/web/vistas/persona.xhtml</file>
             <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/web/index.xhtml</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/entidades/Empresa.java</file>
             <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/controladores/EmpresaControlador.java</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/entidades/Direccion.java</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/dao/UsuarioJpaController.java</file>
             <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/web/vistas/empresa.xhtml</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/entidades/Ciudad.java</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/dao/DireccionJpaController.java</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/entidades/Usuario.java</file>
-            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/entidades/TipoUsuario.java</file>
+            <file>file:/C:/Users/david.poncefgkss/Documents/NetBeansProjects/yacayo.com/src/java/com/yacayo/controladores/PersonaControlador.java</file>
         </group>
     </open-files>
 </project-private>

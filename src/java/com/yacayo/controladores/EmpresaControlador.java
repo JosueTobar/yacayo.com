@@ -30,9 +30,9 @@ public class EmpresaControlador {
     private Direccion direccion;
     private Ciudad ciudad;
 
-    private EmpresaJpaController eDAO;
-    private UsuarioJpaController uDAO;
-    private DireccionJpaController dDAO;
+    EmpresaJpaController eDAO;
+    UsuarioJpaController uDAO;
+    DireccionJpaController dDAO;
 
     public EmpresaControlador() {
         eDAO = new EmpresaJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
@@ -62,7 +62,7 @@ public class EmpresaControlador {
         try {
             eDAO.create(empresa);
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
+            return "empresa?e=1";
         }
 
         return "login";
@@ -84,36 +84,12 @@ public class EmpresaControlador {
         this.usuario = usuario;
     }
 
-    public EmpresaJpaController geteDAO() {
-        return eDAO;
-    }
-
-    public void seteDAO(EmpresaJpaController eDAO) {
-        this.eDAO = eDAO;
-    }
-
-    public UsuarioJpaController getuDAO() {
-        return uDAO;
-    }
-
-    public void setuDAO(UsuarioJpaController uDAO) {
-        this.uDAO = uDAO;
-    }
-
     public Direccion getDireccion() {
         return direccion;
     }
 
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
-    }
-
-    public DireccionJpaController getdDAO() {
-        return dDAO;
-    }
-
-    public void setdDAO(DireccionJpaController dDAO) {
-        this.dDAO = dDAO;
     }
 
     public Ciudad getCiudad() {

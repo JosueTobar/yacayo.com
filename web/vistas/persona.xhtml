@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registro</title>
+        <script type="text/javascript">    
+    PrimeFaces.locales['de'] = {
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNamesMin: ['DO', 'LU', 'MA', 'MI ', 'JU', 'VI ', 'SA'],
+    };
+</script>
+    </h:head>
+    <h:body>
+        <h2>Registro de persona</h2>
+
+        <h:form>
+            <h:outputLabel value="Correo"/><h:inputText value="#{persona.usuario.email}"/><br/>
+            <h:outputLabel value="Contraseña"/><h:inputSecret value="#{persona.usuario.clave}"/><br/>
+            <h:outputLabel value="Nombre"/><h:inputText value="#{persona.persona.nombre}"/><br/>
+            <h:outputLabel value="Apellido"/><h:inputText value="#{persona.persona.apellido}"/><br/>
+            <h:outputLabel value="Telefono de contacto"/><h:inputText value="#{persona.persona.telefono}"/><br/>
+            <h:outputLabel value="Otro telefono de contacto"/><h:inputText value="#{persona.persona.telefono2}"/><br/>
+            <p:growl id="msgs" showDetail="true" />
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="german" value="Fecha de nacimiento" />
+                <p:calendar id="popup" value="#{persona.persona.fechaNa}" locale="de" navigator="true" pattern="yyyy-MM-dd"/>
+            </h:panelGrid>
+            <h:outputLabel value="Pretensión salariar $"/><h:inputText value="#{persona.persona.pretension}"/><br/>
+            <h:outputLabel value="Dirección $"/><h:inputText value="#{persona.direccion.descripcion}"/><br/>
+            <h:selectOneMenu value="#{persona.ciudad.id}">
+                <f:selectItem itemLabel="Ciudad"/>
+                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+            </h:selectOneMenu>
+            <h:commandButton action="#{persona.insertar()}" value="Crear" />
+        </h:form>
+    </h:body>
+</html>
+
