@@ -9,7 +9,7 @@
     </h:head>
     <h:body>
         <h2>Registro de empresa</h2>
-
+        <h:link outcome="publicacion" value="Publicar"/>
         <h:form>
             <h:outputLabel value="Correo"/><h:inputText value="#{empresa1.usuario.email}"/><br/>
             <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresa1.usuario.clave}"/><br/>
@@ -21,7 +21,7 @@
                <f:selectItem itemLabel="Ciudad"/>
                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
             </h:selectOneMenu>
-            <h:commandButton action="#{empresa1.insertar()}" value="Crear" />
+            <h:commandButton action="#{empresa1.insertar()}" value="Crear"/>
         </h:form>
     </h:body>
     

@@ -33,15 +33,12 @@ public class SesionControldor implements Serializable {
         this.user = user;
     }
 
-    public String logear(){
-    return "empresa";
-    }
     public String login() {
         user = uDao.login(user.getEmail(), user.getClave());
         if (user != null) {
             HttpSession session = SessionUtils.getSession();
             session.setAttribute("user", user);
-            return "empresa";
+            return "publicacion";
         } else {
             System.err.println("Usuario nulo");
             return "login";
