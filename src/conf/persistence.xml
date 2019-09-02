@@ -2,18 +2,20 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="YacayoPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.yacayo.entidades.Rubros</class>
-    <class>com.yacayo.entidades.Pais</class>
-    <class>com.yacayo.entidades.TipoDocumento</class>
-    <class>com.yacayo.entidades.Empresa</class>
-    <class>com.yacayo.entidades.Direccion</class>
-    <class>com.yacayo.entidades.Documento</class>
-    <class>com.yacayo.entidades.Publicaciones</class>
-    <class>com.yacayo.entidades.Usuario</class>
-    <class>com.yacayo.entidades.Ciudad</class>
-    <class>com.yacayo.entidades.Departamento</class>
-    <class>com.yacayo.entidades.TipoUsuario</class>
-    <class>com.yacayo.entidades.Persona</class>
+    <class>sv.com.yacayo.entity.Telefono</class>
+    <class>sv.com.yacayo.entity.DetalleAplicacion</class>
+    <class>sv.com.yacayo.entity.Pais</class>
+    <class>sv.com.yacayo.entity.Ciudad</class>
+    <class>sv.com.yacayo.entity.Direccion</class>
+    <class>sv.com.yacayo.entity.Usuario</class>
+    <class>sv.com.yacayo.entity.TipoUsuario</class>
+    <class>sv.com.yacayo.entity.Rubros</class>
+    <class>sv.com.yacayo.entity.Aplicacion</class>
+    <class>sv.com.yacayo.entity.TipoDocumento</class>
+    <class>sv.com.yacayo.entity.Email</class>
+    <class>sv.com.yacayo.entity.Provincia</class>
+    <class>sv.com.yacayo.entity.Documento</class>
+    <class>sv.com.yacayo.entity.Publicaciones</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/yacayo?zeroDateTimeBehavior=convertToNull"/>
