@@ -181,6 +181,15 @@ public class DireccionJpaController implements Serializable {
         }
     }
 
+    public Direccion ultima(String des, Integer idC) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Direccion) em.createNamedQuery("Direccion.ultimoid", Direccion.class).setParameter("descripcion", des).setParameter("idCiudad", idC).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
     public int getDireccionCount() {
         EntityManager em = getEntityManager();
         try {
@@ -193,5 +202,5 @@ public class DireccionJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

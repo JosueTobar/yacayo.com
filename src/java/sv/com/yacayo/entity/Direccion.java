@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Direccion.findAll", query = "SELECT d FROM Direccion d"),
     @NamedQuery(name = "Direccion.findById", query = "SELECT d FROM Direccion d WHERE d.id = :id"),
-    @NamedQuery(name = "Direccion.findByDescripcion", query = "SELECT d FROM Direccion d WHERE d.descripcion = :descripcion")})
+    @NamedQuery(name = "Direccion.findByDescripcion", query = "SELECT d FROM Direccion d WHERE d.descripcion = :descripcion"),
+    @NamedQuery(name = "Direccion.ultimoid", query = "SELECT d FROM Direccion d WHERE d.descripcion = :descripcion AND d.idCiudad.id = :idCiudad")})
 public class Direccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -116,5 +117,5 @@ public class Direccion implements Serializable {
     public String toString() {
         return "sv.com.yacayo.entity.Direccion[ id=" + id + " ]";
     }
-    
+
 }
