@@ -499,4 +499,15 @@ public class UsuarioJpaController implements Serializable {
         }
     }
     
+    //Función login..
+     public Usuario login(String email, String calve) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Usuario) em.createNamedQuery("Usuario.validar", Usuario.class).setParameter("email", email).setParameter("clave", calve).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+    
 }
