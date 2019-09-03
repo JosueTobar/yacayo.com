@@ -8,6 +8,7 @@ import sv.com.yacayo.dao.DireccionJpaController;
 import sv.com.yacayo.dao.UsuarioJpaController;
 import sv.com.yacayo.entity.Ciudad;
 import sv.com.yacayo.entity.Direccion;
+import sv.com.yacayo.entity.TipoUsuario;
 import sv.com.yacayo.entity.Usuario;
 
 /**
@@ -21,35 +22,38 @@ public class EmpresaControlador {
     private Usuario user;
     private Direccion direccion;
     private Ciudad ciudad;
-    
+
     UsuarioJpaController uDAO;
     DireccionJpaController dDAO;
-    
+
     public EmpresaControlador() {
-        EntityManagerFactory emf= Persistence.createEntityManagerFactory("YacayoPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("YacayoPU");
         uDAO = new UsuarioJpaController(emf);
         dDAO = new DireccionJpaController(emf);
-        
+
         user = new Usuario();
         direccion = new Direccion();
         ciudad = new Ciudad();
     }
-    
-    public String insertar(){
-        user.setEstado("A");
-        
+
+    public String insertar() {
+        user.setEstado("Activo");
+        user.setIdTipo(new TipoUsuario(2));
+
         uDAO.create(user);
-        
-       user = uDAO.ultimo(user.getEmail(), user.getClave(), user.getIdTipo().getId());
-        
+
+        user = uDAO.ultimo(user.getEmail(), user.getClave(), user.getIdTipo().getId());
+  
+
         try {
+            direccion.setUsuarioId(user);
             direccion.setIdCiudad(ciudad);
-        dDAO.create(direccion);
-            
+            dDAO.create(direccion);
+
         } catch (Exception e) {
             return "empresa?e=1";
         }
-        
+
         return "login";
     }
 
@@ -76,6 +80,5 @@ public class EmpresaControlador {
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
     }
-    
-    
+
 }

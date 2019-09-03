@@ -3,22 +3,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <title>Registro</title>
+        <script type="text/javascript">
+            PrimeFaces.locales['de'] = {
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNamesMin: ['DO', 'LU', 'MA', 'MI ', 'JU', 'VI ', 'SA'],
+            };
+        </script>
     </h:head>
     <h:body>
         <h2>Registro de empresa</h2>
-        
-         <h:form>
-             <h:outputLabel value="Correo"/><h:inputText value="#{empresaControlador.user.clave}"/><br/>
-             <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresaControlador.user.clave}"/><br/>
-             <h:outputLabel value="Nombre de empresa"/><h:inputText value="#{empresaControlador.user.nombre}"/><br/>
-           <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresaControlador.direccion.descripcion}"/><br/>
-           <h:selectOneMenu value="#{empresaControlador.ciudad.id}">
-               <f:selectItem itemLabel="Ciudad"/>
-               <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+
+        <h:form>
+            <h:outputLabel value="Correo"/><h:inputText value="#{empresaControlador.user.email}"/><br/>
+            <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresaControlador.user.clave}"/><br/>
+            <h:outputLabel value="Nombre de empresa"/><h:inputText value="#{empresaControlador.user.nombre}"/><br/>
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="german" value="Fecha de constitución" />
+                <p:calendar id="popup" value="#{empresaControlador.user.fecha}" locale="de" navigator="true" pattern="yyyy-MM-dd"/>
+            </h:panelGrid>
+            <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresaControlador.direccion.descripcion}"/><br/>
+            <h:selectOneMenu value="#{empresaControlador.ciudad.id}">
+                <f:selectItem itemLabel="Ciudad"/>
+                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
             </h:selectOneMenu>
             <h:commandButton action="#{empresaControlador.insertar()}" value="Crear"/>
         </h:form>
