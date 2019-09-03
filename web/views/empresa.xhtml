@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <title>Registro</title>
+    </h:head>
+    <h:body>
+        <h2>Registro de empresa</h2>
+        
+         <h:form>
+             <h:outputLabel value="Correo"/><h:inputText value="#{empresaControlador.user.clave}"/><br/>
+             <h:outputLabel value="Contraseña"/><h:inputSecret value="#{empresaControlador.user.clave}"/><br/>
+             <h:outputLabel value="Nombre de empresa"/><h:inputText value="#{empresaControlador.user.nombre}"/><br/>
+           <h:outputLabel value="Dirección de empresa"/><h:inputText value="#{empresaControlador.direccion.descripcion}"/><br/>
+           <h:selectOneMenu value="#{empresaControlador.ciudad.id}">
+               <f:selectItem itemLabel="Ciudad"/>
+               <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+            </h:selectOneMenu>
+            <h:commandButton action="#{empresaControlador.insertar()}" value="Crear"/>
+        </h:form>
+    </h:body>
+</html>
+

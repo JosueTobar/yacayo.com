@@ -486,6 +486,15 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
+    public Usuario ultimo(String email, String calve, Integer tipoUsuario) {
+        EntityManager em = getEntityManager();
+        try {
+            return (Usuario) em.createNamedQuery("Usuario.ultimoid", Usuario.class).setParameter("email", email).setParameter("clave", calve).setParameter("idTipo", tipoUsuario).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
     public int getUsuarioCount() {
         EntityManager em = getEntityManager();
         try {
@@ -498,9 +507,9 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     //Función login..
-     public Usuario login(String email, String calve) {
+    public Usuario login(String email, String calve) {
         EntityManager em = getEntityManager();
         try {
             return (Usuario) em.createNamedQuery("Usuario.validar", Usuario.class).setParameter("email", email).setParameter("clave", calve).getSingleResult();
@@ -509,5 +518,4 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    
 }

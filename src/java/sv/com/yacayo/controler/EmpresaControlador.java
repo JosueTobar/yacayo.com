@@ -16,7 +16,7 @@ import sv.com.yacayo.entity.Usuario;
  */
 @ManagedBean
 @RequestScoped
-public class Empresa {
+public class EmpresaControlador {
 
     private Usuario user;
     private Direccion direccion;
@@ -25,7 +25,7 @@ public class Empresa {
     UsuarioJpaController uDAO;
     DireccionJpaController dDAO;
     
-    public Empresa() {
+    public EmpresaControlador() {
         EntityManagerFactory emf= Persistence.createEntityManagerFactory("YacayoPU");
         uDAO = new UsuarioJpaController(emf);
         dDAO = new DireccionJpaController(emf);
@@ -38,13 +38,14 @@ public class Empresa {
     public String insertar(){
         user.setEstado("A");
         
-        direccion.setIdCiudad(ciudad);
-        dDAO.create(direccion);
+        uDAO.create(user);
         
-        direccion=dDAO.ultima(direccion.getDescripcion(), direccion.getIdCiudad().getId());
+       user = uDAO.ultimo(user.getEmail(), user.getClave(), user.getIdTipo().getId());
         
         try {
-            uDAO.create(user);
+            direccion.setIdCiudad(ciudad);
+        dDAO.create(direccion);
+            
         } catch (Exception e) {
             return "empresa?e=1";
         }
