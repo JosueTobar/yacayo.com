@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Publicaciones Laborales</title>
+        <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <script>
+            function cargar(){
+                document.getElementById("datos:titulo")=
+            }
+        </script>
+        
+    </h:head>
+    <h:body>
+        <h2>Nueva Publicación</h2>
+        <h:panelGrid columns="12">
+            <h:form id="datos">
+                <b:inputText id="titulo" value="#{publicaciones.publicaciones.titulo}" placeholder="Titulo"/>
+                <b:dateTimePicker id="fecha" format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
+                <b:inputTextarea id="desc" value="#{publicaciones.publicaciones.descripcion}" placeholder="Descipción del pusto"/>
+                <b:inputTextarea id="requi" value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
+                <b:selectOneMenu id="rubro" value="#{publicaciones.rubros.id}" select2="true" colMd="10" label="Rubro del puesto" labelColMd="3">
+                    <f:selectItem itemLabel="Seleccione un rubro"/>
+                    <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                </b:selectOneMenu>
+                <b:inputText id="vacantes" value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes"/>
+                <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="success"/>
+            </h:form>
+        </h:panelGrid>
+
+        <h:form>
+            <b:dataTable value="#{publicaciones.listP()}" var="pu">
+                <b:dataTableColumn value="#{pu.titulo}" />
+                <b:dataTableColumn value="#{pu.descripcion}" />
+                <b:dataTableColumn value="#{pu.requerimientos}" />
+                <b:dataTableColumn value="#{pu.idRubro.descripcion}"/>
+                <b:dataTableColumn label="Fecha de vencimiento" data-type="date">
+                    <h:outputText value="#{pu.fechaVencimiento}" >
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText> 
+                </b:dataTableColumn>
+
+                <b:dataTableColumn label="Fecha de Publicación" data-type="date">
+                    <h:outputText value="#{pu.fechaPublicacion}" >
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText> 
+                </b:dataTableColumn>
+
+                <b:dataTableColumn label="Opciones">
+                    <h:commandLink><i class="material-icons" style="color: #FFBF00; margin-right: 10px">edit</i></h:commandLink>
+                    <h:commandLink action="#{publicaciones.eliminar(pu)}"><i class="material-icons" style="color: #B40404">delete_forever</i></h:commandLink>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

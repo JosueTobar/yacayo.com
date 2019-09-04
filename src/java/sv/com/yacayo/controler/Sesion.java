@@ -34,7 +34,7 @@ public class Sesion implements Serializable {
         if (user != null) {
             HttpSession session = SesionUtil.getSession();
             session.setAttribute("user", user);
-            return "empresa";
+            return "publicacion";
         } else {
             System.err.println("Usuario nulo");
             return "login";

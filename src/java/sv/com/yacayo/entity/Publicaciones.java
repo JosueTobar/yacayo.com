@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Publicaciones.findByTitulo", query = "SELECT p FROM Publicaciones p WHERE p.titulo = :titulo"),
     @NamedQuery(name = "Publicaciones.findByFechaPublicacion", query = "SELECT p FROM Publicaciones p WHERE p.fechaPublicacion = :fechaPublicacion"),
     @NamedQuery(name = "Publicaciones.findByFechaVencimiento", query = "SELECT p FROM Publicaciones p WHERE p.fechaVencimiento = :fechaVencimiento"),
-    @NamedQuery(name = "Publicaciones.findByEstado", query = "SELECT p FROM Publicaciones p WHERE p.estado = :estado")})
+    @NamedQuery(name = "Publicaciones.findByEstado", query = "SELECT p FROM Publicaciones p WHERE p.estado = :estado"),
+    @NamedQuery(name = "Publicaciones.findIdUsuario", query = "SELECT p FROM Publicaciones p WHERE p.idUsuario.id = :id")})
 public class Publicaciones implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -211,5 +212,5 @@ public class Publicaciones implements Serializable {
     public String toString() {
         return "sv.com.yacayo.entity.Publicaciones[ id=" + id + " ]";
     }
-    
+
 }

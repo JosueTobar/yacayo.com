@@ -245,6 +245,15 @@ public class PublicacionesJpaController implements Serializable {
         }
     }
 
+    public List<Publicaciones> listarP(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            return  em.createNamedQuery("Publicaciones.findIdUsuario", Publicaciones.class).setParameter("id", id).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
     public int getPublicacionesCount() {
         EntityManager em = getEntityManager();
         try {
@@ -257,5 +266,5 @@ public class PublicacionesJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
