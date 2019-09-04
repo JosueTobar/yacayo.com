@@ -3,6 +3,7 @@ package sv.com.yacayo.controler;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import sv.com.yacayo.entity.Usuario;
 
 public class SesionUtil {
 
@@ -22,10 +23,10 @@ public class SesionUtil {
 		return session.getAttribute("username").toString();
 	}
 
-	public static String getUserId() {
+	public static Usuario getUserId() {
 		HttpSession session = getSession();
 		if (session != null)
-			return (String) session.getAttribute("userid");
+			return (Usuario) session.getAttribute("user");
 		else
 			return null;
 	}
