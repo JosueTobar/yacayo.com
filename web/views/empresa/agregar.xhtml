@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<u:composition xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:u="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Publicaciones Laborales</title>
         <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
@@ -20,7 +19,7 @@
                 <b:dateTimePicker id="fecha" format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
                 <b:inputTextarea id="desc" value="#{publicaciones.publicaciones.descripcion}" placeholder="Descipción del pusto"/>
                 <b:inputTextarea id="requi" value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
-                <b:selectOneMenu id="rubro" value="#{publicaciones.rubros.id}" select2="true" colMd="10" label="Rubro del puesto" labelColMd="3">
+                <b:selectOneMenu id="rubro" value="#{publicaciones.rubros.id}" select2="true" colMd="10">
                     <f:selectItem itemLabel="Seleccione un rubro"/>
                     <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
                 </b:selectOneMenu>
@@ -48,11 +47,11 @@
                 </b:dataTableColumn>
 
                 <b:dataTableColumn label="Opciones">
-                    <u:define name="modificar"><i class="material-icons" style="color: #FFBF00; margin-right: 10px">edit</i></u:define>
+                    <h:commandLink action="#{publicaciones.editar(pu)}"><i class="material-icons" style="color: #FFBF00; margin-right: 10px">edit</i></h:commandLink>
                     <h:commandLink action="#{publicaciones.eliminar(pu)}"><i class="material-icons" style="color: #B40404">delete_forever</i></h:commandLink>
                 </b:dataTableColumn>
             </b:dataTable>
         </h:form>
     </h:body>
-</u:composition>
+</html>
 

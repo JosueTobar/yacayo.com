@@ -1,7 +1,9 @@
 package sv.com.yacayo.controler;
 
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import sv.com.yacayo.dao.DireccionJpaController;
@@ -42,21 +44,17 @@ public class EmpresaControlador {
 
         uDAO.create(user);
 
-        user = uDAO.ultimo(user.getEmail(), user.getClave(), user.getIdTipo().getId());
-  
-
+        user = uDAO.ultimo(user.getEmail(), user.getClave(), user.getIdTipo().getId()); 
         try {
             direccion.setUsuarioId(user);
             direccion.setIdCiudad(ciudad);
             dDAO.create(direccion);
-
         } catch (Exception e) {
             return "registro?e=1";
         }
-
-        return "views/login";
+        return "login";
     }
-
+    
     public Usuario getUser() {
         return user;
     }
