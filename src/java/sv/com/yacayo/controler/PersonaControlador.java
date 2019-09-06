@@ -59,7 +59,7 @@ public class PersonaControlador {
         }catch (Exception e){
             return "persona?e=1";
         }
-        return "login";
+        return "login?faces-redirect=true";
     }
     
 

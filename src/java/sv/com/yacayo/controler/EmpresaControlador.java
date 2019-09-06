@@ -51,10 +51,10 @@ public class EmpresaControlador {
             dDAO.create(direccion);
 
         } catch (Exception e) {
-            return "empresa?e=1";
+            return "registro?e=1";
         }
 
-        return "login";
+        return "login?faces-redirect=true";
     }
 
     public Usuario getUser() {
