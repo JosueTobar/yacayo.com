@@ -1,5 +1,6 @@
 package sv.com.yacayo.controler;
 
+import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -54,6 +55,13 @@ public class EmpresaControlador {
         }
         return "login";
     }
+    
+    public String editar(Usuario u){
+        Map<String, Object> datos= FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        datos.put("dt", u);
+        return "perfil";
+    }
+    
     
     public Usuario getUser() {
         return user;

@@ -8,10 +8,11 @@
       xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Publicaciones Laborales</title>
-        <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     </h:head>
     <h:body>
+        <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
+        <h:link outcome="#{empresaControlador.editar(pu)}" value="Modificar perfil" class="btn btn-gray"/>
         <h2>Nueva Publicación</h2>
         <h:panelGrid columns="12">
             <h:form id="datos">

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <title>Perfil</title>
+    </h:head>
+    <h:body>
+        <h2>Modificar perfil</h2>
+        <h:panelGrid columns="12">
+            <b:form horizontal="true">
+                <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
+                <b:inputText value="#{direccion.listD().descripcion}" placeholder="Ubicación de la empresa"/> 
+                <b:formGroup>
+                    <b:selectOneMenu  value="#{direccion.listD().idCiudad.id}" select2="true" colMd="9" label="Ciudad" labelColMd="3">
+                        <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
+                        <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                    </b:selectOneMenu>
+                </b:formGroup>
+                <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución"/>
+                <b:commandButton action="#{empresaControlador.insertar()}" value="Crear"/>
+            </b:form>
+        </h:panelGrid>
+    </h:body>
+</html>
+
