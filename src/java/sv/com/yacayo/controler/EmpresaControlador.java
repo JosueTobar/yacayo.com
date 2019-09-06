@@ -54,7 +54,7 @@ public class EmpresaControlador {
             return "registro?e=1";
         }
 
-        return "login?faces-redirect=true";
+        return "views/login";
     }
 
     public Usuario getUser() {
