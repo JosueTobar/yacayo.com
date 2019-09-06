@@ -1,131 +1,86 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:b="http://bootsfaces.net/ui">
     <h:head>
-        <title>Ya Cayo La Rata</title>        
-        <!--bootstrap css-->
-        <h:outputStylesheet name="./css/bootstrap.min.css"/>
-        <h:outputStylesheet name="./css/jasny-bootstrap.min.css"/>
-        <h:outputStylesheet name="./css/bootstrap-select.min.css"/>
-
-        <!--Material CSS-->
-        <h:outputStylesheet name="./css/material-kit.css"/>
-
-        <!--Fuentes CSS-->
-        <h:outputStylesheet name="./css/fonts/font-awesome.min.css"/>
-        <h:outputStylesheet name="./css/fonts/themify-icons.css"/>
-
-        <!--Animate-->
-        <h:outputStylesheet name="./css/extras/animate.css"/>
-
-        <!-- Owl Carousel -->
-        <h:outputStylesheet name="./css/extras/owl.carousel.css"/>
-        <h:outputStylesheet name="./css/extras/owl.theme.css"/>
-        <h:outputStylesheet name="./css/extras/settings.css"/>
-
-        <!-- Slicknav js -->
-        <h:outputStylesheet name="./css/slicknav.css"/>
-        <!-- Main Styles -->
-        <h:outputStylesheet name="./css/main.css"/>
-        <!-- Responsive CSS Styles -->
-        <h:outputStylesheet name="./css/responsive.css"/>
-
-        <!-- Color CSS Styles  -->
-        <h:outputStylesheet name="./css/colors/red.css"/>
-
+        <title>Project Name</title>
+        <meta name="author" content="The Author"></meta>
     </h:head>
-    <h:body>
-        <!-- Header Section Start -->
-        <div class="header">
-            <!-- Start intro section -->
-            <section id="intro" class="section-intro">
-                <div class="logo-menu">
-                    <div class="container">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <a class="navbar-brand logo" href="#"><img src="./resources/img/YaCayo7.png" alt=""/></a>
-                        <div class="collapse navbar-collapse" id="navbar">
-                            <!-- Start Navigation List -->
-                            <ul class="nav navbar-nav navbar-right float-right">
-                                <li class="left"><a href="post-job.html"><i class="ti-pencil-alt"></i> Anunciar un Trabajo</a></li>
-                                <li class="right"><a href="my-account.html"><i class="ti-lock"></i> Iniciar Sesión</a></li>
-                                <!--Vistas ya creadas en el proyecto-->
-                                <li class="right"><h:link outcome="views/empresa/registro" value="Registrar Empresa"/></li>
-                                <li class="right"><h:link outcome="views/persona" value="Registar Persona"/></li>
-                                <li class="right"><h:link outcome="views/login" value="Login"/></li>
-                            </ul>
-
-                            <div class="search-container">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h1>Encuentra el trabajo que se adapte a tu vida</h1><br/>
-                                                <h2>¡Más de<strong>12,000</strong> empleos te esperan para comenzar tu carrera!</h2>
-                                                <div class="content">
-                                                    <form method="" action="">
-                                                        <div class="row">
-                                                            <div class="col-md-4 col-sm-6">
-                                                                <div class="form-group">
-                                                                    <input class="form-control" type="text"
-                                                                           placeholder="título del trabajo/palabras clave/nombre empresa"/>
-                                                                        <i class="ti-time"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 col-sm-6">
-                                                                <div class="form-group">
-                                                                    <input class="form-control" type="email" placeholder="ciudad/provincia/código postal"/>
-                                                                        <i class="ti-location-pin"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-3 col-sm-6">
-                                                                <div class="search-category-container">
-                                                                    <label class="styled-select">
-                                                                        <select class="dropdown-product selectpicker">
-                                                                            <option>Todas las categorias</option>
-                                                                            <option>Finanzas</option>
-                                                                            <option>Informatica &amp; Ingenieria</option>
-                                                                            <option>Educación/Entrenamiento</option>
-                                                                            <option>Arte/Diseño</option>
-                                                                            <option>Ventas/Markting</option>
-                                                                            <option>Salud</option>
-                                                                            <option>Ciencias</option>
-                                                                            <option>Servicios</option>
-                                                                        </select>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-1 col-sm-6">
-                                                                <button type="button" class="btn btn-search-icon"><i class="ti-search"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="popular-jobs">
-                                                    <b>Palabras Claves: </b>
-                                                    <a href="#">Diseño Web</a>
-                                                    <a href="#">Administrador &amp; Proyect Manager</a>
-                                                    <a href="#">Programador</a>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Fin busqueda-->
-                        </div>
-                    </div>
-
+    <!-- Add 50px padding top to the body for the navbar -->
+    <h:body style="padding-top: 50px; padding-bottom: 20px;">
+        <b:navBar brand="Brand" brandHref="#" inverse="true" fixed="top">
+            <b:navbarLinks>
+                <b:navLink value="Link" href="#"></b:navLink>
+                <b:navLink value="Link" href="#"></b:navLink>
+                <b:dropMenu value="Dropdown">
+                    <b:navLink value="Action" href="#"></b:navLink>
+                    <b:navLink value="Another action" href="#"></b:navLink>
+                    <b:navLink value="Something else here" href="#"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Nav header"></b:navLink>
+                    <b:navLink value="Separated link" href="#"></b:navLink>
+                    <b:navLink value="One more separated link" href="#"></b:navLink>
+                </b:dropMenu>
+            </b:navbarLinks>
+            <h:form styleClass="navbar-form navbar-right">
+                <div class="form-group">
+                    <b:inputText placeholder="Email" fieldSize="sm"/>
+                    <!--input type="text" class="form-control" placeholder="Search"/-->
                 </div>
-            </section>
-        </div>
+                <div class="form-group">
+                    <b:inputText placeholder="Password" fieldSize="sm"/>
+                </div> 
+                #{' '}
+                <div class="form-group">
+                <b:commandButton action="views/login" value="Iniciar Sesion" look="success" icon="chevron-right" iconAlign="right"/> 
+                </div>
+                <div class="form-group">
+                <b:commandButton action="views/persona" value="Registar Personas" look="success" icon="chevron-right" iconAlign="right"/>
+                </div>
+                <div class="form-group">
+                <b:commandButton action="views/empresa/registro" value="Registar Empresas" look="success" icon="chevron-right" iconAlign="right"/>
+                </div>
+            </h:form>
+        </b:navBar>
+        <b:jumbotron>
+            <b:container>
+                <h1>Hello, world!</h1>
+                <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. 
+                   Use it as a starting point to create something more unique.
+                </p>
+                <p>
+                    <a href="https://github.com/TheCoder4eu/BootsFaces-examples/blob/master/src/main/webapp/jumbotron.xhtml" class="btn btn-lg btn-info">View Page Source »</a>
+                </p>
+            </b:container>
 
-        <!--OJO-->
-        <!--Los puse aqui por si da algun error a la hora de poner el encabezado del index cuando me de lo otro lo agregare en
-        respectivo boton-->
-        <h:link outcome="views/empresa" value="Empresa"/><br/>
-        <h:link outcome="views/persona" value="Persona"/><br/>
-        <h:link outcome="views/login" value="Login"/>
-        <!--FIN OJO-->
+        </b:jumbotron>
+        <b:container>
+            <b:row>
+                <b:column col-md="4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
+                       ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><b:button outcome="" value="View details »"/></p>
+                </b:column>
+                <b:column col-md="4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
+                       ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><b:button outcome="" value="View details »"/></p>
+                </b:column>
+                <b:column col-md="4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
+                       ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><b:button outcome="" value="View details »"/></p>
+                </b:column>
+            </b:row>
+            <hr/>
+            <footer>
+            <p>© Company 2014</p>
+            </footer>
+        </b:container>
     </h:body>
 </html>
-
+        
