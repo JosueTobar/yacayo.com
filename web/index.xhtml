@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Project Name</title>
         <meta name="author" content="The Author"></meta>
     </h:head>
-    <!-- Add 50px padding top to the body for the navbar -->
+<!-- Add 50px padding top to the body for the navbar -->
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
         <b:navBar brand="Brand" brandHref="#" inverse="true" fixed="top">
             <b:navbarLinks>
@@ -81,6 +82,21 @@
             <p>© Company 2014</p>
             </footer>
         </b:container>
+        
+         <h:form>
+            <b:dataTable value="#{publicaciones.list()}" var="pu">
+                <b:dataTableColumn value="#{pu.titulo}" />
+                <b:dataTableColumn value="#{pu.descripcion}" />
+                <b:dataTableColumn value="#{pu.requerimientos}" />
+                <b:dataTableColumn value="#{pu.idRubro.descripcion}"/>
+                <b:dataTableColumn label="Fecha de vencimiento" data-type="date">
+                    <h:outputText value="#{pu.fechaVencimiento}" >
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText> 
+                </b:dataTableColumn>
+                
+            </b:dataTable>
+        </h:form>
     </h:body>
 </html>
         

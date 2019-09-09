@@ -75,6 +75,10 @@ public class PublicacionesControlador {
     public List<Publicaciones> listP() {
         return pDAO.listarP(SesionUtil.getUserId().getId());
     }
+    
+    public List<Publicaciones> list() {
+        return pDAO.findPublicacionesEntities();
+    }
 
     public Publicaciones getPublicaciones() {
         return publicaciones;
