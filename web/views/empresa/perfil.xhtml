@@ -13,24 +13,26 @@
     </h:head>
     <h:body>
         <h2>Modificar perfil</h2>
-        <h:panelGrid columns="12">
-            <b:form horizontal="true">
-                <h:inputHidden value="#{sesion.user.id}"/>
-                <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
-                <ui:repeat value="#{sesion.user.direccionList}" var="direc">
-                    <h:inputHidden value="#{direc.id}"/>
-                    <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/> 
-                    <b:formGroup>
-                        <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" colMd="9" label="Ciudad" labelColMd="3">
-                            <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
-                            <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                        </b:selectOneMenu>
-                    </b:formGroup>
-                </ui:repeat>
-                <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución"/>
-                <b:commandButton  action="#{empresaControlador.modificar()}" value="Modificar"/>
-            </b:form>
-        </h:panelGrid>
+        <div class="container">
+            <h:panelGrid columns="6">
+                <b:form horizontal="true">
+                    <h:inputHidden value="#{sesion.user.id}"/>
+                    <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
+                    <ui:repeat value="#{sesion.user.direccionList}" var="direc">
+                        <h:inputHidden value="#{direc.id}"/>
+                        <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/> 
+                        <b:formGroup>
+                            <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" colMd="9" label="Ciudad" labelColMd="3">
+                                <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
+                                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                            </b:selectOneMenu>
+                        </b:formGroup>
+                    </ui:repeat>
+                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución"/>
+                    <b:commandButton  action="#{empresaControlador.modificar()}" value="Modificar"/>
+                </b:form>
+            </h:panelGrid>
+        </div>
     </h:body>
 </html>
 
