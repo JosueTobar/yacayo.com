@@ -7,6 +7,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import sv.com.yacayo.dao.CiudadJpaController;
 import sv.com.yacayo.dao.DireccionJpaController;
 import sv.com.yacayo.dao.UsuarioJpaController;
 import sv.com.yacayo.entity.Ciudad;
@@ -28,11 +29,13 @@ public class EmpresaControlador {
 
     UsuarioJpaController uDAO;
     DireccionJpaController dDAO;
+    CiudadJpaController cDAO;
 
     public EmpresaControlador() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("YacayoPU");
         uDAO = new UsuarioJpaController(emf);
         dDAO = new DireccionJpaController(emf);
+        cDAO = new CiudadJpaController(emf);
 
         user = new Usuario();
         direccion = new Direccion();
@@ -62,7 +65,20 @@ public class EmpresaControlador {
         return "perfil";
     }
     
-    
+    public String modificar(){
+        try {
+            for (Direccion d : SesionUtil.getUserId().getDireccionList()) {
+                cDAO.edit(d.getIdCiudad());
+                dDAO.edit(d);
+            }
+            
+            uDAO.edit(SesionUtil.getUserId());
+            
+            return "agregar";
+        } catch (Exception e) {
+            return null;
+        }
+    }
     public Usuario getUser() {
         return user;
     }

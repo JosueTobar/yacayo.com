@@ -31,7 +31,7 @@ public class DireccionControlador {
          direccion = new Direccion();
     }
     
-    public Direccion listD() {
+    public List<Direccion> listD() {
         return dDAO.dtDireccion(SesionUtil.getUserId().getId());
     } 
 

@@ -1,40 +1,31 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Registro</title>
-        <script type="text/javascript">    
-    PrimeFaces.locales['de'] = {
-        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-        dayNamesMin: ['DO', 'LU', 'MA', 'MI ', 'JU', 'VI ', 'SA'],
-    };
-</script>
     </h:head>
     <h:body>
         <h2>Registro de Persona</h2>
-        
-        <h:form>
-            <h:outputLabel value="Correo"/><h:inputText value="#{persona.usuario.email}"/><br/>
-            <h:outputLabel value="Contreseña"/><h:inputSecret value="#{persona.usuario.clave}"/><br/>
-            <h:outputLabel value="Nombre"/><h:inputText value="#{persona.nombre}"/><br/>
-            <h:outputLabel value="Apellido" /><h:inputText value="#{persona.apellido}" /><br />
-            <p:growl id="msgs" showDetail="true"/>
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="german" value="Fecha de nacimiento"/>
-                <p:calendar id="popup" value="#{persona.usuario.fecha}" locale="de" navigator="true" pattern="yyyy-MM-dd"/>
-            </h:panelGrid>
-            <h:outputLabel value="Dirección"/><h:inputText value="#{persona.direccion.descripcion}"/><br/>
-            <h:selectOneMenu value="#{persona.ciudad.id}">
+        <h:panelGrid columns="12">
+        <b:form>
+            <b:inputText value="#{persona.usuario.email}" placeholder="Correo"/><br/>
+            <b:inputSecret value="#{persona.usuario.clave}" placeholder="Contraseña"/><br/>
+            <b:inputText value="#{persona.nombre}" placeholder="Nombre"/><br/>
+            <b:inputText value="#{persona.apellido}" placeholder="Apellido"/><br />
+            <b:inputText value="#{persona.direccion.descripcion}" placeholder="Dirección"/><br/>
+            <b:selectOneMenu value="#{persona.ciudad.id}" select2="true" colMd="12">
                 <f:selectItem itemLabel="Ciudad"/>
                 <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-            </h:selectOneMenu>
-            <h:commandButton action="#{persona.ingresar()}" value="Ingresar" />
-        </h:form>
-        
+            </b:selectOneMenu>
+            <b:dateTimePicker id="fecha" format="DD-MM-YYYY" locale="es" value="#{persona.usuario.fecha}" placeholder="Fecha de nacimiento"/>
+            <b:commandButton action="#{persona.ingresar()}" value="Ingresar" look="success"/>
+        </b:form>
+        </h:panelGrid>
     </h:body>
 </html>
 
