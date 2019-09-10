@@ -56,7 +56,7 @@ public class EmpresaControlador {
         } catch (Exception e) {
             return "registro?e=1";
         }
-        return "login";
+        return "faces/views/index";
     }
     
     public String editar(Usuario u){
@@ -68,7 +68,6 @@ public class EmpresaControlador {
     public String modificar(){
         try {
             for (Direccion d : SesionUtil.getUserId().getDireccionList()) {
-                cDAO.edit(d.getIdCiudad());
                 dDAO.edit(d);
             }
             
