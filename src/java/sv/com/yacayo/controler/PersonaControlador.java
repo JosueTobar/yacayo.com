@@ -46,7 +46,7 @@ public class PersonaControlador {
     }
     public String ingresar(){
         usuario.setEstado("Activo");
-        usuario.setIdTipo(new TipoUsuario(2));
+        usuario.setIdTipo(new TipoUsuario(3));
         usuario.setNombre(apellido + ", " + nombre);
         uDAO.create(usuario);
         
@@ -59,7 +59,7 @@ public class PersonaControlador {
         }catch (Exception e){
             return "persona?e=1";
         }
-        return "login?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
     
 
