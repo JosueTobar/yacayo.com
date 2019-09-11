@@ -8,10 +8,49 @@
       xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Facelet Title</title>
+        <style>
+            table.dataTable {
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-color: #ff000000;
+    border-collapse: separate;
+    border-spacing: 0;
+      
+    thead{
+        display: none;    
+    }
+    th{
+        display: none;    
+        
+    }
+  
+}
+         
+            
+        </style>
     </h:head>
     <h:body>
         <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
         <h:link outcome="perfil" value="Modificar Perfil" class="btn btn-gray"/>
+        
+        <h:form>
+            <b:dataTable border="false" value="#{publicaciones.list()}" var="pu">
+                <b:dataTableColumn value="#{pu.titulo}" />
+                <b:dataTableColumn value="#{pu.descripcion}" /> 
+                <b:dataTableColumn label="Fecha de vencimiento" data-type="date">
+                    <h:outputText value="#{pu.fechaVencimiento}" >
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText> 
+                </b:dataTableColumn>
+                <b:dataTableColumn>
+                    <b:commandButton value="Aplicar" /> 
+                </b:dataTableColumn>
+
+            </b:dataTable>
+            <hr/>
+        </h:form>
     </h:body>
+    
 </html>
 
