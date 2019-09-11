@@ -30,17 +30,30 @@ public class Sesion implements Serializable {
 
    
     public String login() {
+        String url  = "/faces/index?faces-redirect=true";
         user = uDao.login(user.getEmail(), user.getClave());
         if (user != null) {
             HttpSession session = SesionUtil.getSession();
             session.setAttribute("user", user);
             System.out.println(user);
-            return "empresa/agregar";
-        } else {
-            System.err.println("Usuario nulo");
-            return "login";
-        }
-
+            
+            switch(user.getIdTipo().getDescripcion()){
+                case "Administrador":
+                      url= "/faces/index?faces-redirect=true";
+                    break;
+                case "Empresa":
+                      url= "/faces/views/empresa/agregar?faces-redirect=true";
+                    break;
+               case "Estandar":
+                     url= "/faces/views/persona/aplicar?faces-redirect=true";
+                    break;
+               default:
+                   url= "";
+                   break;                   
+            }
+        }         
+        return url ;
+   
     }
 
     //logout event, cerrar sesion

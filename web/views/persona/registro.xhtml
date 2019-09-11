@@ -18,6 +18,7 @@
             <b:inputText value="#{persona.nombre}" placeholder="Nombre"/><br/>
             <b:inputText value="#{persona.apellido}" placeholder="Apellido"/><br />
             <b:inputText value="#{persona.direccion.descripcion}" placeholder="Dirección"/><br/>
+            <b:inputText value="#{persona.telfono.numero}" placeholder="Teléfono"/>
             <b:selectOneMenu value="#{persona.ciudad.id}" select2="true" colMd="12">
                 <f:selectItem itemLabel="Ciudad"/>
                 <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />

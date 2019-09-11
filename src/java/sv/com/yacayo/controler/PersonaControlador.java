@@ -10,9 +10,11 @@ import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import sv.com.yacayo.dao.DireccionJpaController;
+import sv.com.yacayo.dao.TelefonoJpaController;
 import sv.com.yacayo.dao.UsuarioJpaController;
 import sv.com.yacayo.entity.Ciudad;
 import sv.com.yacayo.entity.Direccion;
+import sv.com.yacayo.entity.Telefono;
 import sv.com.yacayo.entity.TipoUsuario;
 import sv.com.yacayo.entity.Usuario;
 
@@ -23,45 +25,51 @@ import sv.com.yacayo.entity.Usuario;
 @ManagedBean(name = "persona")
 @RequestScoped
 public class PersonaControlador {
-  private Usuario usuario;
-  private Direccion direccion;
-  private Ciudad ciudad;
-  private String nombre;
-  private String apellido;
-    
+
+    private Usuario usuario;
+    private Direccion direccion;
+    private Ciudad ciudad;
+    private String nombre;
+    private String apellido;
+    private Telefono telfono;
+
     UsuarioJpaController uDAO;
     DireccionJpaController dDAO;
-    
-  
-    
+    TelefonoJpaController tDAO;
+
     public PersonaControlador() {
-       EntityManagerFactory emf = Persistence.createEntityManagerFactory("YacayoPU");
-       uDAO=new UsuarioJpaController(emf);
-       dDAO=new DireccionJpaController(emf);
-       
-       usuario=new Usuario();
-       direccion= new Direccion();
-       ciudad= new Ciudad();
-        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("YacayoPU");
+        uDAO = new UsuarioJpaController(emf);
+        dDAO = new DireccionJpaController(emf);
+        tDAO= new TelefonoJpaController(emf);
+
+        usuario = new Usuario();
+        direccion = new Direccion();
+        ciudad = new Ciudad();
+        telfono= new Telefono();
+
     }
-    public String ingresar(){
+
+    public String ingresar() {
         usuario.setEstado("Activo");
         usuario.setIdTipo(new TipoUsuario(3));
         usuario.setNombre(apellido + ", " + nombre);
         uDAO.create(usuario);
-        
-        usuario=uDAO.ultimo(usuario.getEmail(), usuario.getClave(),usuario.getIdTipo().getId());
-        
-        try{
+
+        usuario = uDAO.ultimo(usuario.getEmail(), usuario.getClave(), usuario.getIdTipo().getId());
+
+        try {
             direccion.setUsuarioId(usuario);
             direccion.setIdCiudad(ciudad);
             dDAO.create(direccion);
-        }catch (Exception e){
-            return "persona?e=1";
+            telfono.setIdUsuario(usuario);
+            tDAO.create(telfono);
+            
+        } catch (Exception e) {
+            return "/faces/views/persona/registro?e=1";
         }
-        return "index?faces-redirect=true";
+        return "/faces/index?faces-redirect=true";
     }
-    
 
     public Direccion getDireccion() {
         return direccion;
@@ -102,6 +110,13 @@ public class PersonaControlador {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    
-    
+
+    public Telefono getTelfono() {
+        return telfono;
+    }
+
+    public void setTelfono(Telefono telfono) {
+        this.telfono = telfono;
+    }
+
 }
