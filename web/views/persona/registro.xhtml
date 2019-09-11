@@ -15,8 +15,7 @@
         <b:form>
             <b:inputText value="#{persona.usuario.email}" placeholder="Correo"/><br/>
             <b:inputSecret value="#{persona.usuario.clave}" placeholder="Contraseña"/><br/>
-            <b:inputText value="#{persona.nombre}" placeholder="Nombre"/><br/>
-            <b:inputText value="#{persona.apellido}" placeholder="Apellido"/><br />
+            <b:inputText value="#{persona.usuario.nombre}" placeholder="Nombre completo"/><br/>
             <b:inputText value="#{persona.direccion.descripcion}" placeholder="Dirección"/><br/>
             <b:inputText value="#{persona.telfono.numero}" placeholder="Teléfono"/>
             <b:selectOneMenu value="#{persona.ciudad.id}" select2="true" colMd="12">

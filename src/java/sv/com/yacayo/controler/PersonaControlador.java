@@ -29,8 +29,6 @@ public class PersonaControlador {
     private Usuario usuario;
     private Direccion direccion;
     private Ciudad ciudad;
-    private String nombre;
-    private String apellido;
     private Telefono telfono;
 
     UsuarioJpaController uDAO;
@@ -41,19 +39,18 @@ public class PersonaControlador {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("YacayoPU");
         uDAO = new UsuarioJpaController(emf);
         dDAO = new DireccionJpaController(emf);
-        tDAO= new TelefonoJpaController(emf);
+        tDAO = new TelefonoJpaController(emf);
 
         usuario = new Usuario();
         direccion = new Direccion();
         ciudad = new Ciudad();
-        telfono= new Telefono();
+        telfono = new Telefono();
 
     }
 
     public String ingresar() {
         usuario.setEstado("Activo");
         usuario.setIdTipo(new TipoUsuario(3));
-        usuario.setNombre(apellido + ", " + nombre);
         uDAO.create(usuario);
 
         usuario = uDAO.ultimo(usuario.getEmail(), usuario.getClave(), usuario.getIdTipo().getId());
@@ -64,11 +61,24 @@ public class PersonaControlador {
             dDAO.create(direccion);
             telfono.setIdUsuario(usuario);
             tDAO.create(telfono);
-            
+
         } catch (Exception e) {
             return "/faces/views/persona/registro?e=1";
         }
         return "/faces/index?faces-redirect=true";
+    }
+
+    public String modificar() {
+        try {
+            for(Telefono t: SesionUtil.getUserId().getTelefonoList()){
+                tDAO.edit(t);
+            }
+            uDAO.edit(SesionUtil.getUserId());
+            
+            return "aplicar?faces-redirect=true";
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Direccion getDireccion() {
@@ -93,22 +103,6 @@ public class PersonaControlador {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
     }
 
     public Telefono getTelfono() {

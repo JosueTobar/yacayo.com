@@ -189,15 +189,6 @@ public class DireccionJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public List<Direccion> dtDireccion(Integer id) {
-        EntityManager em = getEntityManager();
-        try {
-            return em.createNamedQuery("Direccion.recuperarDatos", Direccion.class).setParameter("id", id).getResultList();
-        } finally {
-            em.close();
-        }
-    }
 
     public int getDireccionCount() {
         EntityManager em = getEntityManager();

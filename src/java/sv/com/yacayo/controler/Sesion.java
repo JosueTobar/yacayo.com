@@ -60,6 +60,6 @@ public class Sesion implements Serializable {
     public String cerrar() {
         HttpSession session = SesionUtil.getSession();
         session.invalidate();
-        return "login";
+        return "/faces/index?faces-redirect=true";
     }
 }

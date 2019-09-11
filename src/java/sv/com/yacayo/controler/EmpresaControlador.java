@@ -67,12 +67,6 @@ public class EmpresaControlador {
         return "/faces/views/index?faces-redirect=true";
     }
     
-    public String editar(Usuario u) {
-        Map<String, Object> datos = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        datos.put("dt", u);
-        return "perfil?faces-redirect=true";
-    }
-    
     public String modificar() {
         try {
             for (Direccion d : SesionUtil.getUserId().getDireccionList()) {

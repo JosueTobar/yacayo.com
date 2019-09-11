@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.org.apache.xpath.internal.res.XPATHErrorResources_ja;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -99,5 +100,5 @@ public class Telefono implements Serializable {
     public String toString() {
         return "sv.com.yacayo.entity.Telefono[ id=" + id + " ]";
     }
-    
+
 }
