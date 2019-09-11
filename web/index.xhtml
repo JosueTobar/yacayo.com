@@ -7,21 +7,32 @@
     <h:head>
         <title>Project Name</title>
         <meta name="author" content="The Author"></meta>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+        <!--Slider-->
+        <link rel="stylesheet" href="./resources/css/slider.css"/>
+        <script src="./resources/js/slider.js"/>
+        
+        <!--Listar-->
+        <link rel="stylesheet" href="./resources/css/listar.css"/>
+        <script src="./resources/js/listar.js"/>
+
     </h:head>
-<!-- Add 50px padding top to the body for the navbar -->
+    <!-- Add 50px padding top to the body for the navbar -->
 
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        
         <b:navBar brand="" brandHref="#" inverse="true" fixed="top">
             <a class="navbar-brand logo" href="#"><img src="./resources/img/YaCayo7.png" alt=""/></a>
             <b:navbarLinks>
-                
-                
+
+
                 <b:dropMenu value="Registro">
                     <b:link outcome="views/persona/registro" value="Registro Persona"/><br />
                     <b:link outcome="views/empresa/registro" value="Registro Empresa"/><br />
                     <b:navLink></b:navLink>
-                    
+
                 </b:dropMenu>
             </b:navbarLinks>
             <h:form styleClass="navbar-form navbar-right">
@@ -31,80 +42,144 @@
                 </div>
                 <div class="form-group">
                     <b:inputText placeholder="Password" value="#{sesion.user.clave}"/>
-                 
-                <b:commandButton action="#{sesion.login()}" value="Iniciar" look="success" icon="chevron-right" iconAlign="right" />
+
+                    <b:commandButton action="#{sesion.login()}" value="Iniciar" look="success" icon="chevron-right" iconAlign="right" />
                 </div> 
-                
-                
                 #{' '}
-               
             </h:form>
         </b:navBar>
+        <!--Prube-->
+
+        <b:container>
+            <section>
+                <div class="news-head">
+                    <h3 align="right">Encuentra las mejores ofertas de <b>Trabajo</b>.</h3>
+                </div>
+            </section>
+        </b:container>
+
+        <!--Fin-->
+        <!--SLIDER-->
+        <b:container>
+            <div class="container">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+
+                        <div class="item active">
+                            <img src="./resources/img/Banner/Banner-YC2.png"/>
+                            <div class="carousel-caption">
+                                <h1>Más de<strong> 12,000</strong></h1>
+                                <p>Empleos te esperan para comenzar tu carrera </p>
+                            </div>
+                        </div><!-- End Item -->
+
+                        <div class="item">
+                            <img src="http://placehold.it/1200x400/999999/cccccc"/>
+                            <div class="carousel-caption">
+                                <h1>Más de<strong>12,000</strong></h1>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <a href="http://sevenx.de/demo/bootstrap-carousel/" target="_blank" class="label label-danger">Bootstrap 3 - Carousel Collection</a></p>
+                            </div>
+                        </div><!-- End Item -->
+
+                        <div class="item">
+                            <img src="http://placehold.it/1200x400/dddddd/333333"/>
+                            <div class="carousel-caption">
+                                <h3>Headline</h3>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <a href="http://sevenx.de/demo/bootstrap-carousel/" target="_blank" class="label label-danger">Bootstrap 3 - Carousel Collection</a></p>
+                            </div>
+                        </div><!-- End Item -->
+
+                        <div class="item">
+                            <img src="http://placehold.it/1200x400/999999/cccccc"/>
+                            <div class="carousel-caption">
+                                <h3>Headline</h3>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+                            </div>
+                        </div><!-- End Item -->
+
+                    </div><!-- End Carousel Inner -->
+
+
+                    <ul class="nav nav-pills nav-justified">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"><a href="#">About<small>Lorem ipsum dolor sit</small></a></li>
+                        <li data-target="#myCarousel" data-slide-to="1"><a href="#">Projects<small>Lorem ipsum dolor sit</small></a></li>
+                        <li data-target="#myCarousel" data-slide-to="2"><a href="#">Portfolio<small>Lorem ipsum dolor sit</small></a></li>
+                        <li data-target="#myCarousel" data-slide-to="3"><a href="#">Services<small>Lorem ipsum dolor sit</small></a></li>
+                    </ul>
+
+
+                </div><!-- End Carousel -->
+            </div>
+        </b:container>
+        <!--FIN SLIDER-->
+        <hr/>
+
         <b:jumbotron>
             <b:container>
-                <h1>Más de<strong>12,000</strong></h1>
-                <p>Empleos te esperan para comenzar tu carrera 
-                </p>
-                <p>
-                    <a href="" class="btn btn-lg btn-info">View Page Source »</a>
-                </p>
-            </b:container>
-            
-            
-            
-            <!-- Start intro section -->
-            <section id="intro" class="section-intro">
-                
-                    <div class="container">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        
-                            <!-- Start Navigation List -->
-                            
-                               <div class="row">
-                                   <div class="col-md-4 col-sm-6">
-                                       <div class="form-group">
-                                           <input class="form-control" type="text" placeholder="título del trabajo/palabras clave/nombre empresa"/>
-
-                                           <i class="ti-time"></i>
-                                       </div>
-                                   </div>
-                               </div>
-                        
+                <div class="container">
+                    <div class="row">
+                        <h2>Filtered List</h2>
+                        <div class="col-lg-12">
+                            <input type="search" class="form-control" id="input-search" placeholder="Search Attendees..." />
+                        </div>
+                        <div class="searchable-container">
+                            <div class="items col-xs-12 col-sm-6 col-md-6 col-lg-6 clearfix">
+                                <div class="info-block block-info clearfix">
+                                    <div class="square-box pull-left">
+                                        <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                                    </div>
+                                    <h5>Company Name</h5>
+                                    <h4>Name: Tyreese Burn</h4>
+                                    <p>Title: Manager</p>
+                                    <span>Phone: 555-555-5555</span>
+                                    <span>Email: sample@company.com</span>
+                                </div>
+                            </div>
+                            <div class="items col-xs-12 col-sm-12 col-md-6 col-lg-6 clearfix">
+                                <div class="info-block block-info clearfix">
+                                    <div class="square-box pull-left">
+                                        <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                                    </div>
+                                    <h5>Company Name</h5>
+                                    <h4>Name: Brenda Tree</h4>
+                                    <p>Title: Manager</p>
+                                    <span>Phone: 555-555-5555</span>
+                                    <span>Email: sample@company.com</span>
+                                </div>
+                            </div>
+                            <div class="items col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="info-block block-info clearfix">
+                                    <div class="square-box pull-left">
+                                        <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                                    </div>
+                                    <h5>Company Name</h5>
+                                    <h4>Name: Glenn Pho shizzle</h4>
+                                    <p>Title: Manager</p>
+                                    <span>Phone: 555-555-5555</span>
+                                    <span>Email: sample@company.com</span>
+                                </div>
+                            </div>
+                            <div class="items col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="info-block block-info clearfix">
+                                    <div class="square-box pull-left">
+                                        <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                                    </div>
+                                    <h5>Company Name</h5>
+                                    <h4>Name: Brian Hoyies</h4>
+                                    <p>Title: Manager</p>
+                                    <span>Phone: 555-555-5555</span>
+                                    <span>Email: sample@company.com</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                
-            </section>
-        
-
+                </div>                <hr/>
+            </b:container>
         </b:jumbotron>
-        <b:container>
-            <b:row>
-                <b:column col-md="4">
-                    <h2>Tecnologia</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
-                       ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><b:button outcome="" value="View details »"/></p>
-                </b:column>
-                <b:column col-md="4">
-                    <h2>Comercio</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
-                       ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><b:button outcome="" value="View details »"/></p>
-                </b:column>
-                <b:column col-md="4">
-                    <h2>Agricultura</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
-                       ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><b:button outcome="" value="View details »"/></p>
-                </b:column>
-            </b:row>
-            <hr/>
-            <footer>
-            <p>© Company 2014</p>
-            </footer>
-        </b:container>
-        
-         <h:form>
+
+        <h:form>
             <b:dataTable value="#{publicaciones.list()}" var="pu">
                 <b:dataTableColumn value="#{pu.titulo}" />
                 <b:dataTableColumn value="#{pu.descripcion}" />
@@ -115,9 +190,13 @@
                         <f:convertDateTime pattern="dd-MM-yyyy"/>
                     </h:outputText> 
                 </b:dataTableColumn>
-                
+
             </b:dataTable>
+            <hr/>
         </h:form>
+        <footer>
+            <p>© Company 2014</p>
+        </footer>
     </h:body>
 </html>
-        
+

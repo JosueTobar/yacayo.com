@@ -64,13 +64,13 @@ public class EmpresaControlador {
         } catch (Exception e) {
             return "/faces/views/empresa/registro?e=1";
         }
-         return "/faces/index?faces-redirect=true";
+        return "/faces/views/index?faces-redirect=true";
     }
     
     public String editar(Usuario u) {
         Map<String, Object> datos = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         datos.put("dt", u);
-        return "perfil";
+        return "perfil?faces-redirect=true";
     }
     
     public String modificar() {
@@ -81,7 +81,7 @@ public class EmpresaControlador {
             
             uDAO.edit(SesionUtil.getUserId());
             
-            return "agregar";
+            return "agregar?faces-redirect=true";
         } catch (Exception e) {
             return null;
         }

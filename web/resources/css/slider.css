@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 10, 2019, 3:41:22 PM
+    Author     : amilcar.floresfgkss
+*/
+
+#myCarousel .nav a small {
+    display:block;
+}
+#myCarousel .nav {
+	background:#eee;
+}
+#myCarousel .nav a {
+    border-radius:0px;
+}
+
+#h1{
+    color:#21a117;
+    font-family: "Times New Roman", Times, serif;
+    
+}
