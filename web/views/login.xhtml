@@ -10,39 +10,6 @@
         <title>Login</title>
     </h:head>
     <h:body>
-        <b:container fluid="true">
-            <b:row>
-                <b:column medium-screen="2">
-                    <h:inputText value="#{sesion.user.email}"/>
-                </b:column>
-                <b:column medium-screen="4">
-                    <b:inputText placeholder="Correo: " />
-                </b:column>
-                <b:column medium-screen="6">
-                    <b:message/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column medium-screen="2">
-                    <h:inputText value="#{sesion.user.clave}" /> <br/>
-                </b:column>
-                <b:column medium-screen="4">
-                    <b:inputSecret placeholder="Clave" />
-                </b:column>
-                <b:column medium-screen="6">
-                    <b:message />
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column span="2" offset="2">
-                    <b:commandButton action="#{sesion.login()}" value="Inciar" look="primary" style="width:100%" />
-                </b:column>
-            </b:row>
-        </b:container>
-
-
-
-
         <h:form>
             Correo: <h:inputText value="#{sesion.user.email}"/> <br/>
             Clave: <h:inputText value="#{sesion.user.clave}" /> <br/>
