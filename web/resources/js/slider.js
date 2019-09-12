@@ -5,7 +5,7 @@
  */
 $(document).ready( function() {
     $('#myCarousel').carousel({
-		interval:   4000
+		interval:   2000
 	});
 	
 	var clickEvent = false;
