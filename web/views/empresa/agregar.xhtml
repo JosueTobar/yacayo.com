@@ -9,16 +9,20 @@
     <h:head>
         <title>Publicaciones Laborales</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+             
+        <link rel="stylesheet" href="../../../resources/css/listar.css"/>        
+    
     </h:head>
     <h:body>
         <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
         <h:link outcome="perfil" value="Modificar perfil" class="btn btn-gray"/>
+        <h1>Bienvenidos #{sesion.user.nombre}</h1>
         <h2>Nueva Publicación</h2>
         <h:panelGrid columns="12">
             <h:form id="datos">
-                <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Titulo"/>
+                <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título"/>
                 <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
-                <b:inputTextarea value="#{publicaciones.publicaciones.descripcion}" placeholder="Descipción del pusto"/>
+                <b:inputTextarea value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto"/>
                 <b:inputTextarea value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
                 <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" colMd="12">
                     <f:selectItem itemLabel="Seleccione un rubro"/>
@@ -28,31 +32,36 @@
                 <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="success"/>
             </h:form>
         </h:panelGrid>
-
-        <h:form>
-            <b:dataTable value="#{publicaciones.listP()}" var="pu">
-                <b:dataTableColumn value="#{pu.titulo}" />
-                <b:dataTableColumn value="#{pu.descripcion}" />
-                <b:dataTableColumn value="#{pu.requerimientos}" />
-                <b:dataTableColumn value="#{pu.idRubro.descripcion}"/>
-                <b:dataTableColumn label="Fecha de vencimiento" data-type="date">
-                    <h:outputText value="#{pu.fechaVencimiento}" >
-                        <f:convertDateTime pattern="dd-MM-yyyy"/>
-                    </h:outputText> 
-                </b:dataTableColumn>
-
-                <b:dataTableColumn label="Fecha de Publicación" data-type="date">
-                    <h:outputText value="#{pu.fechaPublicacion}" >
-                        <f:convertDateTime pattern="dd-MM-yyyy"/>
-                    </h:outputText> 
-                </b:dataTableColumn>
-
-                <b:dataTableColumn label="Opciones">
-                    <h:commandLink action="#{publicaciones.editar(pu)}"><i class="material-icons" style="color: #FFBF00; margin-right: 10px">edit</i></h:commandLink>
-                    <h:commandLink action="#{publicaciones.eliminar(pu)}"><i class="material-icons" style="color: #B40404">delete_forever</i></h:commandLink>
-                </b:dataTableColumn>
-            </b:dataTable>
-        </h:form>
+        <b:jumbotron>
+            <b:container>
+                <div class="container">
+                    <div class="row">
+                        <h2>Tus publicaciones</h2>
+                        <ui:repeat value="#{publicaciones.listP()}" var="pu">
+                            <div class="searchable-container">
+                                <div class="items col-xs-12 col-sm-6 col-md-6 col-lg-6 clearfix">
+                                    <div class="info-block block-info clearfix">
+                                        <div class="square-box pull-left">
+                                            <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                                        </div>
+                                        <h3>Título: #{pu.titulo}</h3>
+                                        <p>Descripción: #{pu.descripcion}</p>
+                                        <p>Requerimientos: #{pu.idRubro.descripcion}</p>
+                                        <p>Vacantes: #{pu.vacantes}</p>
+                                        <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                        <p>Fecha de publicación: <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                        <b:form>
+                                            <b:commandButton action="#{publicaciones.editar(pu)}" value="Modificar" look="warning"/>
+                                            <b:commandButton action="#{publicaciones.eliminar(pu)}" value="Eliminar" look="danger"/>
+                                        </b:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </div>                <hr/>
+            </b:container>
+        </b:jumbotron>
     </h:body>
 </html>
 

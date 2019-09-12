@@ -64,7 +64,7 @@ public class EmpresaControlador {
         } catch (Exception e) {
             return "/faces/views/empresa/registro?e=1";
         }
-        return "/faces/views/index?faces-redirect=true";
+        return "/faces/index?faces-redirect=true";
     }
     
     public String modificar() {

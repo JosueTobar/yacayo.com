@@ -6,6 +6,7 @@
 package sv.com.yacayo.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -84,6 +85,7 @@ public class Publicaciones implements Serializable {
     private Rubros idRubro;
 
     public Publicaciones() {
+        aplicacionList = new ArrayList<>();
     }
 
     public Publicaciones(Integer id) {

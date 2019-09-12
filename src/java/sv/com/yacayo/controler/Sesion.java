@@ -48,7 +48,7 @@ public class Sesion implements Serializable {
                      url= "/faces/views/persona/aplicar?faces-redirect=true";
                     break;
                default:
-                   url= "";
+                   url= "/faces/index?faces-redirect=true";
                    break;                   
             }
         }         

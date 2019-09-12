@@ -513,7 +513,10 @@ public class UsuarioJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return (Usuario) em.createNamedQuery("Usuario.validar", Usuario.class).setParameter("email", email).setParameter("clave", calve).getSingleResult();
-        } finally {
+        }catch (Exception e){
+            return null;
+        }
+        finally {
             em.close();
         }
     }
