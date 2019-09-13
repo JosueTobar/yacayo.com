@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title><ui:insert name="tabla">Tabla</ui:insert></title>
+    </h:head>
+
+    <h:body>
+        <b:navBar brand="" brandHref="#" inverse="true" fixed="top">
+            <a class="navbar-brand logo" href="#"><img src="./resources/img/YaCayo7.png" alt=""/></a>
+            
+            <b:navbarLinks>
+                  <b:navLink value="Inicio" href="http://localhost:8084/Yacayo/"/>
+                  <b:dropMenu value="Opciones">
+                     <b:link outcome="/faces/views/empresa/perfil" value="Modificar Perfil" />
+                   <b:navLink></b:navLink>
+                 <b:form> 
+                    <b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/>
+
+                 </b:form>
+
+                </b:dropMenu>
+                  
+            </b:navbarLinks>
+            
+             </b:navBar>
+       
+        <br/><br/>
+
+		<header>
+			<h1>
+				<ui:insert name="tabla">Tabla</ui:insert>
+			</h1>
+			
+		</header>
+		
+        
+		<ui:insert name="contenido">
+			Contenido
+		</ui:insert>
+        
+    </h:body>
+</html>
