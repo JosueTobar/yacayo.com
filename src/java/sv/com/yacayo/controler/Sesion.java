@@ -51,7 +51,11 @@ public class Sesion implements Serializable {
                    url= "/faces/index?faces-redirect=true";
                    break;                   
             }
-        }         
+        }else{
+            HttpSession session = SesionUtil.getSession();
+            session.invalidate();
+            url= "/faces/index?faces-redirect=true";
+        }        
         return url ;
    
     }
