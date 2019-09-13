@@ -38,17 +38,24 @@
                                             <p>Requerimientos: #{pu.idRubro.descripcion}</p>
                                             <p>Vacantes: #{pu.vacantes}</p>
                                             <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                            
-                                            <ui:repeat value="#{pu.aplicacionList}" var="app">
-                                                <c:choose>
-                                                    <c:when test="#{sesion.user.id eq app.usuarioId.id}">
-                                                       
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                         <b:commandButton action="#{persona.aplicar(pu)}" value="Aplicar" look="warning"/>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </ui:repeat>
+
+                                            <c:choose>
+                                                <c:when test="#{empty pu.aplicacionList}">
+                                                    <b:commandButton action="#{persona.aplicar(pu)}" value="Aplicar" look="warning"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:set var="contador" value="${0}" />
+                                                    <ui:repeat value="#{pu.aplicacionList}" var="appp">
+                                                        
+                                                        <c:if test="#{sesion.user.id eq appp.idUsuario.id}">
+                                                            <c:set var="contador" value="${contador + 1}" />
+                                                        </c:if>
+                                                        <c:if test="${contador gt 0}">
+                                                            Ya aplicó
+                                                        </c:if>
+                                                    </ui:repeat>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </b:form>
                                     </div>
                                 </div>

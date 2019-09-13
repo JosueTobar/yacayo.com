@@ -21,6 +21,10 @@ import sv.com.yacayo.entity.Publicaciones;
 import sv.com.yacayo.entity.Telefono;
 import sv.com.yacayo.entity.TipoUsuario;
 import sv.com.yacayo.entity.Usuario;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -40,6 +44,10 @@ public class PersonaControlador {
     DireccionJpaController dDAO;
     TelefonoJpaController tDAO;
     AplicacionJpaController aDAO;
+
+    private final Properties properties = new Properties();
+
+    private String password;
 
     public PersonaControlador() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("YacayoPU");
@@ -90,11 +98,45 @@ public class PersonaControlador {
     }
 
     public String aplicar(Publicaciones pu) {
-        aplicacion.setUsuarioId(SesionUtil.getUserId());
-        aplicacion.setPublicacionesId(pu);
-        try {
-            aDAO.create(aplicacion);
+        Properties props = new Properties();
 
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.port", "587");
+        props.setProperty("mail.smtp.auth", "true");
+        
+        Session session = Session.getDefaultInstance(props);
+        Aplicacion aplic = new Aplicacion();
+        aplic.setUsuarioId(SesionUtil.getUserId());
+        aplic.setPublicacionesId(pu);
+
+        /*Address[] correos = new Address[pu.getAplicacionList().size()];
+
+        Integer i = 0;*/
+        try {
+           /* for (Aplicacion a : pu.getAplicacionList()) {
+                correos[i++] = new InternetAddress(a.getUsuarioId().getEmail());
+            }*/
+
+            aDAO.create(aplic);
+
+            String correoRemitente="infoyacayo@gmail.com";
+            String passwordRemitente="yacayo123";
+            String Asunto="Prueba de envio";
+            String mensaje="Cuerpo del msj de prueba";
+            
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(correoRemitente));
+            String email = pu.getIdUsuario().getEmail();
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject(Asunto);
+            message.setText(mensaje);
+            
+            Transport t = session.getTransport("smtp");
+            t.connect(correoRemitente,passwordRemitente);
+            t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            t.close();
+            
         } catch (Exception e) {
             return "aplicar?e=1";
         }
