@@ -1,64 +1,80 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-				xmlns:h="http://xmlns.jcp.org/jsf/html"
-				xmlns:f="http://xmlns.jcp.org/jsf/core"
-                                xmlns:p="http://primefaces.org/ui"
-                                xmlns:b="http://bootsfaces.net/ui"
-                                template="../../layout/plantilla2.xhtml">
-    
-    
-        <ui:define name="tabla">Publicaciones</ui:define>
-	<ui:define name="contenido">
-    
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                template="../../layout/plantilla2.xhtml">
+
+
+      <ui:define name="tabla">Publicaciones</ui:define> 
+      
+      <ui:define name="contenido">
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-             
+
         <link rel="stylesheet" href="../../../resources/css/listar.css"/>        
-    
-        <h:panelGrid columns="12">
-            <h:form id="datos">
-                <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título"/>
-                <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
-                <b:inputTextarea value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto"/>
-                <b:inputTextarea value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
-                <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" colMd="12">
-                    <f:selectItem itemLabel="Seleccione un rubro"/>
-                    <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
-                </b:selectOneMenu>
-                <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes"/>
-                <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="success"/>
-            </h:form>
-        </h:panelGrid>
+
+       
+            <div class="row">
+                 <b:column medium-screen="3">
+
+                </b:column>
+                 <b:column medium-screen="6">
+                    <h:form id="datos">
+                        <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título"/>
+                        <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
+                        <b:inputTextarea value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto"/>
+                        <b:inputTextarea value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
+                        <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" colMd="12">
+                            <f:selectItem itemLabel="Seleccione un rubro"/>
+                            <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                        </b:selectOneMenu>
+                        <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes"/>
+                        <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="success"/>
+                    </h:form>
+
+                </b:column>
+                 <b:column medium-screen="3">
+
+                </b:column>
+
+            </div>
+
+      
         <b:jumbotron>
             <b:container>
                 <div class="container">
                     <div class="row">
                         <h2>Tus publicaciones</h2>
                         <ui:repeat value="#{publicaciones.listP()}" var="pu">
-                            <div class="searchable-container">
-                                <div class="items col-xs-12 col-sm-6 col-md-6 col-lg-6 clearfix">
-                                    <div class="info-block block-info clearfix">
-                                        <div class="square-box pull-left">
-                                            <span class="glyphicon glyphicon-user glyphicon-lg"></span>
-                                        </div>
-                                        <h3>Título: #{pu.titulo}</h3>
-                                        <p>Descripción: #{pu.descripcion}</p>
-                                        <p>Requerimientos: #{pu.idRubro.descripcion}</p>
-                                        <p>Vacantes: #{pu.vacantes}</p>
-                                        <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                        <p>Fecha de publicación: <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                        <b:form>
-                                            <b:commandButton action="#{publicaciones.editar(pu)}" value="Modificar" look="warning"/>
-                                            <b:commandButton action="#{publicaciones.eliminar(pu)}" value="Eliminar" look="danger"/>
-                                        </b:form>
-                                    </div>
+
+                            <b:panel title="Título: #{pu.titulo}" look="primary" style="">
+                                <div class="square-box pull-left">
+                                    <span class="glyphicon glyphicon-user glyphicon-lg"></span>
                                 </div>
-                            </div>
+                                <h3>Título: </h3>
+                                <p>Descripción: #{pu.descripcion}</p>
+                                <p>Requerimientos: #{pu.idRubro.descripcion}</p>
+                                <p>Vacantes: #{pu.vacantes}</p>
+                                <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                <p>Fecha de publicación: <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                <b:form>
+                                    <b:commandButton action="#{publicaciones.editar(pu)}" value="Modificar" look="warning"/>
+                                    <b:commandButton action="#{publicaciones.eliminar(pu)}" value="Eliminar" look="danger"/>
+                                </b:form>
+
+                            </b:panel>
+
+
+
                         </ui:repeat>
                     </div>
                 </div>                <hr/>
             </b:container>
         </b:jumbotron>
-  </ui:define>
+    </ui:define>
 </ui:composition>
 

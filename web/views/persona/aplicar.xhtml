@@ -25,20 +25,21 @@
                     <div class="row">
                         <h2>Nuevas Ofertas</h2>
                         <ui:repeat value="#{publicaciones.list()}" var="pu">
-                            <div class="searchable-container">
-                                <div class="items col-xs-12 col-sm-6 col-md-6 col-lg-6 clearfix">
-                                    <div class="info-block block-info clearfix">
-                                        <div class="square-box pull-left">
-                                            <span class="glyphicon glyphicon-user glyphicon-lg"></span>
-                                        </div>
-                                        <b:form>
+                            <b:form>
+                            <b:panel title="Empresa: #{pu.idUsuario.nombre}" look="primary" style="">
+                                <h:outputText value="Panel Content" />
+                                
+                                <div class="square-box pull-left">
+                                    <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                                </div>
                                             <h:inputHidden value="#{pu.id}"/>
+                                            <h2>Empresa: #{pu.idUsuario.nombre}</h2>
                                             <h3>Título: #{pu.titulo}</h3>
                                             <p>Descripción: #{pu.descripcion}</p>
                                             <p>Requerimientos: #{pu.idRubro.descripcion}</p>
                                             <p>Vacantes: #{pu.vacantes}</p>
                                             <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-
+                                            
                                             <c:choose>
                                                 <c:when test="#{empty pu.aplicacionList}">
                                                     <b:commandButton action="#{persona.aplicar(pu)}" value="Aplicar" look="warning"/>
@@ -56,10 +57,14 @@
                                                     </ui:repeat>
                                                 </c:otherwise>
                                             </c:choose>
-                                        </b:form>
-                                    </div>
-                                </div>
-                            </div>
+
+                            </b:panel>
+                                </b:form>
+                            
+                            
+                            
+                            
+                            
                         </ui:repeat>
                     </div>
                 </div>                <hr/>

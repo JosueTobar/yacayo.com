@@ -122,8 +122,13 @@ public class PersonaControlador {
 
             String correoRemitente="infoyacayo@gmail.com";
             String passwordRemitente="yacayo123";
-            String Asunto="Prueba de envio";
-            String mensaje="Cuerpo del msj de prueba";
+            String Asunto="Postulante:" + SesionUtil.getUserId().getNombre();
+            String mensaje=""
+                    + "Yacayo.com te informa que tienes una aplicacion \n "
+                    + "del usuario "+ SesionUtil.getUserId().getNombre()
+                    +"\ncorreo: "+SesionUtil.getUserId().getEmail()
+                    +"\nCV:";
+                    
             
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(correoRemitente));

@@ -6,35 +6,24 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Ya Cayo | Bolsa de Trabajo</title>
+        <title>Project Name</title>
         <meta name="author" content="The Author"></meta>
-        <!--Meta-->
-        <!--Link de donde saque esto: https://es.stackoverflow.com/questions/63716/como-evitar-el-cach%C3%A9-de-los-archivos-css-y-js -->
-        <meta http-equiv="Expires" content="0"/>
-        <meta http-equiv="Last-Modified" content="0"/>
-        <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate"/>
-        <meta http-equiv="Pragma" content="no-cache"/>
-        <!--MetaFin-->
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-        <!--Normalize.css-->
-        <h:outputStylesheet library="css" name="../resources/css/Normalize.css"/>
 
         <!--Slider-->
         <link rel="stylesheet" href="./resources/css/slider.css"/>
         <script src="./resources/js/slider.js"/>
 
-        <!--Bombacho-->
-        <link rel="stylesheet" href="./resources/css/Bombacho.css"/>
-
-        <!--Listar-->     
-        <link rel="stylesheet" href="../../../resources/css/listar.css"/>
-        <!--<h:outputStylesheet library="css" name="../../../resources/css/listar.css"/> -->
+        <!--Listar-->
+        <link rel="stylesheet" href="./resources/css/listar.css"/>
         <h:outputScript library="js" name="./resources/js/listar.js"/>
 
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>  
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <!--Footer-->
+
+
     </h:head>
     <!-- Add 50px padding top to the body for the navbar -->
 
@@ -43,12 +32,12 @@
             <a class="navbar-brand logo" href="#"><img src="./resources/img/YaCayo7.png" alt=""/></a>
 
             <b:navbarLinks>
-                <b:navLink value="Inicio" href="http://localhost:8084/Yacayo/"/> 
+                <b:navLink value="Inicio" href="http://localhost:8080/Yacayo/"/> 
 
                 <b:dropMenu value="Registro">
-                    <b:link outcome="views/persona/registro" value="Registro Persona"/><br/>
+                    <b:link outcome="views/persona/registro" value="Registro Persona"/><br />
                     <b:navLink></b:navLink>
-                    <b:link outcome="views/empresa/registro" value="Registro Empresa"/><br/>
+                    <b:link outcome="views/empresa/registro" value="Registro Empresa"/><br />
 
                 </b:dropMenu>
             </b:navbarLinks>
@@ -67,6 +56,7 @@
             </h:form>
 
         </b:navBar>
+        <!--Prube-->
 
         <b:container>
             <section>
@@ -74,7 +64,6 @@
                     <h3 align="right">Encuentra las mejores ofertas de <b>Trabajo</b>.</h3>
                 </div>
             </section>
-            <hr/>
         </b:container>
 
         <!--Fin-->
@@ -109,6 +98,7 @@
 
                     </div><!-- End Carousel Inner -->
 
+
                     <ul class="nav nav-pills nav-justified">
                         <li data-target="#myCarousel" data-slide-to="0" class="active"><a href="#">Bolsa de trabajo Ya Cayo<small></small></a></li>
                         <li data-target="#myCarousel" data-slide-to="1"><a href="#">Bolsa de trabajo Ya Cayo<small></small></a></li>
@@ -122,96 +112,58 @@
         </b:container>
         <!--FIN SLIDER-->
         <hr/>
+
         <b:jumbotron>
             <b:container>
                 <div class="container">
                     <div class="row">
                         <h2>Ofertas del día</h2>
-                        <div class="col-lg-12">
-                            <input type="search" class="form-control" id="input-search" placeholder="Buscar..." />
-                        </div>
+
+
                         <ui:repeat value="#{publicaciones.list()}" var="pu">
-                            <div class="searchable-container">
-                                <div class="items col-xs-12 col-sm-6 col-md-6 col-lg-6 clearfix">
-                                    <div class="info-block block-info clearfix">
-                                        <div class="square-box pull-left">
-                                            <span class="glyphicon glyphicon-user glyphicon-lg"></span>
-                                        </div>
-                                        <h3>Empresa: #{pu.idUsuario.nombre}</h3>
-                                        <h4>Puesto: #{pu.titulo}</h4>
-                                        <p>Descripción: #{pu.descripcion}</p>
-                                        <p>Requerimientos: #{pu.requerimientos}</p>
-                                        <p>Vacantes: #{pu.vacantes}</p>
-                                        <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                        <span>Email: #{pu.idUsuario.email}</span>
-                                    </div>
+                            <b:panel title="Empresa: #{pu.idUsuario.nombre}" look="primary" style="">
+                                <h:outputText value="Panel Content" />
+                                
+                                <div class="square-box pull-left">
+                                    <span class="glyphicon glyphicon-user glyphicon-lg"></span>
                                 </div>
-                            </div>
+                                <h4>Puesto: #{pu.titulo}</h4>
+                                <p>Descripción: #{pu.descripcion}</p>
+                                <p>Requerimientos: #{pu.requerimientos}</p>
+                                <p>Vacantes: #{pu.vacantes}</p>
+                                <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+
+
+                            </b:panel>
+
+                           
+
+
                         </ui:repeat>
                     </div>
                 </div>                <hr/>
             </b:container>
         </b:jumbotron>
-        <!--Testimonial-->
-        <div class="container">
-            <h3 style="text-align:center;border-bottom:solid 1px #eee">Empresas que confian con nosotros</h3>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div id="Carousel" class="carousel slide">
-
-                        <ol class="carousel-indicators">
-                            <li data-target="#Carousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#Carousel" data-slide-to="1"></li>
-                            <li data-target="#Carousel" data-slide-to="2"></li>
-                        </ol>
-
-                        <!-- Carousel items -->
-                        <div class="carousel-inner">
-
-                            <div class="item active">
-                                <div class="row">
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/1.jpg" alt="Image" style="height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/2.jpg" alt="Image" style="height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/3.png" alt="Image" style="height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/4.jpg" alt="Image" style="height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/5.jpg" alt="Image" style="height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/6.jpg" alt="Image" style="height:80px;"/></a></div>
-                                </div><!--.row-->
-                            </div><!--.item-->
-
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/7.jpg" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/17.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/9.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/10.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/11.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/12.jpg" alt="Image" style="max-height:80px;"/></a></div>
-                                </div><!--.row-->
-                            </div><!--.item-->
-
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/13.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/14.jpg" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/15.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/16.png" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/1.jpg" alt="Image" style="max-height:80px;"/></a></div>
-                                    <div class="col-md-2 col-xs-4"><a href="#" class="thumbnail"><img src="https://tmaxtech.co.th/images/Partner/2.jpg" alt="Image" style="height:80px;"/></a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Fin Testimonial-->
         <!-- Footer -->
-        <hr/>
-        <footer>
-            <center><p>© 2019<a style="color:#0a93a6; text-decoration:none;" href="#"> Ya Cayo | Bolsa de Trabajo hecha por salvadoreños para el mundo</a>, All rights reserved 2019-2024.</p></center>
+        <footer class="container-fluid text-center foot">
+
+            <div class="copyrights">
+                <p class="white-txt">Your Site Name © 2017
+                    <br/><br/>
+                    <img class="footimg" src="./resources/img/YaCayo7.png" alt="Logo"/>
+                </p>
+                <hr class="dark-line"/>
+                <a class="link" href="#">Contact Us</a>
+                <a class="link" href="#">Privacy Policy</a>
+                <a class="link" href="#">Terms Conditions</a>
+                <br/><br/>
+                <p class="white-txt small">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare elit odio, eu imperdiet ligula ullamcorper sed.
+                </p>
+            </div>
         </footer>
         <!-- Footer -->
+        <!--Hoy por la noche modifico el footer-->
     </h:body>
 </html>
+

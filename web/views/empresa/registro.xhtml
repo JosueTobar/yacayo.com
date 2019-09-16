@@ -1,33 +1,54 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-				xmlns:h="http://xmlns.jcp.org/jsf/html"
-				xmlns:f="http://xmlns.jcp.org/jsf/core"
-                                xmlns:p="http://primefaces.org/ui"
-                                xmlns:b="http://bootsfaces.net/ui"
-                                template="../../layout/plantilla.xhtml">
-    
-    
-	<ui:define name="tabla">Registro de Empresa</ui:define>
-	<ui:define name="contenido">
-            
-        <h:panelGrid columns="12">
-            <b:form horizontal="false">
-                <b:inputText value="#{empresaControlador.user.email}" placeholder="Correo"/>
-                <b:inputSecret value="#{empresaControlador.user.clave}" placeholder="Contraseña"/>
-                <b:inputText value="#{empresaControlador.user.nombre}" placeholder="Nombre de la empresa"/>
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="../../layout/plantilla.xhtml">
+
+
+    <ui:define name="tabla">Registro de Empresa</ui:define>
+    <ui:define name="contenido">
+        <b:form horizontal="false">
+            <div class="row">
+                <b:column medium-screen="3">
+
+                </b:column>
+                <b:column medium-screen="6">
+
+
+                    <b:inputText value="#{empresaControlador.user.email}" placeholder="Correo"/>
+                    <b:inputSecret value="#{empresaControlador.user.clave}" placeholder="Contraseña"/>
+                    <b:inputText value="#{empresaControlador.user.nombre}" placeholder="Nombre de la empresa"/>
                     <b:inputText value="#{empresaControlador.direccion.descripcion}" placeholder="Ubicación de la empresa"/>
                     <b:inputText value="#{empresaControlador.telefono.numero}" placeholder="Teléfono"/>
-                <b:formGroup>
-                    <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true" colMd="9" label="Ciudad" labelColMd="3">
-                        <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
-                        <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                    </b:selectOneMenu>
-                </b:formGroup>
-                <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución"/>
-                <b:commandButton action="#{empresaControlador.insertar()}" value="Crear"/>
-            </b:form>
-        </h:panelGrid>
-     </ui:define>
+                    <b:formGroup>
+                        <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true" colMd="9" label="Ciudad" labelColMd="3">
+                            <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
+                            <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                        </b:selectOneMenu>
+                    </b:formGroup>
+                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución"/>
+
+                </b:column>
+                <b:column medium-screen="3">
+
+                </b:column>
+            </div>
+            <div class="row">
+                <b:column medium-screen="3">
+
+                </b:column>
+                <b:column medium-screen="6">            
+                    <b:commandButton action="#{empresaControlador.insertar()}" value="Crear"/>
+                </b:column>
+                <b:column medium-screen="3">
+
+                </b:column>
+
+            </div>
+        </b:form>
+    </ui:define>
 </ui:composition>
 

@@ -4,26 +4,19 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : Sep 15, 2019, 3:10:02 PM
+    Created on : Sep 12, 2019, 4:37:02 PM
     Author     : amilcar.floresfgkss
 */
-/* Footer */
-
-footer{
-   background-color: #424558;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 35px;
-    text-align: center;
-    color: #CCC;
+.copyrights{
+margin-top:25px;
 }
 
-footer p {
-    padding: 10.5px;
-    margin: 0px;
-    line-height: 100%;
+footer.container-fluid.text-center.foot {
+    background: #383838;
+}
+
+.dark-line{
+border-top: 1px solid #525252;
 }
 
 .white-txt{
