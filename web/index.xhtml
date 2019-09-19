@@ -6,164 +6,256 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Project Name</title>
+        <title>Inicio</title>
         <meta name="author" content="The Author"></meta>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="resources/assets/img/favicon.png"/>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css" type="text/css"/>    
+        <link rel="stylesheet" href="resources/assets/css/jasny-bootstrap.min.css" type="text/css"/>  
+        <link rel="stylesheet" href="resources/assets/css/bootstrap-select.min.css" type="text/css"/>  
+        <!-- Material CSS -->
+        <link rel="stylesheet" href="resources/assets/css/material-kit.css" type="text/css"/>
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="resources/assets/fonts/font-awesome.min.css" type="text/css"/> 
+        <link rel="stylesheet" href="resources/assets/fonts/themify-icons.css"/> 
 
-        <!--Slider-->
-        <link rel="stylesheet" href="./resources/css/slider.css"/>
-        <script src="./resources/js/slider.js"/>
+        <!-- Animate CSS -->
+        <link rel="stylesheet" href="resources/assets/extras/animate.css" type="text/css"/>
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="resources/assets/extras/owl.carousel.css" type="text/css"/>
+        <link rel="stylesheet" href="resources/assets/extras/owl.theme.css" type="text/css"/>
+        <!-- Rev Slider CSS -->
+        <link rel="stylesheet" href="resources/assets/extras/settings.css" type="text/css"/> 
+        <!-- Slicknav js -->
+        <link rel="stylesheet" href="resources/assets/css/slicknav.css" type="text/css"/>
+        <!-- Main Styles -->
+        <link rel="stylesheet" href="resources/assets/css/main.css" type="text/css"/>
+        <!-- Responsive CSS Styles -->
+        <link rel="stylesheet" href="resources/assets/css/responsive.css" type="text/css"/>
 
-        <!--Listar-->
-        <link rel="stylesheet" href="./resources/css/listar.css"/>
-        <h:outputScript library="js" name="./resources/js/listar.js"/>
-
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
-        <!--Footer-->
+        <!-- Color CSS Styles  -->
+        <link rel="stylesheet" type="text/css" href="resources/assets/css/colors/red.css" media="screen" />
 
 
     </h:head>
     <!-- Add 50px padding top to the body for the navbar -->
 
-    <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        <b:navBar brand="" brandHref="#" inverse="true" fixed="top">
-            <a class="navbar-brand logo" href="#"><img src="./resources/img/YaCayo7.png" alt=""/></a>
+    <h:body>
+        <div class="header">    
+            <!-- Start intro section -->
+            <section id="intro" class="section-intro">
+                <div class="logo-menu">
+                    <nav class="navbar navbar-default affix" role="navigation" data-spy="affix" data-offset-top="50">
+                        <div class="container">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand logo" href="#{facesContext.externalContext.requestContextPath}"><img src="resources/assets/img/YaCayo7.png" alt=""/></a>
+                            </div>
 
-            <b:navbarLinks>
-                <b:navLink value="Inicio" href="faces/index.xhtml"/> 
+                            <div class="collapse navbar-collapse" id="navbar">              
+                                <!-- Start Navigation List -->
+                                <ul class="nav navbar-nav">
+                                    <li class="drop">
+                                        <a class="active" href="#{facesContext.externalContext.requestContextPath}" >
+                                            Inicio <i class="fa fa-angle-down"></i>
+                                        </a>                                            
+                                    </li>
+                                    <li class="drop">
+                                        <a href="#">
+                                            Candidatos <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="dropdown">
+                                            <li>
+                                                <a href="faces/views/persona/registro.xhtml">
+                                                    Registrar
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="drop">
+                                        <a href="#">
+                                            Empresas <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="dropdown">
+                                            <li>
+                                                <a href="#">
+                                                    Registrar
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right float-right">
+                                    <li class="right"><a href="#"><i class="ti-lock"></i> Iniciar sesión</a></li>
+                                </ul>
+                            </div>                           
+                        </div>
+                        <!-- Mobile Menu Start -->
+                        <ul class="wpb-mobile-menu">
+                            <li>
+                                <a class="active" href="#">Inicio</a>
+                            </li>
+                            <li>
+                                <a href="#">Candidatos</a>
+                                <ul>
+                                    <li><a href="#">Registrar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Empresas</a>
+                                <ul>
+                                    <li><a href="#">Registrar</a></li>
+                                </ul>
+                            </li> 
+                            <li class="btn-m"><a href="#"><i class="ti-lock"></i>  Iniciar sesión</a></li>          
+                        </ul>
+                        <!-- Mobile Menu End --> 
+                    </nav>
 
-                <b:dropMenu value="Registro">
-                    <b:link outcome="views/persona/registro" value="Registro Persona"/><br />
-                    <b:navLink></b:navLink>
-                    <b:link outcome="views/empresa/registro" value="Registro Empresa"/><br />
-
-                </b:dropMenu>
-            </b:navbarLinks>
-            <h:form styleClass="navbar-form navbar-right">
-                <div class="form-group">
-                    <b:inputText placeholder="Email" value="#{sesion.user.email}"/>
-                    <!--input type="text" class="form-control" placeholder="Search"/-->
+                    <!-- Off Canvas Navigation -->
+                    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas" style=""> 
+                        <!--- Off Canvas Side Menu -->
+                        <div class="close" data-toggle="offcanvas" data-target=".navmenu">
+                            <i class="ti-close"></i>
+                        </div>
+                    </div> <!--- End Off Canvas Side Menu -->
                 </div>
-                <div class="form-group">
-                    <b:inputSecret placeholder="Password" value="#{sesion.user.clave}"/>
+                <!-- Header Section End -->    
 
-                    <b:commandButton action="#{sesion.login()}" value="Iniciar" look="success" icon="chevron-right" iconAlign="right" />
-                </div> 
-
-                #{' '}
-            </h:form>
-
-        </b:navBar>
-        <!--Prube-->
-
-        <b:container>
-            <section>
-                <div class="news-head">
-                    <h3 align="right">Encuentra las mejores ofertas de <b>Trabajo</b>.</h3>
+                <div class="search-container">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1>Encuentra el trabajo que se adapte a tu vida</h1><br/><h2>Más de <strong>12,000</strong> te están esperando, para comenzar tú carrera!</h2>
+                                <div class="content">
+                                    <form method="" action="">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-group is-empty">
+                                                    <input class="form-control" type="text" placeholder="Buscar por..."/>
+                                                    <i class="ti-time"></i>
+                                                    <span class="material-input"></span></div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <div class="search-category-container">
+                                                    <label class="styled-select">
+                                                        <div class="btn-group bootstrap-select dropdown-product">
+                                                                <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" class="dropdown-product selectpicker" tabindex="-98">
+                                                                    <f:selectItem itemLabel="Seleccione un rubro"/>
+                                                                    <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                                                                </b:selectOneMenu>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-6">
+                                                <button type="button" class="btn btn-search-icon"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="popular-jobs">
+                                    <b>Rubros más populares: </b>
+                                    <a href="#">Desarrollador Java</a>
+                                    <a href="#">Diseñador Web</a>
+                                    <a href="#">Desarrollador PHP</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
-        </b:container>
+            <!-- end intro section -->
+        </div>
 
-        <!--Fin-->
-        <!--SLIDER-->
-        <b:container>
+        <section class="find-job section">
             <div class="container">
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <h2 class="section-title">Nuevas Ofertas Laborales</h2>
+                <ui:repeat value="#{publicaciones.list()}" var="pu">
 
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-
-                        <div class="item active">
-                            <img src="./resources/img/Banner/Banner-YC2.png"/>
-                            <div class="carousel-caption">
-                                <h1>Más de<strong> 12,000</strong></h1>
-                                <p>Empleos te esperan para comenzar tu carrera </p>
-                            </div>
-                        </div><!-- End Item -->
-
-                        <div class="item">
-                            <img src="./resources/img/Banner/Banner-YC3.png"/>
-                            <div class="carousel-caption">
-                            </div>
-                        </div><!-- End Item -->
-
-                        <div class="item">
-                            <img src="./resources/img/Banner/Banner-YC4.png"/>
-                            <div class="carousel-caption">
-                            </div>
-                        </div><!-- End Item -->
-
-
-                    </div><!-- End Carousel Inner -->
-
-
-                    <ul class="nav nav-pills nav-justified">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"><a href="#">Bolsa de trabajo Ya Cayo<small></small></a></li>
-                        <li data-target="#myCarousel" data-slide-to="1"><a href="#">Bolsa de trabajo Ya Cayo<small></small></a></li>
-                        <li data-target="#myCarousel" data-slide-to="2"><a href="#">Bolsa de trabajo Ya Cayo<small></small></a></li>
-
-                    </ul>
-
-
-                </div><!-- End Carousel -->
-            </div>
-        </b:container>
-        <!--FIN SLIDER-->
-        <hr/>
-
-        <b:jumbotron>
-            <b:container>
-                <div class="container">
                     <div class="row">
-                        <h2>Ofertas del día</h2>
-
-
-                        <ui:repeat value="#{publicaciones.list()}" var="pu">
-                            <b:panel title="Empresa: #{pu.idUsuario.nombre}" look="primary" style="">
-                                <h:outputText value="Panel Content" />
-                                
-                                <div class="square-box pull-left">
-                                    <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                        <div class="col-md-12">
+                            <div class="job-list">
+                                <div class="thumb">
+                                    <a href="job-details.html"><img src="resources/assets/img/jobs/img-1.jpg" alt=""/></a>
                                 </div>
-                                <h4>Puesto: #{pu.titulo}</h4>
-                                <p>Descripción: #{pu.descripcion}</p>
-                                <p>Requerimientos: #{pu.requerimientos}</p>
-                                <p>Vacantes: #{pu.vacantes}</p>
-                                <p>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
 
+                                <div class="job-list-content">
+                                    <h4><a href="#">#{pu.idUsuario.nombre}</a><span class="full-time">#{pu.titulo}</span></h4>
+                                    <p>#{pu.descripcion}</p>
+                                    <p>#{pu.requerimientos}</p>
+                                    <div class="job-tag">
+                                        <div class="pull-left">
+                                            <div class="meta-tag">
+                                                <span><a href="#"><i class="ti-trello"></i>#{pu.idRubro.descripcion}</a></span>
+                                                <span><i class="ti-user"></i>Vacantes: #{pu.vacantes}</span>
+                                                <span><i class="ti-time"></i>Fecha de vencimiento: <h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            </b:panel>
+                            </div>
+                        </div>
 
-                           
-
-
-                        </ui:repeat>
                     </div>
-                </div>                <hr/>
-            </b:container>
-        </b:jumbotron>
+                </ui:repeat>
+                <div class="col-md-12">
+                    <div class="showing pull-left">
+                        <a href="#">Showing <span>6-10</span> Of 24 Jobs</a>
+                    </div>                    
+                    <ul class="pagination pull-right">              
+                        <li class="active"><a href="#" class="btn btn-common"><i class="ti-angle-left"></i> prev</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li class="active"><a href="#" class="btn btn-common">Next <i class="ti-angle-right"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+
+
         <!-- Footer -->
         <footer class="container-fluid text-center foot">
 
             <div class="copyrights">
-                <p class="white-txt">Your Site Name © 2019
-                    <br/><br/>
-                    <img class="footimg" src="./resources/img/YaCayo7.png" alt="Logo"/>
+                <p class="white-txt">Ya cayó © 2019
                 </p>
                 <hr class="dark-line"/>
-                <a class="link" href="#">Contact Us</a>
-                <a class="link" href="#">Privacy Policy</a>
-                <a class="link" href="#">Terms Conditions</a>
-                <br/><br/>
                 <p class="white-txt small">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare elit odio, eu imperdiet ligula ullamcorper sed.
+                    Todos los derechos reservados
                 </p>
             </div>
         </footer>
-        <!-- Footer -->
-        <!--Hoy por la noche modifico el footer-->
+        <!-- Main JS  -->
+        <script type="text/javascript" src="resources/assets/js/jquery-min.js"></script>      
+        <script type="text/javascript" src="resources/assets/js/bootstrap.min.js"></script>    
+        <script type="text/javascript" src="resources/assets/js/material.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/material-kit.js"></script>
+        <script type="text/javascript" src="resources/assets/js/jquery.parallax.js"></script>
+        <script type="text/javascript" src="resources/assets/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/jquery.slicknav.js"></script>
+        <script type="text/javascript" src="resources/assets/js/main.js"></script>
+        <script type="text/javascript" src="resources/assets/js/jquery.counterup.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/waypoints.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/jasny-bootstrap.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/form-validator.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/contact-form-script.js"></script>    
+        <script type="text/javascript" src="resources/assets/js/jquery.themepunch.revolution.min.js"></script>
+        <script type="text/javascript" src="resources/assets/js/jquery.themepunch.tools.min.js"></script>
     </h:body>
 </html>
 
