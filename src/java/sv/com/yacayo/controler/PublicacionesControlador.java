@@ -72,6 +72,10 @@ public class PublicacionesControlador {
         
     }
     
+    public List<Object[]> listar() {
+        return pDAO.obtener(SesionUtil.getUserId().getId());
+    }
+    
     public List<Publicaciones> listP() {
         return pDAO.listarP(SesionUtil.getUserId().getId());
     }

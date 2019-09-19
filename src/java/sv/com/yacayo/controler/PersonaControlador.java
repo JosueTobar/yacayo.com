@@ -97,7 +97,7 @@ public class PersonaControlador {
         }
     }
 
-    public String aplicar(Publicaciones pu) {
+    public String aplicar(Object[] pu) {
         Properties props = new Properties();
 
         props.setProperty("mail.smtp.host", "smtp.gmail.com");
@@ -108,31 +108,29 @@ public class PersonaControlador {
         Session session = Session.getDefaultInstance(props);
         Aplicacion aplic = new Aplicacion();
         aplic.setUsuarioId(SesionUtil.getUserId());
-        aplic.setPublicacionesId(pu);
+        aplic.setPublicacionesId(new Publicaciones((Integer) pu[0]));
 
-        /*Address[] correos = new Address[pu.getAplicacionList().size()];
-
-        Integer i = 0;*/
         try {
-           /* for (Aplicacion a : pu.getAplicacionList()) {
-                correos[i++] = new InternetAddress(a.getUsuarioId().getEmail());
-            }*/
 
             aDAO.create(aplic);
 
             String correoRemitente="infoyacayo@gmail.com";
             String passwordRemitente="yacayo123";
-            String Asunto="Postulante:" + SesionUtil.getUserId().getNombre();
+            String Asunto="Nuevo postulante";
             String mensaje=""
-                    + "Yacayo.com te informa que tienes una aplicacion \n "
-                    + "del usuario "+ SesionUtil.getUserId().getNombre()
+                    + "Yacayo.com te informa que tienes una aplicación \n "
+                    +"en la oferta laboral "+pu[5]
+                    + " del usuario "+ SesionUtil.getUserId().getNombre()
                     +"\ncorreo: "+SesionUtil.getUserId().getEmail()
                     +"\nCV:";
                     
             
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(correoRemitente));
-            String email = pu.getIdUsuario().getEmail();
+            
+            
+            
+            String email = pu[2].toString();
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             message.setSubject(Asunto);
             message.setText(mensaje);

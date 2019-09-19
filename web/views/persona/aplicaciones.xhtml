@@ -18,26 +18,22 @@
         <link rel="stylesheet" href="../../../resources/css/listar.css"/>      
         <title>Facelet Title</title>
 
-        <h2>Hola #{sesion.user.nombre}</h2>
+        <h2>#{sesion.user.nombre}</h2>
         <b:jumbotron>
             <b:container>
                 <div class="container">
                     <div class="row">
-                        <h2>Nuevas Ofertas</h2>
-                        <ui:repeat value="#{publicaciones.listar()}" var="pu">
-                            <b:panel title="Empresa: #{pu[1]}" look="primary" style="">
+                        <h2>Ofertas a las que has aplicado</h2>
+                        <ui:repeat value="#{sesion.user.aplicacionList}" var="pu">
+                            <b:panel title="#{pu.publicacionesId.idUsuario.nombre}" look="primary" style="">
                                 <div class="square-box pull-left">
                                     <span class="glyphicon glyphicon-user glyphicon-lg"></span>
                                 </div>
-                                <h:inputHidden value="#{pu[0]}"/>
-                                <h3>Título: #{pu[5]} </h3>
-                                <p>Descripción: #{pu[8]}</p>
-                                <p>Requerimientos: #{pu[7]}</p>
-                                <p>Vacantes: #{pu[4]}</p>
-                                <p>Fecha de vencimiento: #{pu[6]}</p>
-                                <b:form>
-                                    <b:commandButton action="#{persona.aplicar(pu)}" value="Aplicar" look="warning"/>
-                                </b:form>
+                                <h3>Título: #{pu.publicacionesId.titulo} </h3>
+                                <p>Descripción: #{pu.publicacionesId.descripcion}</p>
+                                <p>Requerimientos: #{pu.publicacionesId.requerimientos}</p>
+                                <p>Vacantes: #{pu.publicacionesId.vacantes}</p>
+                                <p>Fecha de vencimiento: <h:outputText value="#{pu.publicacionesId.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
                             </b:panel>
                         </ui:repeat>
                     </div>

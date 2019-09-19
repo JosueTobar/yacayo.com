@@ -248,7 +248,7 @@ public class PublicacionesJpaController implements Serializable {
     public List<Publicaciones> listarP(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return  em.createNamedQuery("Publicaciones.findIdUsuario", Publicaciones.class).setParameter("id", id).getResultList();
+            return em.createNamedQuery("Publicaciones.findIdUsuario", Publicaciones.class).setParameter("id", id).getResultList();
         } finally {
             em.close();
         }
@@ -267,4 +267,17 @@ public class PublicacionesJpaController implements Serializable {
         }
     }
 
+    public List<Object[]> obtener(Integer id) {
+        EntityManager em = getEntityManager();
+
+        List<Object[]> listado = em.createNativeQuery("SELECT p.id, u.nombre, u.email, r.descripcion rubro, p.vacantes, p.titulo, p.fecha_vencimiento, p.requerimientos, p.descripcion  \n"
+                + "from publicaciones p \n"
+                + "INNER JOIN usuario u ON p.idUsuario = u.id\n"
+                + "INNER JOIN rubros r ON p.idRubro = r.id\n"
+                + "WHERE p.id NOT IN (SELECT a.publicaciones_id FROM aplicacion a WHERE a.usuario_id = "+id+")").getResultList();
+
+        em.close();
+
+        return listado;
+    }
 }

@@ -15,29 +15,31 @@
     <h:body>
         <b:navBar brand="" brandHref="#" inverse="true" fixed="top">
             <a class="navbar-brand logo" href="#"><img src="./resources/img/YaCayo7.png" alt=""/></a>
-            
-            <b:navbarLinks>
-                  <b:navLink value="Inicio" href="http://localhost:8080/Yacayo/"/>
-                  <b:dropMenu value="Opciones">
-                     <b:link outcome="/faces/views/persona/perfil" value="Modificar perfil" />
-                   <b:navLink></b:navLink>
-                 <b:form> 
-                    <b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/>
 
-                 </b:form>
+            <b:navbarLinks>
+                <b:navLink value="Inicio" href="/faces/index.xhtml"/>
+                <b:dropMenu value="Opciones">
+                    <b:link outcome="/faces/views/persona/perfil" value="Modificar perfil" />
+                    <b:navLink></b:navLink>
+                    <b:link outcome="/faces/views/persona/aplicaciones" value="Ver mis aplicaciones" />
+                    <b:navLink></b:navLink>
+                    <b:form> 
+                        <b:commandLink action="#{sesion.cerrar()}" value="Cerrar sesión" look="danger"/>
+
+                    </b:form>
 
                 </b:dropMenu>
-                  
+
             </b:navbarLinks>
-            
-             </b:navBar>
-       
+
+        </b:navBar>
+
         <br/><br/>
 
-		
-		<ui:insert name="contenido">
-			Contenido
-		</ui:insert>
-        
+
+        <ui:insert name="contenido">
+            Contenido
+        </ui:insert>
+
     </h:body>
 </html>
