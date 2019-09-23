@@ -28,8 +28,9 @@
                             <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
                             <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
                         </b:selectOneMenu>
-                    </b:formGroup>
-                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución"/>
+                    </b:formGroup> <br/> <br/>
+                    
+                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución"/> <br/>
 
                 </b:column>
                 <b:column medium-screen="3">
@@ -41,7 +42,8 @@
 
                 </b:column>
                 <b:column medium-screen="6">            
-                    <b:commandButton action="#{empresaControlador.insertar()}" value="Crear"/>
+                    <b:commandButton action="#{empresaControlador.insertar()}" value="Crear" look="danger"/> <br/><br/>
+                    
                 </b:column>
                 <b:column medium-screen="3">
 
