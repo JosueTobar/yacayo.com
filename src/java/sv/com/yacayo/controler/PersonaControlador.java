@@ -79,7 +79,7 @@ public class PersonaControlador {
             tDAO.create(telfono);
 
         } catch (Exception e) {
-            return "/faces/views/persona/registro?e=1";
+            return "faces/views/persona/registro?e=1";
         }
         return "/faces/index";
     }
