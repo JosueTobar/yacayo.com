@@ -3,54 +3,31 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
                 xmlns:b="http://bootsfaces.net/ui"
                 template="../../layout/plantilla.xhtml">
 
 
     <ui:define name="tabla">Registro de Empresa</ui:define>
     <ui:define name="contenido">
-        <b:form horizontal="false">
-            <div class="row">
-                <b:column medium-screen="3">
-
-                </b:column>
-                <b:column medium-screen="6">
-
-
+        <section class="section text-center">
+            <div class="container">
+                <b:form>
                     <b:inputText value="#{empresaControlador.user.email}" placeholder="Correo"/>
                     <b:inputSecret value="#{empresaControlador.user.clave}" placeholder="Contraseña"/>
                     <b:inputText value="#{empresaControlador.user.nombre}" placeholder="Nombre de la empresa"/>
                     <b:inputText value="#{empresaControlador.direccion.descripcion}" placeholder="Ubicación de la empresa"/>
                     <b:inputText value="#{empresaControlador.telefono.numero}" placeholder="Teléfono"/>
                     <b:formGroup>
-                        <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true" colMd="9" label="Ciudad" labelColMd="3">
+                        <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true">
                             <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
                             <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
                         </b:selectOneMenu>
-                    </b:formGroup> <br/> <br/>
-                    
-                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución"/> <br/>
-
-                </b:column>
-                <b:column medium-screen="3">
-
-                </b:column>
+                    </b:formGroup>                    
+                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%"/>
+                    <b:commandButton action="#{empresaControlador.insertar()}" value="Registrar" look="danger"/> 
+                </b:form>
             </div>
-            <div class="row">
-                <b:column medium-screen="3">
-
-                </b:column>
-                <b:column medium-screen="6">            
-                    <b:commandButton action="#{empresaControlador.insertar()}" value="Crear" look="danger"/> <br/><br/>
-                    
-                </b:column>
-                <b:column medium-screen="3">
-
-                </b:column>
-
-            </div>
-        </b:form>
+        </section>
     </ui:define>
 </ui:composition>
 

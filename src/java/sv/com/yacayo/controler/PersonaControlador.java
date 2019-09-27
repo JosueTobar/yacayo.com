@@ -81,7 +81,7 @@ public class PersonaControlador {
         } catch (Exception e) {
             return "/faces/views/persona/registro?e=1";
         }
-        return "/faces/index?faces-redirect=true";
+        return "/faces/index";
     }
 
     public String modificar() {

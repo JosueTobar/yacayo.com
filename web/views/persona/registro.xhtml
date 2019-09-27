@@ -3,8 +3,8 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
                 xmlns:b="http://bootsfaces.net/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
                 template="../../layout/plantilla.xhtml">
 
 
@@ -21,11 +21,11 @@
                         <b:inputText value="#{persona.usuario.nombre}" placeholder="Nombre completo"/>
                         <b:inputText value="#{persona.direccion.descripcion}" placeholder="Dirección"/>
                         <b:inputText value="#{persona.telfono.numero}" placeholder="Teléfono"/>
-                        <b:selectOneMenu value="#{persona.ciudad.id}" select2="true" colMd="12">
-                            <f:selectItem itemLabel="Ciudad"/>
+                        <b:selectOneMenu value="#{persona.ciudad.id}" select2="true">
+                            <f:selectItem itemLabel="Seleccione una ciudad"/>
                             <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
                         </b:selectOneMenu>
-                        <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{persona.usuario.fecha}" placeholder="Fecha de nacimiento"/> <br/>
+                        <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{persona.usuario.fecha}" placeholder="Fecha de nacimiento" style="margin-bottom: 2%"/>
                         <b:commandButton action="#{persona.ingresar()}" value="Ingresar" look="danger"/> 
                     </b:form>
                 </div>

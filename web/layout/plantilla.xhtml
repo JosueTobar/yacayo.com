@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Inicio</title>
@@ -11,32 +10,31 @@
         <!-- Favicon -->
         <link rel="shortcut icon" href="../../../resources/assets/img/favicon.png"/>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="../../../resources/assets/css/bootstrap.min.css" type="text/css"/>    
+    <link rel="stylesheet" href="../../../resources/assets/css/bootstrap.min.css" type="text/css"/>    
         <link rel="stylesheet" href="../../../resources/assets/css/jasny-bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../../../resources/assets/css/bootstrap-select.min.css" type="text/css"/>  
-        <!-- Material CSS -->
-        <link rel="stylesheet" href="../../../resources/assets/css/material-kit.css" type="text/css"/>
-        <!-- Font Awesome CSS -->
+<!--         Material CSS -->
+<!--        <link rel="stylesheet" href="../../../resources/assets/css/material-kit.css" type="text/css"/>-->
+<!--         Font Awesome CSS -->
         <link rel="stylesheet" href="../../../resources/assets/fonts/font-awesome.min.css" type="text/css"/> 
         <link rel="stylesheet" href="../../../resources/assets/fonts/themify-icons.css"/> 
 
-        <!-- Animate CSS -->
+<!--         Animate CSS -->
         <link rel="stylesheet" href="../../../resources/assets/extras/animate.css" type="text/css"/>
-        <!-- Owl Carousel -->
+<!--         Owl Carousel -->
         <link rel="stylesheet" href="../../../resources/assets/extras/owl.carousel.css" type="text/css"/>
         <link rel="stylesheet" href="../../../resources/assets/extras/owl.theme.css" type="text/css"/>
-        <!-- Rev Slider CSS -->
+<!--         Rev Slider CSS -->
         <link rel="stylesheet" href="../../../resources/assets/extras/settings.css" type="text/css"/> 
-        <!-- Slicknav js -->
+<!--         Slicknav js -->
         <link rel="stylesheet" href="../../../resources/assets/css/slicknav.css" type="text/css"/>
-        <!-- Main Styles -->
+<!--         Main Styles -->
         <link rel="stylesheet" href="../../../resources/assets/css/main.css" type="text/css"/>
-        <!-- Responsive CSS Styles -->
+<!--         Responsive CSS Styles -->
         <link rel="stylesheet" href="../../../resources/assets/css/responsive.css" type="text/css"/>
 
-        <!-- Color CSS Styles  -->
+<!--         Color CSS Styles  -->
         <link rel="stylesheet" type="text/css" href="../../../resources/assets/css/colors/red.css" media="screen" />
-
 
     </h:head>
     <h:body>  
@@ -53,72 +51,72 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand logo" href="index.html"><img src="../../../resources/assets/img/YaCayo7.png" alt=""/></a>
+                            <a class="navbar-brand logo" href="#{facesContext.externalContext.requestContextPath}"><img src="../../../resources/assets/img/YaCayo7.png" alt=""/></a>
                         </div>
 
                         <div class="collapse navbar-collapse" id="navbar">              
-                                <!-- Start Navigation List -->
-                                <ul class="nav navbar-nav">
-                                    <li class="drop">
-                                        <a class="active" href="#{facesContext.externalContext.requestContextPath}" >
-                                            Inicio <i class="fa fa-angle-down"></i>
-                                        </a>                                            
-                                    </li>
-                                    <li class="drop">
-                                        <a href="#">
-                                            Candidatos <i class="fa fa-angle-down"></i>
-                                        </a>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href="../persona/registro.xhtml">
-                                                    Registro de persona
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="drop">
-                                        <a href="#">
-                                            Empresas <i class="fa fa-angle-down"></i>
-                                        </a>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href="../empresa/registro.xhtml">
-                                                    Registro de empresa
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    
-                                    
-                                </ul>
-                               
-                            </div>                           
-                        </div>
-                   
+                            <!-- Start Navigation List -->
+                            <ul class="nav navbar-nav">
+                                <li class="drop">
+                                    <a class="active" href="#{facesContext.externalContext.requestContextPath}" >
+                                        Inicio <i class="fa fa-angle-down"></i>
+                                    </a>                                            
+                                </li>
+                                <li class="drop">
+                                    <a href="#">
+                                        Candidatos <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown">
+                                        <li>
+                                            <a href="../persona/registro.xhtml">
+                                                Registro de persona
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="drop">
+                                    <a href="#">
+                                        Empresas <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown">
+                                        <li>
+                                            <a href="../empresa/registro.xhtml">
+                                                Registro de empresa
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                            </ul>
+
+                        </div>                           
+                    </div>
+
                     <ul class="wpb-mobile-menu">
-                            <li>
-                                <a class="active" href="#{facesContext.externalContext.requestContextPath}">Inicio</a>
-                            </li>
-                            <li>
-                                <a href="#">Candidatos</a>
-                                <ul>
-                                    <li><a href="../persona/registro.xhtml">Registro de persona</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Empresas</a>
-                                <ul>
-                                    <li><a href="../empresa/registro.xhtml">Registro de empresa</a></li>
-                                </ul>
-                            </li> 
-                            
-                        </ul>
-                     
-                   
+                        <li>
+                            <a class="active" href="#{facesContext.externalContext.requestContextPath}">Inicio</a>
+                        </li>
+                        <li>
+                            <a href="#">Candidatos</a>
+                            <ul>
+                                <li><a href="../persona/registro.xhtml">Registro de persona</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Empresas</a>
+                            <ul>
+                                <li><a href="../empresa/registro.xhtml">Registro de empresa</a></li>
+                            </ul>
+                        </li> 
+
+                    </ul>
+
+
                 </nav>
 
             </div>
-            
+
             <div class="page-header" style="background: url(../../../resources/assets/img/banner1.jpg);">
                 <div class="container">
                     <div class="row">         
@@ -134,12 +132,12 @@
             </div>
             <!-- Page Header End -->    
 
-             <br/>
-             <ui:insert name="contenido">
-                            Contenido
-             </ui:insert>
+            <br/>
+            <ui:insert name="contenido">
+                Contenido
+            </ui:insert>
 
-            </div>
+        </div>
 
         <!-- Footer Section Start -->
         <footer>
@@ -206,7 +204,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>All Rights reserved © 2017 - Designed &amp; Developed by <a rel="nofollow" href="http://graygrids.com">GrayGrids</a></p>   
+                            <p>Todos los derechos reservados © 2019</p>   
                         </div>
                     </div>
                 </div>
@@ -221,22 +219,8 @@
             <i class="ti-arrow-up"></i>
         </a>
 
-        <div id="loading" style="display: none;">
-            <div id="loading-center">
-                <div id="loading-center-absolute">
-                    <div class="object" id="object_one"></div>
-                    <div class="object" id="object_two"></div>
-                    <div class="object" id="object_three"></div>
-                    <div class="object" id="object_four"></div>
-                    <div class="object" id="object_five"></div>
-                    <div class="object" id="object_six"></div>
-                    <div class="object" id="object_seven"></div>
-                    <div class="object" id="object_eight"></div>
-                </div>
-            </div>
-        </div>
 
-        <script type="text/javascript" src="../../../resources/assets/js/jquery-min.js"></script>      
+<!--     <script type="text/javascript" src="../../../resources/assets/js/jquery-min.js"></script>      -->
         <script type="text/javascript" src="../../../resources/assets/js/bootstrap.min.js"></script>    
         <script type="text/javascript" src="../../../resources/assets/js/material.min.js"></script>
         <script type="text/javascript" src="../../../resources/assets/js/material-kit.js"></script>
@@ -252,11 +236,6 @@
         <script type="text/javascript" src="../../../resources/assets/js/contact-form-script.js"></script>    
         <script type="text/javascript" src="../../../resources/assets/js/jquery.themepunch.revolution.min.js"></script>
         <script type="text/javascript" src="../../../resources/assets/js/jquery.themepunch.tools.min.js"></script>
-        <script>
-            $(function () {
-                $('#edit').froalaEditor()
-            });
-        </script>
     </h:body>
 </html>
 
