@@ -44,7 +44,7 @@ public class Sesion implements Serializable {
                 case "Empresa":
                       url= "/faces/views/empresa/agregar?faces-redirect=true";
                     break;
-               case "Estandar":
+               case "Postulante":
                      url= "/faces/views/persona/aplicar?faces-redirect=true";
                     break;
                default:
