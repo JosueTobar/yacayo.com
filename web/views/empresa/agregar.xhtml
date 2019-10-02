@@ -9,105 +9,85 @@
 
     <ui:define name="tabla">Registro de Empresa</ui:define>
     <ui:define name="contenido">
-        <section class="section text-center">
+        <section class="section">
             <div class="container">
-
-        <div class="header">
-           
-            <div id="content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="right-sideabr">
-                                <div class="inner-box">
-                                    <h4>Nueva publicación</h4>
-                                    <h:form id="datos">
-                                        <ul class="lest item">
-                                            <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título"/>
-                                            <b:inputText value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto"/>
-                                            <b:inputText value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
-                                            <b:selectOneMenu value="#{publicaciones.rubros.id}">
-                                                <f:selectItem itemLabel="Seleccione un rubro"/>
-                                                <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
-                                            </b:selectOneMenu>
-                                            <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes"/> 
-                                            <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
-                                        </ul>
-                                        <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="primary"/>
-                                    </h:form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-12">
-                            <div class="job-alerts-item">
-                                <h3 class="alerts-title">Administrar publicaciones</h3>
-                                <ui:repeat value="#{publicaciones.listP()}" var="pu">
-                                    <div class="applications-content">
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div>
-                                                    <h3>#{pu.titulo}</h3>
-                                                    <p><span class="full-time">#{pu.idRubro.descripcion}</span></p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p>Fecha de publicación</p>
-                                                <p> <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p>Fecha de vencimiento</p>
-                                                <p><h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <b:form style="margin-top: 2%;">
-                                                    <b:commandLink action="#{publicaciones.editar(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Modificar">build</i></b:commandLink>
-                                                    <b:commandLink action="#{publicaciones.eliminar(pu)}" style="color: #D1BF05;"><i class="material-icons" title="Eliminar">delete_forever</i></b:commandLink>
-                                                    <b:commandLink action="#" style="color: #2c3e50;"><i class="material-icons" title="Detalle">more</i></b:commandLink>
-                                                </b:form>
-                                            </div>
+                <div class="header">
+                    <div id="content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="right-sideabr">
+                                        <div class="inner-box">
+                                            <h4>Nueva publicación</h4>
+                                            <h:form id="datos">
+                                                <ul class="lest item">
+                                                    <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título"/>
+                                                    <b:inputText value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto"/>
+                                                    <b:inputText value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
+                                                    <b:selectOneMenu value="#{publicaciones.rubros.id}">
+                                                        <f:selectItem itemLabel="Seleccione un rubro"/>
+                                                        <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                                                    </b:selectOneMenu>
+                                                    <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes"/> 
+                                                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
+                                                </ul>
+                                                <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="primary"/>
+                                            </h:form>
                                         </div>
                                     </div>
-                                </ui:repeat>
-                                <br/>
-                                <div class="col-md-12">
-                                    <div class="showing pull-left">
-                                        <a href="#">Showing <span>6-10</span> Of 24 Jobs</a>
-                                    </div>                    
-                                    <ul class="pagination pull-right">              
-                                        <li class="active"><a href="#" class="btn btn-common"><i class="ti-angle-left"></i> prev</a></li>
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li class="active"><a href="#" class="btn btn-common">Next <i class="ti-angle-right"></i></a></li>
-                                    </ul>
+                                </div>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <div class="job-alerts-item">
+                                        <h3 class="alerts-title">Administrar publicaciones</h3>
+                                        <ui:repeat value="#{publicaciones.listP()}" var="pu">
+                                            <div class="applications-content">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div>
+                                                            <h3>#{pu.titulo}</h3>
+                                                            <p><span class="full-time">#{pu.idRubro.descripcion}</span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <p>Fecha de publicación</p>
+                                                        <p> <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <p>Fecha de vencimiento</p>
+                                                        <p><h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <b:form style="margin-top: 2%;">                                      
+                                                            <b:commandLink action="#{publicaciones.editar(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Modificar">build</i></b:commandLink>
+                                                            <b:commandLink action="#{publicaciones.eliminar(pu)}" style="color: #D1BF05;"><i class="material-icons" title="Eliminar">delete_forever</i></b:commandLink>
+                                                            <b:commandLink action="#{publicaciones.detalle(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Detalle">more</i></b:commandLink>
+                                                        </b:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                        <br/>
+                                        <div class="col-md-12">
+                                            <div class="showing pull-left">
+                                                <a href="#">Showing <span>6-10</span> Of 24 Jobs</a>
+                                            </div>                    
+                                            <ul class="pagination pull-right">              
+                                                <li class="active"><a href="#" class="btn btn-common"><i class="ti-angle-left"></i> prev</a></li>
+                                                <li><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li><a href="#">5</a></li>
+                                                <li class="active"><a href="#" class="btn btn-common">Next <i class="ti-angle-right"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <script type="text/javascript" src="../../../assets/js/jquery-min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/material.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/material-kit.js"></script>
-            <script type="text/javascript" src="../../../assets/js/color-switcher.js"></script>
-            <script type="text/javascript" src="../../../assets/js/jquery.parallax.js"></script>
-            <script type="text/javascript" src="../../../assets/js/owl.carousel.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/jquery.slicknav.js"></script>
-            <script type="text/javascript" src="../../../assets/js/main.js"></script>
-            <script type="text/javascript" src="../../../assets/js/jquery.counterup.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/waypoints.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/jasny-bootstrap.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/bootstrap-select.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/form-validator.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/contact-form-script.js"></script>
-            <script type="text/javascript" src="../../../assets/js/jquery.themepunch.revolution.min.js"></script>
-            <script type="text/javascript" src="../../../assets/js/jquery.themepunch.tools.min.js"></script>
-</div>
-        </div>
-    </section>
+        </section>
     </ui:define>
 </ui:composition>

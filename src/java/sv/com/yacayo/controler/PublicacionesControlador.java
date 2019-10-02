@@ -62,24 +62,31 @@ public class PublicacionesControlador {
         return "modificar";
     }
 
-    public String Modificar(Publicaciones pu){
+    public String detalle(Publicaciones pu) {
+        Map<String, Object> objeto = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        objeto.put("pu", pu);
+
+        return "detalle";
+    }
+
+    public String Modificar(Publicaciones pu) {
         try {
             pDAO.edit(pu);
             return "agregar";
         } catch (Exception e) {
             return null;
         }
-        
+
     }
-    
+
     public List<Object[]> listar() {
         return pDAO.obtener(SesionUtil.getUserId().getId());
     }
-    
+
     public List<Publicaciones> listP() {
         return pDAO.listarP(SesionUtil.getUserId().getId());
     }
-    
+
     public List<Publicaciones> list() {
         return pDAO.findPublicacionesEntities();
     }
