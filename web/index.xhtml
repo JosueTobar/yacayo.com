@@ -135,31 +135,26 @@
                             <div class="col-md-12">
                                 <h1>Encuentra el trabajo que se adapte a tu vida</h1><br/><h2>Más de <strong>12,000</strong> te están esperando, para comenzar tú carrera!</h2>
                                 <div class="content">
-                                    <form method="" action="">
+                                    <h:form>
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="form-group is-empty">
-                                                    <input class="form-control" type="text" placeholder="Buscar por..."/>
-                                                    <i class="ti-time"></i>
-                                                    <span class="material-input"></span></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6">
+
+                                            <div class="col-md-11 col-sm-6">
                                                 <div class="search-category-container">
                                                     <label class="styled-select">
                                                         <div class="btn-group bootstrap-select dropdown-product">
-                                                                <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" class="dropdown-product selectpicker" tabindex="-98">
-                                                                    <f:selectItem itemLabel="Seleccione un rubro"/>
-                                                                    <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
-                                                                </b:selectOneMenu>
+                                                            <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" class="dropdown-product selectpicker" tabindex="-98">
+                                                                <f:selectItem itemLabel="Seleccione un rubro"/>
+                                                                <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                                                            </b:selectOneMenu>
                                                         </div>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-1 col-sm-6">
-                                                <button type="button" class="btn btn-search-icon"><i class="ti-search"></i></button>
+                                                <h:commandButton action="#{publicaciones.listar(r.id)}" class="btn btn-search-icon"> <i class="ti-search"/></h:commandButton>
                                             </div>
                                         </div>
-                                    </form>
+                                    </h:form>
                                 </div>
                                 <div class="popular-jobs">
                                     <b>Rubros más populares: </b>

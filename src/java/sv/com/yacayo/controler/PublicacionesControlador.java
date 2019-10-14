@@ -79,6 +79,17 @@ public class PublicacionesControlador {
 
     }
 
+    public String rubro(Publicaciones pu) {
+        Map<String, Object> objeto = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        objeto.put("pu", pu);
+
+        return "faces/index";
+    }
+
+    public List<Publicaciones> listar(Rubros t) {
+        return pDAO.obtenerPorIdRubroPublicaciones(t.getId());
+    }
+
     public List<Object[]> listar() {
         return pDAO.obtener(SesionUtil.getUserId().getId());
     }

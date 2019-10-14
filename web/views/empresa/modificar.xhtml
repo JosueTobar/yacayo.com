@@ -1,17 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
-    <h:head>
-        <title>Publicaciones Laborales</title>
-        <b:form><b:commandButton action="#{sesion.cerrar()}" value="Cerrar sesión" look="link"/></b:form>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="../../layout/plantilla2.xhtml">
+    <ui:define name="tabla">Registro de Empresa</ui:define>
+    <ui:define name="contenido">
+        <section class="section text-center">
+            <div class="container">
+                <h:form>
+                    <h:inputHidden value="#{pu.id}"/>
+                    <b:inputText  value="#{pu.titulo}" placeholder="Titulo"/>
+                    <b:dateTimePicker  format="DD-MM-YYYY" locale="es" value="#{pu.fechaVencimiento}" placeholder="Vencimiento de la publicacion" style="margin-bottom: 2%"/>
+                    <b:inputTextarea  value="#{pu.descripcion}" placeholder="Descipción del pusto"/>
+                    <b:inputTextarea  value="#{pu.requerimientos}" placeholder="Requerimientos del puesto"/>
+                    <b:selectOneMenu  value="#{pu.idRubro.id}" select2="true">
+                        <f:selectItem itemLabel="Seleccione un rubro"/>
+                        <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                    </b:selectOneMenu>
+                    <b:inputText  value="#{pu.vacantes}" placeholder="Cantidad de vacantes"/>
+                    <b:commandButton action="#{publicaciones.Modificar(pu)}" value="Modificar" look="danger"/>
+                </h:form>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>
 
-    </h:head>
-    <h:body>
-        <div class="row">
-            <b:column medium-screen="3">
+<!--<b:column medium-screen="3">
 
             </b:column>
             <b:column medium-screen="6">
@@ -35,8 +51,4 @@
 
             </b:column>
 
-        </div>
-        
-    </h:body>
-</html>
-
+        </div>-->

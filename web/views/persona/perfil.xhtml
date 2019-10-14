@@ -1,38 +1,40 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Mi Perfil</title>
-    </h:head>
-    <h:body>
-        <h2>Modificar perfil</h2>
-        <div class="conteiner">
-            <h:panelGrid columns="6">
-                <b:form horizontal="true">
-                    <h:inputHidden value="#{sesion.user.id}"/>
-                    <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
-                    <ui:repeat value="#{sesion.user.direccionList}" var="direc">
-                        <h:inputHidden value="#{direc.id}"/>
-                        <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/>
-                        <b:formGroup>
-                            <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" colMd="9" label="Ciudad" labelColMd="3">
-                                <f:selectItem itemLabel="Seleccione una ciudad"/>
-                                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
-                            </b:selectOneMenu>
-                        </b:formGroup>
-                    </ui:repeat>
-                    <ui:repeat value="#{sesion.user.telefonoList}" var="tel">
-                        <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa"/>                        
-                    </ui:repeat>
-                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento"/>
-                    <b:commandButton action="#{persona.modificar()}" value="Modificar"/>
-                </b:form>                
-            </h:panelGrid>
-        </div>
-    </h:body> 
-</html>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="../../layout/plantilla3.xhtml">
 
+
+    <ui:define name="tabla">Modificar Perfil</ui:define>
+    <ui:define name="contenido">
+        <section class="section text-center">
+            <h2>Modificar perfil</h2>
+            <div class="container">
+                <h:panelGrid columns="6">
+                    <b:form class="container">
+                        <h:inputHidden value="#{sesion.user.id}"/>
+                        <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
+                        <ui:repeat value="#{sesion.user.direccionList}" var="direc">
+                            <h:inputHidden value="#{direc.id}"/>
+                            <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/>
+                            <b:formGroup>
+                                <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}">
+                                    <f:selectItem itemLabel="Seleccione una ciudad"/>
+                                    <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+                                </b:selectOneMenu>
+                            </b:formGroup>
+                        </ui:repeat>
+                        <ui:repeat value="#{sesion.user.telefonoList}" var="tel">
+                            <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa"/>                        
+                        </ui:repeat>
+                        <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento"/><br/>
+                        <b:commandButton action="#{persona.modificar()}" value="Modificar" look="danger" />
+                    </b:form>                
+                </h:panelGrid>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>

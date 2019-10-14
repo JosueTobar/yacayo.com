@@ -79,9 +79,9 @@ public class PersonaControlador {
             tDAO.create(telfono);
 
         } catch (Exception e) {
-            return "faces/views/persona/registro?e=1";
+            return "/faces/views/persona/registro?e=1";
         }
-        return "/faces/index";
+        return "/faces/index?faces-redirect=true";
     }
 
     public String modificar() {

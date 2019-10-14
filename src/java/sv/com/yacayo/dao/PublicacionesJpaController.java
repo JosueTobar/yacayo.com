@@ -266,6 +266,16 @@ public class PublicacionesJpaController implements Serializable {
             em.close();
         }
     }
+    
+     public List<Publicaciones> obtenerPorIdRubroPublicaciones (Integer idRubro) {
+        EntityManager em  = getEntityManager();
+        try {
+        List<Publicaciones> lista = em.createQuery("Publicaciones.publiByRubro", Publicaciones.class).setParameter("idRubro", idRubro).getResultList();
+        return lista; 
+        } finally {
+        em.close();
+        }
+    }
 
     public List<Object[]> obtener(Integer id) {
         EntityManager em = getEntityManager();

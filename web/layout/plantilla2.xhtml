@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <meta charset="UTF-8"/>
@@ -18,7 +17,7 @@
         <link rel="stylesheet" href="../../../resources/assets/css/jasny-bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../../../resources/assets/css/bootstrap-select.min.css" type="text/css"/>
 
-        <!--<link rel="stylesheet" href="../../resources/assets/css/material-kit.css" type="text/css"/>-->
+        <link rel="stylesheet" href="../../resources/assets/css/material-kit.css" type="text/css"/>
 
         <link rel="stylesheet" href="../../../resources/assets/fonts/font-awesome.min.css" type="text/css"/>
         <link rel="stylesheet" href="../../../resources/assets/fonts/themify-icons.css"/>
@@ -79,7 +78,7 @@
 
                             </ul>
                             <ul class="nav navbar-nav navbar-right float-right">
-                                <b:form><li class="right"><b:commandLink action="#{sesion.cerrar()}" value="Cerrar sesión" class="ti-lock" /></li></b:form>
+                                <b:form><li class="right"><b:commandLink action="#{sesion.cerrar()}" value=" Cerrar sesión" class="ti-lock" /></li></b:form>
                             </ul>
                         </div>
                     </div>
@@ -119,7 +118,7 @@
 
             <br/>
             <ui:insert name="contenido">
-                Contenido
+
             </ui:insert>
 
 
@@ -197,7 +196,7 @@
 
 
 
-<!--            <script type="text/javascript" src="../../../assets/js/jquery-min.js"></script>-->
+            <script type="text/javascript" src="../../../assets/js/jquery-min.js"></script>
             <script type="text/javascript" src="../../../assets/js/bootstrap.min.js"></script>
             <script type="text/javascript" src="../../../assets/js/material.min.js"></script>
             <script type="text/javascript" src="../../../assets/js/material-kit.js"></script>
