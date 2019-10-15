@@ -31,10 +31,11 @@
                                     <div class="right-sideabr">
                                         <div class="inner-box">
                                             <ul class="lest item">
+                                                <div class="thumb">
+                                                    <a href=""><img src="../../../resources/assets/img/jobs/img-1.jpg" alt=""/></a>
+                                                </div>
                                                 <h:outputText value="Nombre: #{sesion.user.nombre}"/><br/><br/>
                                                 <h:outputText value="Email: #{sesion.user.email}"/><br/><br/>
-                                                <h:outputText value="Estado: #{sesion.user.estado}"/>
-
                                             </ul>
                                         </div>
                                     </div>
@@ -51,24 +52,20 @@
                                                         </div>
                                                         <div class="job-list-content">
                                                             <div class="square-box pull-left">
-                                                                <span class="glyphicon glyphicon-user glyphicon-lg"></span>
                                                             </div>
                                                             <h:inputHidden value="#{pu[0]}"/>
-                                                            <h4>Empresa: #{pu[1]}<h3>Titulo: #{pu[5]}</h3></h4>
+                                                            <h4><a href="#">#{pu[1]}</a><span class="full-time">#{pu[5]}</span></h4>
                                                             <p>Descripcion: #{pu[8]}</p>
                                                             <p>Requerimientos: #{pu[7]}</p>
-                                                            <p>Vacantes: #{pu[4]}</p>
-                                                            <p>Fecha de vencimiento: #{pu[6]}</p>
-                                                            <h:form>
-                                                                <b:commandButton action="#{persona.aplicar(pu)}" value="Aplicar" look="btn btn-common btn-rm pull-right"/>
-                                                            </h:form>
-                                                            <br/><br/>
                                                             <div class="job-tag">
                                                                 <div class="pull-left">
                                                                     <div class="meta-tag">
-                                                                        <span><a href="#"><i class="ti-trello"></i></a></span>
-                                                                        <span><i class="ti-user"></i>Vacantes: </span>
-                                                                        <span><i class="ti-time"></i>Fecha de vencimiento: <h:outputText><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></span>
+                                                                        <span><a href="#"><i class="ti-trello"> #{pu[3]}</i></a></span>
+                                                                        <span><i class="ti-user"></i>Vacantes:#{pu[4]} </span>
+                                                                        <span><i class="ti-time"></i>Fecha de vencimiento: #{pu[6]}</span>
+                                                                        <h:form>
+                                                                            <b:commandButton action="#{persona.aplicar(pu)}" value="Aplicar" look="danger"/>
+                                                                        </h:form>
                                                                     </div>
                                                                 </div>
                                                             </div>
