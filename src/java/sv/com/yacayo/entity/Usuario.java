@@ -26,6 +26,8 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 /**
  *
  * @author josue.tobarfgkss
@@ -123,7 +125,9 @@ public class Usuario implements Serializable {
     }
 
     public void setClave(String clave) {
-        this.clave = clave;
+        if(!clave.isEmpty()){
+            this.clave = DigestUtils.sha256Hex(clave);
+        }
     }
 
     public String getEstado() {

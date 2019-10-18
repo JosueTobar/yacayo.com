@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.servlet.http.HttpSession;
 import sv.com.yacayo.dao.UsuarioJpaController;
 import sv.com.yacayo.entity.Usuario;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**  @author josue.tobarfgkss */
 @ManagedBean(name = "sesion")
@@ -14,11 +15,12 @@ import sv.com.yacayo.entity.Usuario;
 public class Sesion implements Serializable {
     UsuarioJpaController uDao;
     Usuario user;
+    String pass;
+    
     public Sesion() {
         uDao = new UsuarioJpaController(Persistence.createEntityManagerFactory("YacayoPU"));
         user = new Usuario();
     }
-   
 
     public Usuario getUser() {
         return user;
@@ -28,10 +30,19 @@ public class Sesion implements Serializable {
         this.user = user;
     }
 
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = DigestUtils.sha256Hex(pass);
+    }
+
+    
    
     public String login() {
         String url  = "/faces/index?faces-redirect=true";
-        user = uDao.login(user.getEmail(), user.getClave());
+        user = uDao.login(user.getEmail(), pass);
         if (user != null) {
             HttpSession session = SesionUtil.getSession();
             session.setAttribute("user", user);
@@ -44,7 +55,7 @@ public class Sesion implements Serializable {
                 case "Empresa":
                       url= "/faces/views/empresa/agregar?faces-redirect=true";
                     break;
-               case "Postulante":
+               case "Estandar":
                      url= "/faces/views/persona/aplicar?faces-redirect=true";
                     break;
                default:

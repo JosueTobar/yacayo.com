@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.mail.MessagingException;
 import javax.mail.Part;
 
 /**
@@ -18,7 +19,7 @@ public class Fileupload {
     
 private Part uploadedFile;
 
-	private String folder = "c:\\files";
+	private String folder = "../../../resources/documentos";
 
 	public Part getUploadedFile() {
 		return uploadedFile;
@@ -29,15 +30,18 @@ private Part uploadedFile;
 	}
 
 	
-//	public void saveFile(){
-//		
-//		try (InputStream input = uploadedFile.getInputStream()) {
-//			String fileName = uploadedFile.getSubmittedFileName();
-//	        Files.copy(input, new File(folder, fileName).toPath());
-//	    }
-//	    catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//	}
-    
+	public void saveFile() {	
+            try (InputStream input = uploadedFile.getInputStream()) {
+                
+                String fileName = uploadedFile.getFileName();
+	        Files.copy(input, new File(folder, fileName).toPath());
+                
+	    }
+            catch (MessagingException e) {
+	        e.printStackTrace();
+	    }
+	    catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}    
 }
