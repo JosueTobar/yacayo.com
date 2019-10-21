@@ -13,19 +13,23 @@
                 <h4>Datos de la empresa</h4>
                 <b:form>
                     <h:inputHidden value="#{sesion.user.id}"/>
-                    <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
-                    <ui:repeat value="#{sesion.user.direccionList}" var="direc">
+                    <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa" requiredMessage="Ingrese su nombre completo" required="true"/>
+                    <b:message showDetail="txtNombre"/>
+                    <b:message showDetail="txtDireccion"/>
+                    <ui:repeat value="#{sesion.user.direccionList}" var="direc" >
                         <h:inputHidden value="#{direc.id}"/>
-                        <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/> 
+                        <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa" required="true"/> 
                             <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}">
                                 <f:selectItem itemLabel="Seleccione una ciudad"/>
                                 <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
                             </b:selectOneMenu>
                     </ui:repeat>
+                    <b:message showDetail="txtEmail"/>
                     <ui:repeat value="#{sesion.user.telefonoList}" var="tel">
-                        <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa"/>
+                        <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa" required="true"/>
                     </ui:repeat>
-                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%"/>
+                    <b:message showDetail="txtFecha"/>
+                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%" required="true"/>
                     <b:commandButton  action="#{empresaControlador.modificar()}" value="Modificar" look="danger"/>
                 </b:form>
             </div>

@@ -10,16 +10,21 @@
         <section class="section text-center">
             <div class="container">
                 <h:form>
-                    <h:inputHidden value="#{pu.id}"/>
-                    <b:inputText  value="#{pu.titulo}" placeholder="Titulo"/>
-                    <b:dateTimePicker  format="DD-MM-YYYY" locale="es" value="#{pu.fechaVencimiento}" placeholder="Vencimiento de la publicacion" style="margin-bottom: 2%"/>
-                    <b:inputTextarea  value="#{pu.descripcion}" placeholder="Descipción del pusto"/>
-                    <b:inputTextarea  value="#{pu.requerimientos}" placeholder="Requerimientos del puesto"/>
-                    <b:selectOneMenu  value="#{pu.idRubro.id}" select2="true">
+                    <h:inputHidden value="#{pu.id}" />
+                    <b:inputText  value="#{pu.titulo}" placeholder="Titulo" required="true"/>
+                    <b:message showDetail="txtTitulo"/>
+                    <b:dateTimePicker  format="DD-MM-YYYY" locale="es" value="#{pu.fechaVencimiento}" placeholder="Vencimiento de la publicacion" style="margin-bottom: 2%" required="true"/>
+                    <b:message showDetail="txtVencimiente"/>
+                    <b:inputTextarea  value="#{pu.descripcion}" placeholder="Descipción del pusto" required="true"/>
+                    <b:message showDetail="txtDescripcion"/>
+                    <b:inputTextarea  value="#{pu.requerimientos}" placeholder="Requerimientos del puesto" required="true"/>
+                    <b:message showDetail="txtRequerimiento"/>
+                    <b:selectOneMenu  value="#{pu.idRubro.id}" select2="true" required="true">
                         <f:selectItem itemLabel="Seleccione un rubro"/>
                         <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
                     </b:selectOneMenu>
-                    <b:inputText  value="#{pu.vacantes}" placeholder="Cantidad de vacantes"/>
+                    <b:message showDetail="txtVacante"/>
+                    <b:inputText  value="#{pu.vacantes}" placeholder="Cantidad de vacantes" required="true"/>
                     <b:commandButton action="#{publicaciones.Modificar(pu)}" value="Modificar" look="danger"/>
                 </h:form>
             </div>
