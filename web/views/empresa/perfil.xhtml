@@ -8,26 +8,51 @@
 
     <ui:define name="tabla">Registro de Empresa</ui:define>
     <ui:define name="contenido">
-        <section class="section text-center">
+        <section class="section">
             <div class="container">
-                <h4>Datos de la empresa</h4>
-                <b:form>
-                    <h:inputHidden value="#{sesion.user.id}"/>
-                    <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
-                    <ui:repeat value="#{sesion.user.direccionList}" var="direc">
-                        <h:inputHidden value="#{direc.id}"/>
-                        <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/> 
-                            <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}">
-                                <f:selectItem itemLabel="Seleccione una ciudad"/>
-                                <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                            </b:selectOneMenu>
-                    </ui:repeat>
-                    <ui:repeat value="#{sesion.user.telefonoList}" var="tel">
-                        <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa"/>
-                    </ui:repeat>
-                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%"/>
-                    <b:commandButton  action="#{empresaControlador.modificar()}" value="Modificar" look="danger"/>
-                </b:form>
+                <div class="header">
+                    <div id="content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="right-sideabr">
+                                        <div class="inner-box">
+                                            <h:form enctype="multipart/form-data">
+                                                <h:inputFile value="#{empresaControlador.file1}" />
+                                                <h:commandButton value="Guardar" action="#{empresaControlador.uploadFile()}" class="btn btn-danger" style="margin-top: 3%">
+                                                    <f:ajax execute="@form" render="@form" />
+                                                </h:commandButton>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <div class="job-alerts-item">
+                                        <h3 class="alerts-title">Datos de la empresa</h3>
+                                        <b:form>
+                                            <h:inputHidden value="#{sesion.user.id}"/>
+                                            <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
+                                            <ui:repeat value="#{sesion.user.direccionList}" var="direc">
+                                                <h:inputHidden value="#{direc.id}"/>
+                                                <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/> 
+                                                <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}">
+                                                    <f:selectItem itemLabel="Seleccione una ciudad"/>
+                                                    <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                                </b:selectOneMenu>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{sesion.user.telefonoList}" var="tel">
+                                                <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa"/>
+                                            </ui:repeat>
+                                            <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%"/>
+                                            <b:commandButton  action="#{empresaControlador.modificar()}" value="Modificar" look="danger"/>
+                                            <b:link class="btn btn-border" outcome="/faces/views/empresa/agregar.xhtml"  value="Regresar "><i class="ti-back-left"></i></b:link>
+                                        </b:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </ui:define>
