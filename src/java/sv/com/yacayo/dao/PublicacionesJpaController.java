@@ -280,7 +280,7 @@ public class PublicacionesJpaController implements Serializable {
     public List<Object[]> obtener(Integer id) {
         EntityManager em = getEntityManager();
 
-        List<Object[]> listado = em.createNativeQuery("SELECT p.id, u.nombre, u.email, r.descripcion rubro, p.vacantes, p.titulo, p.fecha_vencimiento, p.requerimientos, p.descripcion  \n"
+        List<Object[]> listado = em.createNativeQuery("SELECT p.id, u.nombre, u.email, r.descripcion rubro, p.vacantes, p.titulo, p.fecha_vencimiento, p.requerimientos, p.descripcion, u.id \n"
                 + "from publicaciones p \n"
                 + "INNER JOIN usuario u ON p.idUsuario = u.id\n"
                 + "INNER JOIN rubros r ON p.idRubro = r.id\n"

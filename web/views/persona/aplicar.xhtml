@@ -28,17 +28,19 @@
                                 <div class="col-md-5 col-sm-4 col-xs-12">
                                     <div class="right-sideabr">
                                         <div class="inner-box">
-                                            <ul class="lest item">
+                                            <ul class="lest item center">
                                                 <div class="thumb">
-                                                    <a href=""><img src="../../../resources/assets/img/jobs/img-1.jpg" alt=""/></a>
-                                                </div>
-                                                <h:outputText value="Nombre: #{sesion.user.nombre}"/><br/><br/>
-                                                <h:outputText value="Email: #{sesion.user.email}"/><br/><br/>
+                                                    <a href=""><h:graphicImage value="/resources/documentos/documento_#{sesion.user.id}.png" style="width: 208px; height: 208;"/></a>
+                                                </div><br/>
+                                                <b>Nombre:</b> #{sesion.user.nombre}<br/>
+                                                <b>Email:</b> #{sesion.user.email}
                                             </ul>
-                                            <h:form enctype="multipart/form-data"  prependId="false">
-                                                <h:outputText value="Asignar curriculum "></h:outputText>
-                                                <h:inputFile value="#{fileupload.uploadedFile}" class="btn btn-info"/>
-                                                <h:commandButton value="Guardar" type="submit" action="#{fileupload.saveFile}" class="btn btn-danger" style="margin-top: 5%;"></h:commandButton>
+                                            <h:form enctype="multipart/form-data">
+                                                <b>Curriculum en PDF</b>
+                                                <h:inputFile value="#{persona.file1}" />
+                                                <h:commandButton value="Guardar" action="#{persona.uploadFile()}" class="btn btn-danger" style="margin-top: 3%">
+                                                    <f:ajax execute="@form" render="@form" />
+                                                </h:commandButton>
                                             </h:form>
                                         </div>
                                     </div>
@@ -51,7 +53,7 @@
                                                 <div class="col-md-8">
                                                     <div class="job-list">
                                                         <div class="thumb">
-                                                            <a href=""><img src="../../../resources/assets/img/jobs/img-1.jpg" alt=""/></a>
+                                                            <a href=""><h:graphicImage value="/resources/documentos/documento_#{pu[9]}.png" style="width: 100px; height: 100px;"/></a>
                                                         </div>
                                                         <div class="job-list-content">
                                                             <div class="square-box pull-left">
