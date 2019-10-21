@@ -14,6 +14,9 @@ import sv.com.yacayo.entity.TipoUsuario;
 import sv.com.yacayo.entity.Direccion;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import sv.com.yacayo.dao.exceptions.IllegalOrphanException;
@@ -519,6 +522,14 @@ public class UsuarioJpaController implements Serializable {
         finally {
             em.close();
         }
+    }
+    
+    public void validar (FacesContext context, UIComponent toValidate, Object value){
+       context= FacesContext.getCurrentInstance();
+       String texto= (String)value;
+       
+       if(!texto.equalsIgnoreCase("M")&& !texto.equalsIgnoreCase("f"))
+           ((UIInput) toValidate).setValid(true);
     }
 
 }

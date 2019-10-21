@@ -21,15 +21,20 @@
                                             <h4>Nueva publicación</h4>
                                             <h:form id="datos">
                                                 <ul class="lest item">
-                                                    <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título"/>
-                                                    <b:inputText value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto"/>
-                                                    <b:inputText value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto"/>
-                                                    <b:selectOneMenu value="#{publicaciones.rubros.id}">
+                                                    <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título" required="true"/>
+                                                    <b:message showDetail="txtTitulo"/>
+                                                    <b:inputText value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto" required="true"/>
+                                                    <b:message showDetail="txtDescripcion"/>
+                                                    <b:inputText value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto" required="true"/>
+                                                    <b:message showDetail="txtRequerimiento"/>
+                                                    <b:selectOneMenu value="#{publicaciones.rubros.id}" required="true">
                                                         <f:selectItem itemLabel="Seleccione un rubro"/>
                                                         <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
                                                     </b:selectOneMenu>
-                                                    <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes"/> 
-                                                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
+                                                    <b:message showDetail="txtVacante"/>
+                                                    <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes" required="true"/> 
+                                                    <b:message showDetail="txtVencimiento"/>
+                                                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion" required="true"/>
                                                 </ul>
                                                 <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="primary"/>
                                             </h:form>

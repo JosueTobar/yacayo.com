@@ -11,20 +11,29 @@
     <ui:define name="contenido">
         <section class="section text-center">
             <div class="container">
-                <b:form>
-                    <b:inputText value="#{empresaControlador.user.email}" placeholder="Correo"/>
-                    <b:inputSecret value="#{empresaControlador.user.clave}" placeholder="Contraseña"/>
-                    <b:inputText value="#{empresaControlador.user.nombre}" placeholder="Nombre de la empresa"/>
-                    <b:inputText value="#{empresaControlador.direccion.descripcion}" placeholder="Ubicación de la empresa"/>
-                    <b:inputText value="#{empresaControlador.telefono.numero}" placeholder="Teléfono"/>
+                <b:form> 
+                    
+                    <b:inputText value="#{empresaControlador.user.email}" placeholder="Correo" required="true"/>
+                    <b:message showDetail="txtEmail"/>
+                    <b:message showDetail="txtEmail"/>
+                    <b:inputSecret value="#{empresaControlador.user.clave}" placeholder="Contraseña" required="true"/>
+                    <b:message showDetail="txtContraseña"/>
+                    <b:inputText value="#{empresaControlador.user.nombre}" placeholder="Nombre de la empresa" required="true"/>
+                    <b:message showDetail="txtEmpresa"/>
+                    <b:inputText value="#{empresaControlador.direccion.descripcion}" placeholder="Ubicación de la empresa" required="true"/>
+                    <b:message showDetail="txtUbicacion"/>
+                    <b:inputText value="#{empresaControlador.telefono.numero}" placeholder="Teléfono" required="true"/>
+                    <b:message showDetail="txtTelefono"/>
                     <b:formGroup>
-                        <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true">
+                        <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true" required="true">
                             <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
-                            <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                            <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
                         </b:selectOneMenu>
-                    </b:formGroup>                    
-                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%"/>
-                    <b:commandButton action="#{empresaControlador.insertar()}" value="Registrar" look="danger"/> 
+                    </b:formGroup> 
+                    <b:message showDetail="txtFecha"/>
+                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%" required="true"/>
+                     
+                     <b:commandButton action="#{empresaControlador.insertar()}" value="Registrar" look="danger"/> 
                 </b:form>
             </div>
         </section>

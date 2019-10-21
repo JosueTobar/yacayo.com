@@ -12,51 +12,30 @@
     <ui:define name="contenido">
         <section class="section">
             <div class="container">
-                <div class="header">
-                    <div id="content">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <div class="right-sideabr">
-                                        <div class="inner-box">
-                                            <h:form enctype="multipart/form-data">
-                                                <h:inputFile value="#{empresaControlador.file1}" />
-                                                <h:commandButton value="Guardar" action="#{empresaControlador.uploadFile()}" class="btn btn-danger" style="margin-top: 3%">
-                                                    <f:ajax execute="@form" render="@form" />
-                                                </h:commandButton>
-                                            </h:form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <div class="job-alerts-item">
-                                        <h3 class="alerts-title">Modificar perfil</h3>
-                                        <b:form>
-                                            <h:inputHidden value="#{sesion.user.id}"/>
-                                            <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa"/>
-                                            <ui:repeat value="#{sesion.user.direccionList}" var="direc">
-                                                <h:inputHidden value="#{direc.id}"/>
-                                                <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa"/>
-                                                <b:formGroup>
-                                                    <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}">
-                                                        <f:selectItem itemLabel="Seleccione una ciudad"/>
-                                                        <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
-                                                    </b:selectOneMenu>
-                                                </b:formGroup>
-                                            </ui:repeat>
-                                            <ui:repeat value="#{sesion.user.telefonoList}" var="tel">
-                                                <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa"/>                        
-                                            </ui:repeat>
-                                            <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento"/><br/>
-                                            <b:commandButton action="#{persona.modificar()}" value="Modificar" look="danger" />
-                                            <b:link class="btn btn-border" outcome="/faces/views/persona/aplicar.xhtml"  value="Regresar "><i class="ti-back-left"></i></b:link>
-                                        </b:form>               
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h:panelGrid columns="6">
+                    <b:form class="container">
+                        <h:inputHidden value="#{sesion.user.id}"/>
+                        <b:message showDetail="txtNombre"/>
+                        <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa" required="true"/>
+                        <b:message showDetail="txtNombre"/>
+                        <ui:repeat value="#{sesion.user.direccionList}" var="direc">
+                            <h:inputHidden value="#{direc.id}"/>
+                            <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa" required="true"/>
+                            <b:message showDetail="txtDescripcion"/>
+                            <b:formGroup>
+                                <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" required="true">
+                                    <f:selectItem itemLabel="Seleccione una ciudad"/>
+                                    <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+                                </b:selectOneMenu>
+                            </b:formGroup>
+                        </ui:repeat>
+                        <ui:repeat value="#{sesion.user.telefonoList}" var="tel" >
+                            <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa" required=true/>                        
+                        </ui:repeat>
+                        <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento" required="true"/><br/>
+                        <b:commandButton action="#{persona.modificar()}" value="Modificar" look="danger" />
+                    </b:form>                
+                </h:panelGrid>
             </div>
         </section>
     </ui:define>
