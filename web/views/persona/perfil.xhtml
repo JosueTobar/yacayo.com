@@ -30,7 +30,7 @@
                             </b:formGroup>
                         </ui:repeat>
                         <ui:repeat value="#{sesion.user.telefonoList}" var="tel" >
-                            <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa" required=true/>                        
+                            <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa" required="true"/>                        
                         </ui:repeat>
                         <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento" required="true"/><br/>
                         <b:commandButton action="#{persona.modificar()}" value="Modificar" look="danger" />
