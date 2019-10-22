@@ -134,28 +134,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h1>Encuentra el trabajo que se adapte a tu vida</h1><br/><h2>Más de <strong>12,000</strong> te están esperando, para comenzar tú carrera!</h2>
-                                <div class="content">
-                                    <h:form>
-                                        <div class="row">
-
-                                            <div class="col-md-11 col-sm-6">
-                                                <div class="search-category-container">
-                                                    <label class="styled-select">
-                                                        <div class="btn-group bootstrap-select dropdown-product">
-                                                            <b:selectOneMenu value="#{publicaciones.rubros.id}" select2="true" class="dropdown-product selectpicker" tabindex="-98">
-                                                                <f:selectItem itemLabel="Seleccione un rubro"/>
-                                                                <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
-                                                            </b:selectOneMenu>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1 col-sm-6">
-                                                <h:commandButton action="#{publicaciones.listar(r.id)}" class="btn btn-search-icon"> <i class="ti-search"/></h:commandButton>
-                                            </div>
-                                        </div>
-                                    </h:form>
-                                </div>
+                               
                                 <div class="popular-jobs">
                                     <b>Rubros más populares: </b>
                                     <a href="#">Desarrollador Java</a>
@@ -180,7 +159,7 @@
                             <div class="job-list">
                                 <div class="thumb">
                                     
-                                    <a href="job-details.html"><h:graphicImage value="/resources/documentos/documento_#{pu.idUsuario.id}.png"/></a>
+                                    <a href="job-details.html"><h:graphicImage value="/resources/documentos/documento_#{pu.idUsuario.id}.png" style="width: 100px; height: 100px;"/></a>
                                 </div>
 
                                 <div class="job-list-content">
@@ -203,7 +182,24 @@
 
                     </div>
                 </ui:repeat>
+<<<<<<< HEAD
                 
+=======
+<!--                <div class="col-md-12">
+                    <div class="showing pull-left">
+                        <a href="#">Publicación <span>6-10</span> 24 empleos </a>
+                    </div>                    
+                    <ul class="pagination pull-right">              
+                        <li class="active"><a href="#" class="btn btn-common"><i class="ti-angle-left"></i>Anterior</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li class="active"><a href="#" class="btn btn-common">Próxima<i class="ti-angle-right"></i></a></li>
+                    </ul>
+                </div>-->
+>>>>>>> origin/master
             </div>
 
         </section>
