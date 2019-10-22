@@ -15,13 +15,13 @@
                 <h:panelGrid columns="6">
                     <b:form class="container">
                         <h:inputHidden value="#{sesion.user.id}"/>
-                        <b:message showDetail="txtNombre"/>
+                        <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
                         <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa" required="true"/>
-                        <b:message showDetail="txtNombre"/>
+                        <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
                         <ui:repeat value="#{sesion.user.direccionList}" var="direc">
                             <h:inputHidden value="#{direc.id}"/>
                             <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa" required="true"/>
-                            <b:message showDetail="txtDescripcion"/>
+                            <b:message showDetail="txtDescripcion" style="position: absolute;  right:255px;"/>
                             <b:formGroup>
                                 <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" required="true">
                                     <f:selectItem itemLabel="Seleccione una ciudad"/>
