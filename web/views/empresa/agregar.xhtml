@@ -4,95 +4,110 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="../../layout/plantilla2.xhtml">
 
 
     <ui:define name="tabla">Registro de Empresa</ui:define>
     <ui:define name="contenido">
-        <section class="section">
-            <div class="container">
-                <div class="header">
-                    <div id="content">
+        
+        <c:choose>
+               <c:when test="#{sesion.existSession()}"> 
+                    <section class="section">
                         <div class="container">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <div class="right-sideabr">
-                                        <div class="inner-box">
-                                            <h4>Nueva publicación</h4>
-                                            <h:form id="datos">
-                                                <ul class="lest item">
-                                                    <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título" required="true"/>
-                                                    <b:message showDetail="txtTitulo" style="position: absolute;  right:255px;"/>
-                                                    <b:inputText value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto" required="true"/>
-                                                    <b:message showDetail="txtDescripcion" style="position: absolute;  right:255px;"/>
-                                                    <b:inputText value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto" required="true"/>
-                                                    <b:message showDetail="txtRequerimiento" style="position: absolute;  right:255px;"/>
-                                                    <b:selectOneMenu value="#{publicaciones.rubros.id}" required="true">
-                                                        <f:selectItem itemLabel="Seleccione un rubro"/>
-                                                        <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
-                                                    </b:selectOneMenu>
-                                                    <b:message showDetail="txtVacante" style="position: absolute;  right:255px;"/>
-                                                    <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes" required="true"/> 
-                                                    <b:message showDetail="txtVencimiento" style="position: absolute;  right:255px;"/>
-                                                    <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion" required="true"/>
-                                                </ul>
-                                                <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="primary"/>
-                                            </h:form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <div class="job-alerts-item">
-                                        <h3 class="alerts-title">Administrar publicaciones</h3>
-                                        <ui:repeat value="#{publicaciones.listP()}" var="pu">
-                                            <div class="applications-content">
-                                                <div class="row">
-                                                    <div class="col-md-5">
-                                                        <div>
-                                                            <h3>#{pu.titulo}</h3>
-                                                            <p><span class="full-time">#{pu.idRubro.descripcion}</span></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p>Fecha de publicación</p>
-                                                        <p> <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p>Fecha de vencimiento</p>
-                                                        <p><h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <b:form style="margin-top: 2%;">
-                                                            <b:commandLink action="#{publicaciones.editar(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Detalle">build</i></b:commandLink>
-                                                            <b:commandLink action="#{publicaciones.eliminar(pu)}" style="color: #D1BF05;"><i class="material-icons" title="Eliminar">delete_forever</i></b:commandLink>
-                                                            <b:commandLink action="#{publicaciones.detalle(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Detalle">more</i></b:commandLink>
-                                                        </b:form>
+                            <div class="header">
+                                <div id="content">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="right-sideabr">
+                                                    <div class="inner-box">
+                                                        <h4>Nueva publicación</h4>
+                                                        <h:form id="datos">
+                                                            <ul class="lest item">
+                                                                <b:inputText value="#{publicaciones.publicaciones.titulo}" placeholder="Título" required="true"/>
+                                                                <b:message showDetail="txtTitulo" style="position: absolute;  right:255px;"/>
+                                                                <b:inputText value="#{publicaciones.publicaciones.descripcion}" placeholder="Descripción del puesto" required="true"/>
+                                                                <b:message showDetail="txtDescripcion" style="position: absolute;  right:255px;"/>
+                                                                <b:inputText value="#{publicaciones.publicaciones.requerimientos}" placeholder="Requerimientos del puesto" required="true"/>
+                                                                <b:message showDetail="txtRequerimiento" style="position: absolute;  right:255px;"/>
+                                                                <b:selectOneMenu value="#{publicaciones.rubros.id}" required="true">
+                                                                    <f:selectItem itemLabel="Seleccione un rubro"/>
+                                                                    <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
+                                                                </b:selectOneMenu>
+                                                                <b:message showDetail="txtVacante" style="position: absolute;  right:255px;"/>
+                                                                <b:inputText value="#{publicaciones.publicaciones.vacantes}" placeholder="Cantidad de vacantes" required="true"/> 
+                                                                <b:message showDetail="txtVencimiento" style="position: absolute;  right:255px;"/>
+                                                                <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{publicaciones.publicaciones.fechaVencimiento}" placeholder="Vencimiento de la publicacion" required="true"/>
+                                                            </ul>
+                                                            <b:commandButton action="#{publicaciones.insertar()}" value="Publicar" look="primary"/>
+                                                        </h:form>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </ui:repeat>
-                                        <br/>
-                                        <div class="col-md-12">
-                                            <div class="showing pull-left">
-                                                <a href="#">Showing <span>6-10</span> Of 24 Jobs</a>
-                                            </div>                    
-                                            <ul class="pagination pull-right">              
-                                                <li class="active"><a href="#" class="btn btn-common"><i class="ti-angle-left"></i> prev</a></li>
-                                                <li><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">4</a></li>
-                                                <li><a href="#">5</a></li>
-                                                <li class="active"><a href="#" class="btn btn-common">Next <i class="ti-angle-right"></i></a></li>
-                                            </ul>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                <div class="job-alerts-item">
+                                                    <h3 class="alerts-title">Administrar publicaciones</h3>
+                                                    <ui:repeat value="#{publicaciones.listP()}" var="pu">
+                                                        <div class="applications-content">
+                                                            <div class="row">
+                                                                <div class="col-md-5">
+                                                                    <div>
+                                                                        <h3>#{pu.titulo}</h3>
+                                                                        <p><span class="full-time">#{pu.idRubro.descripcion}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <p>Fecha de publicación</p>
+                                                                    <p> <h:outputText value="#{pu.fechaPublicacion}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <p>Fecha de vencimiento</p>
+                                                                    <p><h:outputText value="#{pu.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <b:form style="margin-top: 2%;">
+                                                                        <b:commandLink action="#{publicaciones.editar(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Detalle">build</i></b:commandLink>
+                                                                        <b:commandLink action="#{publicaciones.eliminar(pu)}" style="color: #D1BF05;"><i class="material-icons" title="Eliminar">delete_forever</i></b:commandLink>
+                                                                        <b:commandLink action="#{publicaciones.detalle(pu)}" style="color: #2c3e50;"><i class="material-icons" title="Detalle">more</i></b:commandLink>
+                                                                    </b:form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ui:repeat>
+                                                    <br/>
+                                                    <div class="col-md-12">
+                                                        <div class="showing pull-left">
+                                                            <a href="#">Showing <span>6-10</span> Of 24 Jobs</a>
+                                                        </div>                    
+                                                        <ul class="pagination pull-right">              
+                                                            <li class="active"><a href="#" class="btn btn-common"><i class="ti-angle-left"></i> prev</a></li>
+                                                            <li><a href="#">1</a></li>
+                                                            <li><a href="#">2</a></li>
+                                                            <li><a href="#">3</a></li>
+                                                            <li><a href="#">4</a></li>
+                                                            <li><a href="#">5</a></li>
+                                                            <li class="active"><a href="#" class="btn btn-common">Next <i class="ti-angle-right"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    </section>
+
+                </c:when>
+                    <c:otherwise>
+                        <h:form>
+                            <h1><h:link outcome="/login.xhtml" value="¡No ha iniciado sesión!"/></h1> <br/>
+                        </h:form>
+                        <p style="color: red; font-size: 20px">
+                            Si no esta logueado no tendra acceso a este contenido. 
+                        </p>
+                    </c:otherwise>
+       </c:choose> 
     </ui:define>
 </ui:composition>

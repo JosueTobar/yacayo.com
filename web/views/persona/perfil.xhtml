@@ -5,38 +5,55 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="../../layout/plantilla3.xhtml">
 
 
     <ui:define name="tabla">Modificar Perfil</ui:define>
     <ui:define name="contenido">
-        <section class="section">
-            <div class="container">
-                <h:panelGrid columns="6">
-                    <b:form class="container">
-                        <h:inputHidden value="#{sesion.user.id}"/>
-                        <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
-                        <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa" required="true"/>
-                        <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
-                        <ui:repeat value="#{sesion.user.direccionList}" var="direc">
-                            <h:inputHidden value="#{direc.id}"/>
-                            <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa" required="true"/>
-                            <b:message showDetail="txtDescripcion" style="position: absolute;  right:255px;"/>
-                            <b:formGroup>
-                                <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" required="true">
-                                    <f:selectItem itemLabel="Seleccione una ciudad"/>
-                                    <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
-                                </b:selectOneMenu>
-                            </b:formGroup>
-                        </ui:repeat>
-                        <ui:repeat value="#{sesion.user.telefonoList}" var="tel" >
-                            <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa" required=true/>                        
-                        </ui:repeat>
-                        <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento" required="true"/><br/>
-                        <b:commandButton action="#{persona.modificar()}" value="Modificar" look="danger" />
-                    </b:form>                
-                </h:panelGrid>
-            </div>
-        </section>
+       <c:choose>
+            <c:when test="#{sesion.existSession()}">  
+                <section class="section">
+                    <div class="container">
+                        <h:panelGrid columns="6">
+                            <b:form class="container">
+                                <h:inputHidden value="#{sesion.user.id}"/>
+                                <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
+                                <b:inputText value="#{sesion.user.nombre}" placeholder="Nombre de la empresa" required="true"/>
+                                <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
+                                <ui:repeat value="#{sesion.user.direccionList}" var="direc">
+                                    <h:inputHidden value="#{direc.id}"/>
+                                    <b:inputText value="#{direc.descripcion}" placeholder="Ubicación de la empresa" required="true"/>
+                                    <b:message showDetail="txtDescripcion" style="position: absolute;  right:255px;"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu select2="true" value="#{direc.idCiudad.id}" required="true">
+                                            <f:selectItem itemLabel="Seleccione una ciudad"/>
+                                            <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                </ui:repeat>
+                                <ui:repeat value="#{sesion.user.telefonoList}" var="tel" >
+                                    <b:inputText value="#{tel.numero}" placeholder="Teléfono de la empresa" required="true"/>                        
+                                </ui:repeat>
+                                <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{sesion.user.fecha}" placeholder="Fecha de nacimiento" required="true"/><br/>
+                                <b:commandButton action="#{persona.modificar()}" value="Modificar" look="danger" />
+                            </b:form>                
+                        </h:panelGrid>
+                    </div>
+            
+                </section>
+                
+            </c:when>
+                <c:otherwise>
+                    <h:form>
+                        <h1><h:link outcome="/login.xhtml" value="¡No ha iniciado sesión!"/></h1> <br/>
+                    </h:form>
+                    <p style="color: red; font-size: 20px">
+                        Si no esta logueado no tendra acceso a este contenido. 
+                    </p>
+                </c:otherwise>
+       </c:choose> 
+                
+                
     </ui:define>
 </ui:composition>

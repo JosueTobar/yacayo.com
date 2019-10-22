@@ -6,6 +6,7 @@
 package sv.com.yacayo.entity;
 
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -40,6 +41,7 @@ public class Email implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "email")
+    @NotNull
     private String email;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     @ManyToOne(optional = false)

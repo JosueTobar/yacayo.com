@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
@@ -41,6 +42,7 @@ public class DetalleAplicacion implements Serializable {
     private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "pretencion")
+    @NotNull
     private BigDecimal pretencion;
     @JoinColumn(name = "aplicacion_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

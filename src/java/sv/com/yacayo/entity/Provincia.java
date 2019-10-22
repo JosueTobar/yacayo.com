@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -44,6 +45,7 @@ public class Provincia implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(name = "nombre")
+    @NotNull
     private String nombre;
     @JoinColumn(name = "idPais", referencedColumnName = "id")
     @ManyToOne(optional = false)

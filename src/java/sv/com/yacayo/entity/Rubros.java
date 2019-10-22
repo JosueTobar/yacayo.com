@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -43,8 +44,10 @@ public class Rubros implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(name = "descripcion")
+    @NotNull
     private String descripcion;
     @Column(name = "estado")
+    @NotNull
     private String estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRubro")
     private List<Publicaciones> publicacionesList;

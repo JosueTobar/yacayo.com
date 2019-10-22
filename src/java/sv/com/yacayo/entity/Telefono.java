@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.org.apache.xpath.internal.res.XPATHErrorResources_ja;
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -40,6 +41,7 @@ public class Telefono implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "numero")
+    @NotNull
     private String numero;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     @ManyToOne(optional = false)

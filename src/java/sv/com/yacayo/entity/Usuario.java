@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -56,16 +57,21 @@ public class Usuario implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(name = "nombre")
+    @NotNull
     private String nombre;
     @Column(name = "email")
+    @NotNull
     private String email;
     @Basic(optional = false)
     @Column(name = "clave")
+    @NotNull
     private String clave;
     @Column(name = "estado")
+    @NotNull
     private String estado;
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date fecha;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private List<Direccion> direccionList;

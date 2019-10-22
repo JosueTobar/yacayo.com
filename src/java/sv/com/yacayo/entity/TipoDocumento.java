@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -42,8 +43,10 @@ public class TipoDocumento implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "descripcion")
+    @NotNull
     private String descripcion;
     @Column(name = "estado")
+    @NotNull
     private String estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDocumento")
     private List<Documento> documentoList;

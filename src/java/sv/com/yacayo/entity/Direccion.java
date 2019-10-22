@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,6 +42,7 @@ public class Direccion implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(name = "descripcion")
+    @NotNull
     private String descripcion;
     @JoinColumn(name = "idCiudad", referencedColumnName = "id")
     @ManyToOne(optional = false)

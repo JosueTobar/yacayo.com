@@ -70,6 +70,11 @@ public class Sesion implements Serializable {
         return url ;
    
     }
+    
+    public boolean existSession() {
+        return (SesionUtil.getUserId() != null);
+    }
+
 
     //logout event, cerrar sesion
     public String cerrar() {

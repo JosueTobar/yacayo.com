@@ -5,6 +5,7 @@
  */
 package sv.com.yacayo.entity;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,27 +56,34 @@ public class Publicaciones implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "vacantes")
+    @NotNull
     private Integer vacantes;
     @Basic(optional = false)
     @Column(name = "titulo")
+    @NotNull
     private String titulo;
     @Basic(optional = false)
     @Column(name = "fecha_publicacion")
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date fechaPublicacion;
     @Basic(optional = false)
     @Column(name = "fecha_vencimiento")
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date fechaVencimiento;
     @Basic(optional = false)
     @Lob
     @Column(name = "requerimientos")
+    @NotNull
     private String requerimientos;
     @Basic(optional = false)
     @Lob
     @Column(name = "descripcion")
+    @NotNull
     private String descripcion;
     @Column(name = "estado")
+    @NotNull
     private String estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicacionesId")
     private List<Aplicacion> aplicacionList;
