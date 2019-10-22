@@ -18,20 +18,20 @@
                     <b:form >
                         <b:inputText value="#{persona.usuario.email}" placeholder="Correo" required="true"/>
                         
-                        <b:message showDetail="txtEmail"/>
+                        <b:message showDetail="txtEmail" style="position: absolute;  right:255px;"/>
                         <b:inputSecret value="#{persona.usuario.clave}" placeholder="Contraseña" required="true"/>
-                        <b:message showDetail="txtClave"/>
+                        <b:message showDetail="txtClave" style="position: absolute;  right:255px;"/>
                         <b:inputText value="#{persona.usuario.nombre}" placeholder="Nombre completo" required="true"/>
-                        <b:message showDetail="txtNombre"/>
+                        <b:message showDetail="txtNombre" style="position: absolute;  right:255px;"/>
                         <b:inputText value="#{persona.direccion.descripcion}" placeholder="Dirección" required="true"/>
-                        <b:message showDetail="txtDireccion"/>
+                        <b:message showDetail="txtDireccion" style="position: absolute;  right:255px;"/>
                         <b:inputText value="#{persona.telfono.numero}" placeholder="Teléfono" required="true"/>
-                        <b:message showDetail="txtTelefono"/>
+                        <b:message showDetail="txtTelefono" style="position: absolute;  right:255px;"/>
                         <b:selectOneMenu value="#{persona.ciudad.id}" select2="true" required="true">
                             <f:selectItem itemLabel="Seleccione una ciudad"/>
                             <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
                         </b:selectOneMenu>
-                        <b:message showDetail="txtFecha"/>
+                        <b:message showDetail="txtFecha" style="position: absolute;  right:255px;"/>
                         <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{persona.usuario.fecha}" placeholder="Fecha de nacimiento" style="margin-bottom: 2%" required="true"/>
                         <b:commandButton action="#{persona.ingresar()}" value="Ingresar" look="danger"/> 
                     </b:form>

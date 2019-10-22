@@ -14,23 +14,23 @@
                 <b:form> 
                     
                     <b:inputText value="#{empresaControlador.user.email}" placeholder="Correo" required="true"/>
-                    <b:message showDetail="txtEmail"/>
-                    <b:message showDetail="txtEmail"/>
+                    <b:message showDetail="txtEmail" style="position: absolute;  right:255px;"/>
+                    <b:message showDetail="txtEmail" style="position: absolute;  right:255px;"/>
                     <b:inputSecret value="#{empresaControlador.user.clave}" placeholder="Contraseña" required="true"/>
-                    <b:message showDetail="txtContraseña"/>
+                    <b:message showDetail="txtContraseña" style="position: absolute;  right:255px;"/>
                     <b:inputText value="#{empresaControlador.user.nombre}" placeholder="Nombre de la empresa" required="true"/>
-                    <b:message showDetail="txtEmpresa"/>
+                    <b:message showDetail="txtEmpresa" style="position: absolute;  right:255px;"/>
                     <b:inputText value="#{empresaControlador.direccion.descripcion}" placeholder="Ubicación de la empresa" required="true"/>
-                    <b:message showDetail="txtUbicacion"/>
+                    <b:message showDetail="txtUbicacion" style="position: absolute;  right:255px;"/>
                     <b:inputText value="#{empresaControlador.telefono.numero}" placeholder="Teléfono" required="true"/>
-                    <b:message showDetail="txtTelefono"/>
+                    <b:message showDetail="txtTelefono" style="position: absolute;  right:255px;"/>
                     <b:formGroup>
                         <b:selectOneMenu value="#{empresaControlador.ciudad.id}" select2="true" required="true">
                             <f:selectItem itemLabel="Seleccione una ciudad" itemValue="" />
                             <f:selectItems value="#{ciudades.listC()}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
                         </b:selectOneMenu>
                     </b:formGroup> 
-                    <b:message showDetail="txtFecha"/>
+                    <b:message showDetail="txtFecha" style="position: absolute;  right:255px;"/>
                     <b:dateTimePicker format="DD-MM-YYYY" locale="es" value="#{empresaControlador.user.fecha}" placeholder="Fecha de constitución" style="margin-bottom: 2%" required="true"/>
                      
                      <b:commandButton action="#{empresaControlador.insertar()}" value="Registrar" look="danger"/> 
