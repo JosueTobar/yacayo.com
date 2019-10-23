@@ -17,45 +17,51 @@
 
         <link rel="stylesheet" href="../../../resources/css/listar.css"/>      
         <title>Facelet Title</title>
-        
+
         <c:choose>
-              <c:when test="#{sesion.existSession()}"> 
-
-                <h2>#{sesion.user.nombre}</h2>
-
-
-                <b:jumbotron>
-                    <b:container>
-                        <div class="container">
+            <c:when test="#{sesion.existSession()}"> 
+                <section class="find-job section">
+                    <div class="container">
+                        <b:link class="btn btn-border" outcome="/faces/views/persona/aplicar.xhtml"  value="Regresar "><i class="ti-back-left"></i></b:link>
+                        <h2 class="section-title"><b>Aplicaciones de</b> #{sesion.user.nombre}</h2>
+                        <ui:repeat value="#{sesion.user.aplicacionList}" var="pu">
                             <div class="row">
-                                <h2>Ofertas a las que has aplicado</h2>
-                                <ui:repeat value="#{sesion.user.aplicacionList}" var="pu">
-                                    <b:panel title="#{pu.publicacionesId.idUsuario.nombre}" look="primary" style="">
-                                        <div class="square-box pull-left">
-                                            <span class="glyphicon glyphicon-user glyphicon-lg"></span>
-                                        </div>
-                                        <h3>Título: #{pu.publicacionesId.titulo} </h3>
-                                        <p>Descripción: #{pu.publicacionesId.descripcion}</p>
-                                        <p>Requerimientos: #{pu.publicacionesId.requerimientos}</p>
-                                        <p>Vacantes: #{pu.publicacionesId.vacantes}</p>
-                                        <p>Fecha de vencimiento: <h:outputText value="#{pu.publicacionesId.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></p>
-                                    </b:panel>
-                                </ui:repeat>
-                            </div>
-                        </div>                <hr/>
-                    </b:container>
-                </b:jumbotron>
+                                <div class="col-md-12">
+                                    <div class="job-list">
+                                        <div class="thumb">
 
+                                            <a href="job-details.html"><h:graphicImage value="/resources/documentos/documento_#{pu.publicacionesId.idUsuario.id}.png" style="width: 100px; height: 100px;"/></a>
+                                        </div>
+                                        <div class="job-list-content">
+                                            <h4><a href="#">#{pu.publicacionesId.idUsuario.nombre}</a><span class="full-time">#{pu.publicacionesId.titulo}</span></h4>
+                                            <p>#{pu.publicacionesId.descripcion}</p>
+                                            <p>#{pu.publicacionesId.requerimientos}</p>
+                                            <div class="job-tag">
+                                                <div class="pull-left">
+                                                    <div class="meta-tag">
+                                                        <span><a href="#"><i class="ti-trello"></i>#{pu.publicacionesId.idRubro.descripcion}</a></span>
+                                                        <span><i class="ti-user"></i>Vacantes: #{pu.publicacionesId.vacantes}</span>
+                                                        <span><i class="ti-time"></i>Fecha de vencimiento: <h:outputText value="#{pu.publicacionesId.fechaVencimiento}"><f:convertDateTime pattern="dd-MM-yyyy"/></h:outputText></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </section>
             </c:when>
-                <c:otherwise>
-                    <h:form>
-                        <h1><h:link outcome="/login.xhtml" value="¡No ha iniciado sesión!"/></h1> <br/>
-                    </h:form>
-                    <p style="color: red; font-size: 20px">
-                        Si no esta logueado no tendra acceso a este contenido. 
-                    </p>
-                </c:otherwise>
-       </c:choose> 
+            <c:otherwise>
+                <h:form>
+                    <h1><h:link outcome="/login.xhtml" value="¡No ha iniciado sesión!"/></h1> <br/>
+                </h:form>
+                <p style="color: red; font-size: 20px">
+                    Si no esta logueado no tendra acceso a este contenido. 
+                </p>
+            </c:otherwise>
+        </c:choose> 
     </ui:define>
 </ui:composition>
 

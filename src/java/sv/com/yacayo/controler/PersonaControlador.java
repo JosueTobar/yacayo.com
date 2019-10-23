@@ -27,10 +27,14 @@ import sv.com.yacayo.entity.Telefono;
 import sv.com.yacayo.entity.TipoUsuario;
 import sv.com.yacayo.entity.Usuario;
 import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.faces.context.FacesContext;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 
 /**
@@ -46,6 +50,14 @@ public class PersonaControlador {
     private Ciudad ciudad;
     private Telefono telfono;
     private Aplicacion aplicacion;
+
+    private javax.servlet.http.Part file1;
+    private javax.servlet.http.Part file2;
+    private String message;
+
+    FacesContext context = FacesContext.getCurrentInstance();
+    ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+    String path = servletContext.getRealPath("");
 
     UsuarioJpaController uDAO;
     DireccionJpaController dDAO;
@@ -96,6 +108,9 @@ public class PersonaControlador {
             for (Telefono t : SesionUtil.getUserId().getTelefonoList()) {
                 tDAO.edit(t);
             }
+            for (Direccion d : SesionUtil.getUserId().getDireccionList()) {
+                dDAO.edit(d);
+            }
             uDAO.edit(SesionUtil.getUserId());
 
             return "aplicar?faces-redirect=true";
@@ -124,12 +139,19 @@ public class PersonaControlador {
             String correoRemitente = "infoyacayo@gmail.com";
             String passwordRemitente = "yacayo123";
             String Asunto = "Nuevo postulante";
-            String mensaje = ""
-                    + "Yacayo.com te informa que tienes una aplicación \n "
-                    + "en la oferta laboral " + pu[5]
-                    + " del usuario " + SesionUtil.getUserId().getNombre()
-                    + "\ncorreo: " + SesionUtil.getUserId().getEmail()
-                    + "\nCV:";
+
+            BodyPart mensaje = new MimeBodyPart();
+            mensaje.setText("Yacayo.com te informa que tienes una aplicación en la oferta laboral " + pu[5]
+                    + "\nDel usuario " + SesionUtil.getUserId().getNombre()
+                    + "\nCorreo: " + SesionUtil.getUserId().getEmail());
+
+            BodyPart adjunto = new MimeBodyPart();
+            adjunto.setDataHandler(new DataHandler(new FileDataSource(path +"/resources/cv/CV_" + SesionUtil.getUserId().getNombre() + "_" + SesionUtil.getUserId().getId()+".pdf")));
+            adjunto.setFileName("CV_" + SesionUtil.getUserId().getNombre() + "_" + SesionUtil.getUserId().getId()+".pdf");
+
+            MimeMultipart multiparte = new MimeMultipart();
+            multiparte.addBodyPart(mensaje);
+            multiparte.addBodyPart(adjunto);
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(correoRemitente));
@@ -137,7 +159,7 @@ public class PersonaControlador {
             String email = pu[2].toString();
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             message.setSubject(Asunto);
-            message.setText(mensaje);
+            message.setContent(multiparte);
 
             Transport t = session.getTransport("smtp");
             t.connect(correoRemitente, passwordRemitente);
@@ -196,24 +218,8 @@ public class PersonaControlador {
         this.aplicacion = aplicacion;
     }
 
-    private javax.servlet.http.Part file1;
-    private javax.servlet.http.Part file2;
-    private String message;
-
-    FacesContext context = FacesContext.getCurrentInstance();
-    ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-    private String path = servletContext.getRealPath("");
-
     public javax.servlet.http.Part getFile1() {
         return file1;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public void setFile1(javax.servlet.http.Part file1) {
@@ -246,10 +252,9 @@ public class PersonaControlador {
 
         boolean file1Success = false;
         if (file1.getSize() > 0) {
-            String fileName = getFileNameFromPart(file1);
-            Integer id = SesionUtil.getUserId().getId();
-      String nombe = "cv_" + SesionUtil.getUserId().getNombre()+"_" +SesionUtil.getUserId().getId()+".pdf";
+            String nombe = "CV_" + SesionUtil.getUserId().getNombre() + "_" + SesionUtil.getUserId().getId() + ".pdf";
             File outputFile = new File(path + File.separator + "resources" + File.separator + "cv" + File.separator + nombe);
+
             inputStream = file1.getInputStream();
             outputStream = new FileOutputStream(outputFile);
             byte[] buffer = new byte[1024];
@@ -276,6 +281,7 @@ public class PersonaControlador {
         }
 
         return null;
+
     }
 
     public static String getFileNameFromPart(javax.servlet.http.Part part) {
