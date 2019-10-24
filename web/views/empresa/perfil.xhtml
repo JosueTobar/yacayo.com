@@ -9,8 +9,7 @@
 
     <ui:define name="tabla">Registro de Empresa</ui:define>
     <ui:define name="contenido">
-        <c:choose>
-               <c:when test="#{sesion.existSession()}"> 
+        
                     <section class="section">
                         <div class="container">
                             <div class="header">
@@ -57,17 +56,6 @@
                                 </div>
                             </div>              
                         </div>
-                    </section>
-                   
-                </c:when>
-             <c:otherwise>
-                 <h:form>
-                     <h1><h:link outcome="/login.xhtml" value="¡No ha iniciado sesión!"/></h1> <br/>
-                 </h:form>
-                 <p style="color: red; font-size: 20px">
-                     Si no esta logueado no tendra acceso a este contenido. 
-                 </p>
-             </c:otherwise>
-       </c:choose> 
+                    </section> 
     </ui:define>
 </ui:composition>
