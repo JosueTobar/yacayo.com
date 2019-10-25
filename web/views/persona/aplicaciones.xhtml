@@ -18,8 +18,6 @@
         <link rel="stylesheet" href="../../../resources/css/listar.css"/>      
         <title>Facelet Title</title>
 
-        <c:choose>
-            <c:when test="#{sesion.existSession()}"> 
                 <section class="find-job section">
                     <div class="container">
                         <b:link class="btn btn-border" outcome="/faces/views/persona/aplicar.xhtml"  value="Regresar "><i class="ti-back-left"></i></b:link>
@@ -52,16 +50,7 @@
                         </ui:repeat>
                     </div>
                 </section>
-            </c:when>
-            <c:otherwise>
-                <h:form>
-                    <h1><h:link outcome="/login.xhtml" value="¡No ha iniciado sesión!"/></h1> <br/>
-                </h:form>
-                <p style="color: red; font-size: 20px">
-                    Si no esta logueado no tendra acceso a este contenido. 
-                </p>
-            </c:otherwise>
-        </c:choose> 
+           
     </ui:define>
 </ui:composition>
 
