@@ -26,34 +26,9 @@
                     <b:message showDetail="txtVacante" style="float: right;"/>
                     <b:inputText  value="#{pu.vacantes}" placeholder="Cantidad de vacantes" required="true"/>
                     <b:commandButton action="#{publicaciones.Modificar(pu)}" value="Modificar" look="danger"/>
+                     <b:link class="btn btn-border" outcome="/faces/views/empresa/agregar.xhtml"  value="Regresar "><i class="ti-back-left"></i></b:link>
                 </h:form>
             </div>
         </section>
     </ui:define>
 </ui:composition>
-
-<!--<b:column medium-screen="3">
-
-            </b:column>
-            <b:column medium-screen="6">
-
-                <h2>Modificar Publicación</h2>
-                <h:form id="datos">
-                    <h:inputHidden value="#{pu.id}"/>
-                    <b:inputText  value="#{pu.titulo}" placeholder="Titulo"/>
-                    <b:dateTimePicker  format="DD-MM-YYYY" locale="es" value="#{pu.fechaVencimiento}" placeholder="Vencimiento de la publicacion"/>
-                    <b:inputTextarea  value="#{pu.descripcion}" placeholder="Descipción del pusto"/>
-                    <b:inputTextarea  value="#{pu.requerimientos}" placeholder="Requerimientos del puesto"/>
-                    <b:selectOneMenu  value="#{pu.idRubro.id}" select2="true" colMd="10">
-                        <f:selectItem itemLabel="Seleccione un rubro"/>
-                        <f:selectItems value="#{rubro.listR()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.id}"/>
-                    </b:selectOneMenu>
-                    <b:inputText  value="#{pu.vacantes}" placeholder="Cantidad de vacantes"/>
-                    <b:commandButton action="#{publicaciones.Modificar(pu)}" value="Modificar" look="success"/>
-                </h:form>
-            </b:column>
-            <b:column medium-screen="3">
-
-            </b:column>
-
-        </div>-->
